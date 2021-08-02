@@ -1,5 +1,4 @@
-import nxlib
-import xeuss
+from pygdatax import xeuss, nxlib
 import openpyxl as xl
 from os.path import exists
 import argparse

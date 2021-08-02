@@ -1,8 +1,7 @@
 import fabio
 import nexusformat.nexus as nx
 import numpy as np
-from . import flib
-from .import nxlib
+from pygdatax import nxlib, xeuss
 
 @nxlib.treatment_function
 def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
