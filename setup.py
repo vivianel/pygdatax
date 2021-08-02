@@ -29,7 +29,7 @@ setup(
     package_dir={"": "src"},
     packages=['pygdatax', 'resources'],
     python_requires='>=3.6',
-    install_requires = required_packages,
+    install_requires=required_packages,
     include_package_data=True
 )
 # packages=[find_packages(where="src"])

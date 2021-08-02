@@ -5,20 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/icons.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/icons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/beam.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/check.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/concat.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/cross.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/dark.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/directory.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/empty_cell.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/empty_cell.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/gear.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/mask.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/nxs2text.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ressources/refresh.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,12 +121,20 @@
       <option name="project" value="LOCAL" />
       <updated>1627942928969</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="- fixed icons problems">
+      <created>1627944033117</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1627944033117</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- init packages" />
     <MESSAGE value="- add icons modules" />
-    <option name="LAST_COMMIT_MESSAGE" value="- add icons modules" />
+    <MESSAGE value="- fixed icons problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed icons problems" />
   </component>
 </project>
