@@ -15,5 +15,5 @@ setup(
     description='Python Based Progamme for SAXS data treatment on XEUSS diffractometer',
     package_dir={"": "src"},
     packages=find_packages(where="src"),
-    required_packages=required_packages
+    install_requires=required_packages
 )

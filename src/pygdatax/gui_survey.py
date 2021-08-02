@@ -39,7 +39,7 @@ def get_edf_description(edf_filepath):
                 des.append(dataObj.header['pilroi1'])
                 distance = float(dataObj.header['SampleDistance'])
                 # convert to mm
-                distance *=10000
+                distance *= 1000.0
                 des.append(str(distance))
                 des.append(dataObj.header['count_time'])
                 des.append(dataObj.header['Date'])

@@ -3,6 +3,7 @@ import nexusformat.nexus as nx
 import numpy as np
 from pygdatax import nxlib, flib
 
+
 @nxlib.treatment_function
 def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
     # root = loadfile(file, mode='rw')
@@ -26,6 +27,7 @@ def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
     entry.instrument.detector.beam_center_x = x0
     entry.instrument.detector.beam_center_y = y0
     return
+
 
 @nxlib.treatment_function
 def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
@@ -396,6 +398,7 @@ def normalization_factor(root, factor=None):
     entry.data.nxsignal *= factor
     entry.data.nxerrors *= factor
     return
+
 
 @nxlib.treatment_function
 def bkg_substraction(root, bkg=0):
