@@ -2,15 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/beam.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/check.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/concat.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/cross.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/dark.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/directory.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/empty_cell.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/empty_cell.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/gear.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/mask.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/nxs2text.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/refresh.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ressources/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,6 +45,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test/pyqt5packaging" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pygdatax" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -84,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627909449538</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="- init packages">
+      <created>1627910595524</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1627910595524</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

@@ -868,6 +868,7 @@ class NexusTreatmentWidget(qt.QWidget):
         self.tableWidget.on_selectionChanged()
 
     def generateMenu(self, event):
+        os.path.exists('../ressources /concat.ico')
         menu = qt.QMenu()
         concatAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/concat.ico')), 'concat')
         concatAction.triggered.connect(self._concat)
