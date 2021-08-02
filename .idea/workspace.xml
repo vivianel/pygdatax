@@ -2,23 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/beam.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/check.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/concat.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/cross.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/dark.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/directory.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/empty_cell.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/empty_cell.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/gear.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/mask.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/nxs2text.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/ressources/refresh.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ressources/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/icons.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/icons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/beam.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/check.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/concat.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/cross.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/dark.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/directory.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/empty_cell.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/empty_cell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/gear.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/mask.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/nxs2text.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ressources/refresh.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,11 +121,26 @@
       <option name="project" value="LOCAL" />
       <updated>1627910595524</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="- init packages">
+      <created>1627942780758</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1627942780758</updated>
+    </task>
+    <task id="LOCAL-00006" summary="- add icons modules">
+      <created>1627942928969</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1627942928969</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- init packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="- init packages" />
+    <MESSAGE value="- add icons modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="- add icons modules" />
   </component>
 </project>

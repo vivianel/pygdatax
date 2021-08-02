@@ -10,6 +10,7 @@ from pygdatax import xeuss
 from pygdatax import nxlib
 import nexusformat.nexus as nx
 from numpy.random import randint
+from icons import getQIcon
 
 COMPLETER_NAMES = ['azimutal_integration(root,x0=None,y0=None,mask=None,bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360',
@@ -121,10 +122,12 @@ class EdfFileTable(qt.QTableWidget):
                 filepath = os.path.join(self.directory, file)
                 if filepath == self.darkFile:
                     self.set_row_bkg(i, qt.QColor("blue"))
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/dark.ico')))
+                    # self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/dark.ico')))
+                    self.item(i, 0).setIcon(getQIcon('dark.ico'))
                 elif filepath == self.emptyCellFile:
                     self.set_row_bkg(i, qt.QColor("cyan"))
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/empty_cell.ico')))
+                    self.item(i, 0).setIcon(getQIcon('empty_cell.ico'))
+                    self.item(i, 0).setIcon(getQIcon('empty_cell.ico'))
                 elif filepath == self.emptyBeamFile:
                     self.set_row_bkg(i, qt.QColor("red"))
                     self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/beam.ico')))
@@ -135,7 +138,7 @@ class EdfFileTable(qt.QTableWidget):
                     self.set_row_bkg(i, qt.QColor("white"))
                     self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/mask.ico')))
                 elif os.path.exists(os.path.splitext(filepath)[0]+'.nxs'):
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/check.ico')))
+                    self.item(i, 0).setIcon(getQIcon('check.ico'))
 
         self.sortItems(0, qt.Qt.AscendingOrder)
         self.currentItemChanged.connect(self.on_selectionChanged)
@@ -149,17 +152,18 @@ class EdfFileTable(qt.QTableWidget):
         current_item = self.itemAt(event)
         # current_item = self.selectedItems()
         menu = qt.QMenu()
-        emptyCellAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/empty_cell.ico')), 'empty cell')
+        # emptyCellAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/empty_cell.ico')), 'empty cell')
+        emptyCellAction = qt.QAction(getQIcon('empty_cell.ico'), 'empty cell')
         emptyCellAction.triggered.connect(self._set_empty_cell)
-        darkAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/dark.ico')), 'dark')
+        darkAction = qt.QAction(getQIcon('dark.ico'), 'dark')
         darkAction.triggered.connect(self._set_dark)
-        emptyBeamAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/beam.ico')), 'empty beam')
+        emptyBeamAction = qt.QAction(getQIcon('beam.ico'), 'empty beam')
         emptyBeamAction.triggered.connect(self._set_empty_beam)
-        trashAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/cross.ico')), 'trash')
+        trashAction = qt.QAction(getQIcon('cross.ico'), 'trash')
         trashAction.triggered.connect(self._set_trash)
         sampleAction = qt.QAction('sample')
         sampleAction.triggered.connect(self._set_sample)
-        maskAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/mask.ico')), 'mask')
+        maskAction = qt.QAction(getQIcon('mask.ico'), 'mask')
         maskAction.triggered.connect(self._set_mask)
         # build menu
         menu.addAction(darkAction)
@@ -187,7 +191,7 @@ class EdfFileTable(qt.QTableWidget):
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
-            first_col_item.setIcon(qt.QIcon(qt.QPixmap('../ressources/empty_cell.ico')))
+            first_col_item.setIcon(getQIcon('empty_cell.ico'))
             self.set_row_bkg(row, qt.QColor("cyan"))
 
             current_ec_item = self.findItems(os.path.basename(str(self.emptyCellFile)), qt.Qt.MatchExactly)
@@ -237,7 +241,7 @@ class EdfFileTable(qt.QTableWidget):
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             self.set_row_bkg(row, qt.QColor("blue"))
-            first_col_item.setIcon(qt.QIcon(qt.QPixmap('../ressources/dark.ico')))
+            first_col_item.setIcon(getQIcon('dark.ico'))
             current_dark_item = self.findItems(os.path.basename(str(self.darkFile)), qt.Qt.MatchExactly)
             # remove the previous empty cell icons
             if current_dark_item:
@@ -265,7 +269,7 @@ class EdfFileTable(qt.QTableWidget):
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             self.set_row_bkg(row, qt.QColor("red"))
-            first_col_item.setIcon(qt.QIcon(qt.QPixmap('../ressources/beam.ico')))
+            first_col_item.setIcon(getQIcon('beam.ico'))
 
             current_eb_item = self.findItems(os.path.basename(str(self.emptyBeamFile)), qt.Qt.MatchExactly)
             # remove the previous empty cell icons
@@ -295,7 +299,7 @@ class EdfFileTable(qt.QTableWidget):
                 first_col_item = self.item(row, 0)
                 file = first_col_item.text()
                 self.set_row_bkg(row, qt.QColor("grey"))
-                first_col_item.setIcon(qt.QIcon(qt.QPixmap('../ressources/cross.ico')))
+                first_col_item.setIcon(getQIcon('cross.ico'))
                 # remove double reference
                 fullfile = os.path.join(self.directory, file)
                 self.trashFiles.append(fullfile)
@@ -317,7 +321,7 @@ class EdfFileTable(qt.QTableWidget):
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
-            first_col_item.setIcon(qt.QIcon(qt.QPixmap('../ressources/mask.ico')))
+            first_col_item.setIcon(getQIcon('mask.ico'))
             # self.set_row_bkg(row, qt.QColor("cyan"))
 
             current_mask_item = self.findItems(os.path.basename(str(self.maskFile)), qt.Qt.MatchExactly)
@@ -379,7 +383,7 @@ class EdfTreatmentWidget(qt.QWidget):
         self.binsLineEdit.setValidator(qt.QIntValidator())
         # button to treat data
         self.treatButton = qt.QPushButton('treat now')
-        self.treatButton.setIcon(qt.QIcon(qt.QPixmap('../ressources/gear.ico')))
+        self.treatButton.setIcon(getQIcon('gear.ico'))
         # parameter form layout
         formLayout = qt.QFormLayout()
         formLayout.addRow('x0 (pixels):', self.x0LineEdit)
@@ -474,9 +478,9 @@ class FileSurvey(qt.QWidget):
         super(FileSurvey, self).__init__()
         self.directoryLineEdit = qt.QLineEdit(parent=self)
         self.directoryPickerButton = qt.QPushButton()
-        self.directoryPickerButton.setIcon(qt.QIcon(qt.QPixmap('../ressources/directory.ico')))
+        self.directoryPickerButton.setIcon(getQIcon('directory.ico'))
         self.refreshButton = qt.QPushButton()
-        self.refreshButton.setIcon(qt.QIcon(qt.QPixmap('../ressources/refresh.ico')))
+        self.refreshButton.setIcon(getQIcon('refresh.ico'))
 
         self.tabWidget = qt.QTabWidget()
         self.edfTab = EdfTreatmentWidget()
@@ -868,11 +872,10 @@ class NexusTreatmentWidget(qt.QWidget):
         self.tableWidget.on_selectionChanged()
 
     def generateMenu(self, event):
-        os.path.exists('../ressources /concat.ico')
         menu = qt.QMenu()
-        concatAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/concat.ico')), 'concat')
+        concatAction = qt.QAction(getQIcon('concat.ico'), 'concat')
         concatAction.triggered.connect(self._concat)
-        convertAction = qt.QAction(qt.QIcon(qt.QPixmap('../ressources/nxs2text.ico')), 'convert to .txt')
+        convertAction = qt.QAction(getQIcon('nxs2text.ico'), 'convert to .txt')
         convertAction.triggered.connect(self._convert2txt)
         menu.addAction(concatAction)
         menu.addAction(convertAction)
