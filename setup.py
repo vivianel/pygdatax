@@ -19,7 +19,7 @@ required_packages = [
 ]
 
 setup(
-    name='pydatax',
+    name='pygdatax',
     version='0.0.1',
     url='',
     license='',
@@ -27,7 +27,7 @@ setup(
     author_email='alexis.chenneviere@cea.fr',
     description='Python Based Progamme for SAXS data treatment on XEUSS diffractometer',
     package_dir={"": "src"},
-    packages=['pygdatax', 'resources'],
+    packages=find_packages(where="src"),
     python_requires='>=3.6',
     install_requires=required_packages,
     include_package_data=True
