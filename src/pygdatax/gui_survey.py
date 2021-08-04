@@ -609,26 +609,37 @@ class SaxsUtily(qt.QMainWindow):
         self.editor.runClicked.connect(self.run_function)
 
     def run_function(self, cmdList):
+        selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
         model = self.fileSurvey.nxsTab.treeWidget.treeview.findHdf5TreeModel()
-        nrow = model.rowCount()
-        files = []
-        for n in range(nrow):
-            index = model.index(n, 0, qt.QModelIndex())
-            node = model.nodeFromIndex(index)
-            filename = node.obj.filename
-            model.removeH5pyObject(node.obj)
-            node.obj.close()
+        model.clear()
+        # nrow = model.rowCount()
+        # files = []
+        # for n in range(nrow):
+        #     index = model.index(n, 0, qt.QModelIndex())
+        #     node = model.nodeFromIndex(index)
+        #     filename = node.obj.filename
+        #     model.removeH5pyObject(node.obj)
+        #     node.obj.close()
+        #     for script in cmdList:
+        #
+        #         cmd = 'xeuss.' + script.replace('root', '\'' + filename + '\'')
+        #         print(cmd)
+        #         eval(cmd)
+        #         # try:
+        #         #     eval(cmd)
+        #         # except:
+        #         #     print('command'+cmd+'not performed on:' +filename)
+        #     model.insertFile(filename, row=n)
+        #     self.fileSurvey.nxsTab.treeWidget.treeview.expand(model.index(n, 0))
+        for file in selectedFiles:
             for script in cmdList:
-
-                cmd = 'xeuss.' + script.replace('root', '\'' + filename + '\'')
-                print(cmd)
-                eval(cmd)
-                # try:
-                #     eval(cmd)
-                # except:
-                #     print('command'+cmd+'not performed on:' +filename)
-            model.insertFile(filename, row=n)
-            self.fileSurvey.nxsTab.treeWidget.treeview.expand(model.index(n, 0))
+                cmd = 'xeuss.' + script.replace('root', '\'' + file + '\'')
+                try:
+                    eval(cmd)
+                    print(cmd)
+                except:
+                    print('command'+cmd+'not performed on:' + file)
+            model.insertFile(file)
         self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
         self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
 
@@ -756,6 +767,15 @@ class NexusFileTable(qt.QTableWidget):
             file = self.item(row, 0).text()
             selectedFiles.append(os.path.join(self.directory, file))
         self.fileSelectedChanged.emit(selectedFiles)
+
+    def get_selectedFiles(self):
+        items = self.selectedItems()
+        selectedFiles = []
+        for item in items:
+            row = item.row()
+            file = self.item(row, 0).text()
+            selectedFiles.append(os.path.join(self.directory, file))
+        return selectedFiles
 
 
 class NexusTreeWidget(qt.QWidget):
