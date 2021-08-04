@@ -14,7 +14,7 @@ from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 
 
-COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
+COMPLETER_NAMES = ['azimutal_integration(root,x0=None,y0=None,mask=None,bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360',
                    'bkg_substraction(root, bkg=0)',
                    'concat(root, file=None)',
@@ -24,7 +24,8 @@ COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins
                    'q_scale(root, distance=None)',
                    'ref_substraction(root, ref_file=None, prefactor=0)',
                    'resu(root, dark_file=None, ec_file=None, thickness=None)',
-                   'save_as_txt(root)',
+                   'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
+                   'save_as_txt(root)'
                    'set_beam_center(root,x0=None,y0=None)'
                    ]
 
@@ -551,7 +552,7 @@ class SaxsUtily(qt.QMainWindow):
         """
 
         qt.QMainWindow.__init__(self)
-        self.setWindowTitle("pygdatax GUI")
+        self.setWindowTitle("Saxs Data Treatment")
 
         self.__asyncload = False
         central_wigdet = self.centralWidget()
@@ -586,7 +587,7 @@ class SaxsUtily(qt.QMainWindow):
         self.editor = CommandTreatmentWidget(self)
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
-        self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
+        self.addDockWidget(qt.Qt.BottomDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
 
 
@@ -964,12 +965,6 @@ class CommandTreatmentWidget(qt.QWidget):
         self.runAll_btn = qt.QPushButton('run all')
         self.run_btn.clicked.connect(self.run)
         self.runAll_btn.clicked.connect(self.runAll)
-        # combox for treatment fucntion
-        self.funcionComboBox = qt.QComboBox()
-        for func in COMPLETER_NAMES:
-            self.funcionComboBox.addItem(func)
-        self.funcionComboBox.currentTextChanged.connect(self.on_comboBox)
-        self.funcionComboBox.setMinimumWidth(200)
         # self.remove_btn = qt.QPushButton('-')
         self.tabWidget = qt.QTabWidget()
         self.add_btn = qt.QPushButton('+')
@@ -995,7 +990,6 @@ class CommandTreatmentWidget(qt.QWidget):
         hlayout.addWidget(self.runAll_btn)
         hlayout.addStretch()
         layout.addLayout(hlayout)
-        layout.addWidget(self.funcionComboBox)
         layout.addWidget(self.tabWidget)
         layout.addStretch()
         # self.formLayout = qt.QFormLayout(self)
@@ -1029,11 +1023,6 @@ class CommandTreatmentWidget(qt.QWidget):
             widget = self.tabWidget.widget(i)
             l.append(widget.text())
         self.runClicked.emit(l)
-
-    def on_comboBox(self, text):
-        widget = self.tabWidget.currentWidget()
-        widget.setText(text)
-
 
 
 class CodeEditor(qt.QLineEdit):

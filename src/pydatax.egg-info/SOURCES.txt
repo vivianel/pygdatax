@@ -1,0 +1,15 @@
+MANIFEST.in
+setup.py
+src/pydatax.egg-info/PKG-INFO
+src/pydatax.egg-info/SOURCES.txt
+src/pydatax.egg-info/dependency_links.txt
+src/pydatax.egg-info/requires.txt
+src/pydatax.egg-info/top_level.txt
+src/pygdatax/__init__.py
+src/pygdatax/flib.py
+src/pygdatax/gui_survey.py
+src/pygdatax/icons.py
+src/pygdatax/nxlib.py
+src/pygdatax/xeuss.py
+src/pygdatax/xeussredauto.py
+src/resources/__init__.py

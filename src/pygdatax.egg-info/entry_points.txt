@@ -1,0 +1,3 @@
+[console_scripts]
+pygdatax_gui = pygdatax.gui_survey:main
+
