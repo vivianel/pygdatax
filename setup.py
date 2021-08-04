@@ -13,7 +13,6 @@ required_packages = [
     'scipy~=1.7.1',
     'pyFAI~=0.20.0',
     'nexusformat~=0.6.1',
-    'PyQt5',
     'Ipython',
     'openpyxl~=3.0.7'
 ]

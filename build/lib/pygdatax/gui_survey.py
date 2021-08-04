@@ -12,6 +12,7 @@ import nexusformat.nexus as nx
 from numpy.random import randint
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
+from pathlib import Path
 
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
@@ -104,8 +105,9 @@ class EdfFileTable(qt.QTableWidget):
         self.customContextMenuRequested.connect(self.generateMenu)
 
     def setDirectory(self, directory):
-        if os.path.isdir(directory):
-            self.directory = directory
+        folderPath = Path(directory)
+        if folderPath.is_dir():
+            self.directory = folderPath
             self.refresh()
 
     def refresh(self):
@@ -157,6 +159,7 @@ class EdfFileTable(qt.QTableWidget):
         row = self.currentRow()
         file = self.item(row, 0).text()
         self.fileSelectedChanged.emit(os.path.join(self.directory, file))
+
 
     def generateMenu(self, event):
         current_item = self.itemAt(event)
@@ -737,8 +740,9 @@ class NexusFileTable(qt.QTableWidget):
         self.itemSelectionChanged.connect(self.on_selectionChanged)
 
     def setDirectory(self, directory):
-        if os.path.isdir(directory):
-            self.directory = directory
+        forlderPath = Path(directory)
+        if forlderPath.is_dir():
+            self.directory = forlderPath
             self.refresh()
 
     def refresh(self):
