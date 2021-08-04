@@ -36,7 +36,7 @@ def get_edf_description(edf_filepath):
         if edf_filepath.endswith('.edf'):
             dataObj = fabio.open(edf_filepath)
             try:
-                des.append(dataObj.header['title'])
+                des.append(os.path.basename(edf_filepath))
                 des.append(dataObj.header['Comment'])
                 des.append(str(1.5))
                 des.append(dataObj.header['pilroi1'])

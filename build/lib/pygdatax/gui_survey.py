@@ -533,7 +533,7 @@ class FileSurvey(qt.QWidget):
     def choose_directory(self):
         basedir = os.path.expanduser("~")
         fname = qt.QFileDialog.getExistingDirectory(self, 'Select data directory', basedir,
-                                                    options=qt.QFileDialog.DontUseNativeDialog)
+                                                    options=qt.QFileDialog.DontUseNativeDialog|qt.QFileDialog.ShowDirsOnly)
         if fname:
             self.directoryLineEdit.setText(fname)
             # self.edfTab.table.setDirectory(fname)
