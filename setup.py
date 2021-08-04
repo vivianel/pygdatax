@@ -19,7 +19,7 @@ required_packages = [
 
 setup(
     name='pygdatax',
-    version='0.0.2',
+    version='0.0.3',
     url='',
     license='',
     author='achennev',

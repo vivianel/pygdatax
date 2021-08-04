@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="-fixed pb with edf filenames">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/pygdatax-0.0.1-py3-none-any.whl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
@@ -231,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628087474985</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="-fixed pb with edf filenames">
+      <created>1628089190115</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1628089190115</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -244,6 +250,7 @@
     <MESSAGE value="-remove close button treatment dockwidget&#10;- removed double validator because uses coma separator" />
     <MESSAGE value="working packages" />
     <MESSAGE value="use pathlib for directory" />
-    <option name="LAST_COMMIT_MESSAGE" value="use pathlib for directory" />
+    <MESSAGE value="-fixed pb with edf filenames" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fixed pb with edf filenames" />
   </component>
 </project>

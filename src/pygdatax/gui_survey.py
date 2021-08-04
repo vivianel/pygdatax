@@ -498,7 +498,7 @@ class FileSurvey(qt.QWidget):
         self.tabWidget = qt.QTabWidget()
         self.edfTab = EdfTreatmentWidget()
         self.nxsTab = NexusTreatmentWidget()
-        self.tabWidget.addTab(self.edfTab, 'raw data')
+        self.tabWidget.addTab(self.edfTab, 'edf data')
         self.tabWidget.addTab(self.nxsTab, 'treated data')
 
         # layout
@@ -586,12 +586,17 @@ class SaxsUtily(qt.QMainWindow):
 
         # treatment dock widget
         self.treatmentDock = qt.QDockWidget('treatment', self)
+        # self.treatmentDock.setStyleSheet("border: 5px solid black")
         self.treatmentDock.setFeatures(qt.QDockWidget.DockWidgetFloatable |
                                        qt.QDockWidget.DockWidgetMovable)
         self.editor = CommandTreatmentWidget(self)
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
-        self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
+        # replace the addTabbedwidget metho of the plot window
+        self.__plotWindow._dockWidgets.append(self.treatmentDock)
+        self.__plotWindow.addDockWidget(qt.Qt.BottomDockWidgetArea,self.treatmentDock)
+        # self.treatmentDock.setAllowedAreas(qt.Qt.BottomDockWidgetArea)
+        # self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
 
 
@@ -898,7 +903,7 @@ class NexusTreatmentWidget(qt.QWidget):
         spliter = qt.QSplitter(qt.Qt.Vertical)
         spliter.addWidget(self.tableWidget)
         spliter.addWidget(self.treeWidget)
-        spliter.setStretchFactor(0, 3)
+        # spliter.setStretchFactor(0, 3)
         layout = qt.QVBoxLayout()
         layout.addWidget(spliter)
         self.setLayout(layout)
@@ -983,7 +988,7 @@ class CommandTreatmentWidget(qt.QWidget):
         self.add_btn.clicked.connect(self.addTab)
         self.tabWidget.setCornerWidget(self.add_btn, corner=qt.Qt.TopLeftCorner)
         self.tabWidget.setTabsClosable(True)
-        self.tabWidget.setSizePolicy(qt.QSizePolicy.MinimumExpanding, qt.QSizePolicy.MinimumExpanding)
+        self.tabWidget.setMaximumHeight(60)
         self.tabWidget.tabCloseRequested.connect(self.closeTabs)
         # widget = qt.QWidget(parent=self.tabWidget)
         # layoutTab = qt.QVBoxLayout()
@@ -1054,6 +1059,7 @@ class CodeEditor(qt.QLineEdit):
         # self.highlighter = PythonHighlighter(self.document())
         completer = qt.QCompleter(COMPLETER_NAMES)
         self.setCompleter(completer)
+        self.setFixedHeight(30)
 
 
 def main():
