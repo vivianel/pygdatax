@@ -1,16 +1,18 @@
 import sys
 import os
+import warnings
+from matplotlib import mplDeprecation
 import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
 import silx.io as sio
 from silx.io.nxdata import is_NXroot_with_default_NXdata, get_default
-from pygdatax import xeuss
-from pygdatax import nxlib
 import nexusformat.nexus as nx
 from numpy.random import randint
 from pygdatax.icons import getQIcon
+from pygdatax import xeuss, nxlib
+
 
 COMPLETER_NAMES = ['azimutal_integration(root,x0=None,y0=None,mask=None,bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360',
@@ -585,7 +587,7 @@ class SaxsUtily(qt.QMainWindow):
         self.editor = CommandTreatmentWidget(self)
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
-        self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
+        self.addDockWidget(qt.Qt.BottomDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
 
 
@@ -1012,9 +1014,9 @@ class CodeEditor(qt.QLineEdit):
 def main():
     # unlock hdf5 files for file access during plotting
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
+    warnings.filterwarnings("ignore", category=mplDeprecation)
     app = qt.QApplication([])
     # sys.excepthook = qt.exceptionHandler
-    # warnings.filterwarnings("ignore", category=mplDeprecation)
     window = SaxsUtily()
     window.show()
     result = app.exec_()

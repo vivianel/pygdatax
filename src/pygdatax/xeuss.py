@@ -98,7 +98,6 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
         thickness = entry.sample.thickness.nxdata
     else:
         entry.sample.thickness = thickness
-    print(entry.sample.thickness)
 
     def delta(x, a):
         if x == 1:
