@@ -382,12 +382,12 @@ class EdfTreatmentWidget(qt.QWidget):
         self.table = EdfFileTable()
         # beam center coordinates
         self.x0LineEdit = qt.QLineEdit()
-        self.x0LineEdit.setValidator(qt.QDoubleValidator())
+        # self.x0LineEdit.setValidator(qt.QDoubleValidator())
         self.y0LineEdit = qt.QLineEdit()
-        self.y0LineEdit.setValidator(qt.QDoubleValidator())
+        # self.y0LineEdit.setValidator(qt.QDoubleValidator())
         # sample to detector distance
         self.distanceLineEdit = qt.QLineEdit()
-        self.distanceLineEdit.setValidator(qt.QDoubleValidator())
+        # self.distanceLineEdit.setValidator(qt.QDoubleValidator())
         # define the number of bins for azimutal averaging
         self.binsLineEdit = qt.QLineEdit('900')
         self.binsLineEdit.setValidator(qt.QIntValidator())
@@ -583,6 +583,8 @@ class SaxsUtily(qt.QMainWindow):
 
         # treatment dock widget
         self.treatmentDock = qt.QDockWidget('treatment', self)
+        self.treatmentDock.setFeatures(qt.QDockWidget.DockWidgetFloatable |
+                                       qt.QDockWidget.DockWidgetMovable)
         self.editor = CommandTreatmentWidget(self)
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
@@ -977,6 +979,7 @@ class CommandTreatmentWidget(qt.QWidget):
         self.add_btn.clicked.connect(self.addTab)
         self.tabWidget.setCornerWidget(self.add_btn, corner=qt.Qt.TopLeftCorner)
         self.tabWidget.setTabsClosable(True)
+        self.tabWidget.setSizePolicy(qt.QSizePolicy.MinimumExpanding, qt.QSizePolicy.MinimumExpanding)
         self.tabWidget.tabCloseRequested.connect(self.closeTabs)
         # widget = qt.QWidget(parent=self.tabWidget)
         # layoutTab = qt.QVBoxLayout()
