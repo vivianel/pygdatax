@@ -633,12 +633,14 @@ class SaxsUtily(qt.QMainWindow):
         #     self.fileSurvey.nxsTab.treeWidget.treeview.expand(model.index(n, 0))
         for file in selectedFiles:
             for script in cmdList:
-                cmd = 'xeuss.' + script.replace('root', '\'' + file + '\'')
-                try:
-                    eval(cmd)
-                    print(cmd)
-                except:
-                    print('command'+cmd+'not performed on:' + file)
+                cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
+                print(cmd)
+                eval(cmd)
+                # try:
+                #     eval(cmd)
+                #     print(cmd)
+                # except:
+                #     print('command'+cmd+'not performed on:' + file)
             model.insertFile(file)
         self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
         self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()

@@ -178,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628064391385</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="-handle file acces compatibilty with windows">
+      <created>1628066127396</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1628066127396</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -187,6 +194,7 @@
     <MESSAGE value="- fixed icons problems" />
     <MESSAGE value="- remove print functions" />
     <MESSAGE value="-change legend handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="-change legend handling" />
+    <MESSAGE value="-handle file acces compatibilty with windows" />
+    <option name="LAST_COMMIT_MESSAGE" value="-handle file acces compatibilty with windows" />
   </component>
 </project>
