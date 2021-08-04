@@ -67,6 +67,15 @@ def get_nxs_description(nxs_filepath):
             except KeyError:
                 des.append(os.path.split(nxs_filepath)[1])
                 des += 5 * ['']
+            # compatibility with windows
+            except AttributeError:
+                des.append(os.path.basename(nxs_filepath))
+                des.append(str(entry.sample.sample_name.nxdata))
+                des.append(str(str(entry.sample.thickness.nxdata)))
+                des.append(str(entry.sample.transmission.nxdata))
+                des.append(str(entry.instrument.detector.distance.nxdata))
+                des.append(str(entry.sample.count_time.nxdata))
+                des.append(root.attrs['file_time'])
             root.close()
     return des
 
@@ -173,11 +182,11 @@ class EdfFileTable(qt.QTableWidget):
         menu.addAction(sampleAction)
         menu.addAction(maskAction)
         action = menu.exec_(self.mapToGlobal(event))
-        print('###################################### \n')
-        print(('dark : %s \n '
-               'empty cell: %s \n'
-               'empty beam %s') %
-              (self.darkFile, self.emptyCellFile, self.emptyBeamFile))
+        # print('###################################### \n')
+        # print(('dark : %s \n '
+        #        'empty cell: %s \n'
+        #        'empty beam %s') %
+        #       (self.darkFile, self.emptyCellFile, self.emptyBeamFile))
 
     def set_row_bkg(self, row, color):
         for i in range(self.columnCount()):
@@ -518,7 +527,8 @@ class FileSurvey(qt.QWidget):
         self.nxsTab.set_directory(text)
 
     def choose_directory(self):
-        fname = qt.QFileDialog.getExistingDirectory(self, 'Select data directory', '/home',
+        basedir = os.path.expanduser("~")
+        fname = qt.QFileDialog.getExistingDirectory(self, 'Select data directory', basedir,
                                                     options=qt.QFileDialog.DontUseNativeDialog)
         if fname:
             self.directoryLineEdit.setText(fname)
@@ -650,7 +660,8 @@ class SaxsUtily(qt.QMainWindow):
             if is_NXroot_with_default_NXdata(h5file):
                 nxd = get_default(h5file)
                 legend = os.path.basename(file).split('.')[0] +'/'
-                legend += h5file['entry0/sample/sample_name'].asstr()[()]
+                # legend += h5file['entry0/sample/sample_name'].asstr()[()]
+                legend += h5file['entry0/sample/sample_name'][()].decode()
                 if nxd.is_curve:
                     xlabel = nxd.axes_names[0]
                     ylabel = nxd.signal_name
@@ -970,7 +981,6 @@ class CommandTreatmentWidget(qt.QWidget):
 
     def run(self):
         widget = self.tabWidget.currentWidget()
-        print(widget)
         text = widget.text()
         self.runClicked.emit([text])
 
@@ -998,16 +1008,12 @@ class CodeEditor(qt.QLineEdit):
 
 def main():
     # unlock hdf5 files for file access during plotting
-    # os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
+    os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
     app = qt.QApplication([])
     # sys.excepthook = qt.exceptionHandler
     # warnings.filterwarnings("ignore", category=mplDeprecation)
     window = SaxsUtily()
     window.show()
-    folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
-    # window.fileTable.table.setDirectory(folder)
-    window.fileSurvey.directoryLineEdit.setText(folder)
-    # window.fileTable.table.sortItems(0,qt.Qt.AscendingOrder)
     result = app.exec_()
     # remove ending warnings relative to QTimer
     app.deleteLater()
@@ -1029,5 +1035,13 @@ def testTree():
 
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
-    main()
-    # testTree()
+    app = qt.QApplication([])
+    # warnings.filterwarnings("ignore", category=mplDeprecation)
+    window = SaxsUtily()
+    window.show()
+    folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
+    window.fileSurvey.directoryLineEdit.setText(folder)
+    result = app.exec_()
+    app.deleteLater()
+    sys.exit(result)
+
