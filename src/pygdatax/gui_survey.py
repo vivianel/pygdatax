@@ -661,7 +661,10 @@ class SaxsUtily(qt.QMainWindow):
                 nxd = get_default(h5file)
                 legend = os.path.basename(file).split('.')[0] +'/'
                 # legend += h5file['entry0/sample/sample_name'].asstr()[()]
-                legend += h5file['entry0/sample/sample_name'][()].decode()
+                try:
+                    legend += h5file['entry0/sample/sample_name'][()].decode()
+                except AttributeError:
+                    legend += h5file['entry0/sample/sample_name'][()]
                 if nxd.is_curve:
                     xlabel = nxd.axes_names[0]
                     ylabel = nxd.signal_name

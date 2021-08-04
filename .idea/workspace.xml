@@ -4,7 +4,6 @@
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/icons.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/icons.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,13 +150,29 @@
       <option name="project" value="LOCAL" />
       <updated>1627951312261</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- remove print functions">
+      <created>1628061334585</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1628061334585</updated>
+    </task>
+    <task id="LOCAL-00011" summary="-change legend handling">
+      <created>1628061357126</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1628061357126</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- init packages" />
     <MESSAGE value="- add icons modules" />
     <MESSAGE value="- fixed icons problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed icons problems" />
+    <MESSAGE value="- remove print functions" />
+    <MESSAGE value="-change legend handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="-change legend handling" />
   </component>
 </project>
