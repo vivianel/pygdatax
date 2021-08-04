@@ -6,6 +6,5 @@ scipy~=1.7.1
 pyFAI~=0.20.0
 nexusformat~=0.6.1
 setuptools~=57.0.0
-PyQt5~=5.15.4
 Ipython
 openpyxl~=3.0.7
