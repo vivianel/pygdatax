@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/requires.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628167449261</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="- fixed expand tree item">
+      <created>1628170952593</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1628170952593</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -282,6 +287,7 @@
     <MESSAGE value="-fixed pb with edf filenames" />
     <MESSAGE value="- add progressbar for treatment (in progress&#10;)" />
     <MESSAGE value="- set refresh problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="- set refresh problem" />
+    <MESSAGE value="- fixed expand tree item" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed expand tree item" />
   </component>
 </project>

@@ -195,7 +195,6 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
     del entry['data']
     entry.data = data
     q_scale(root.file_name, distance=distance, new_entry=False)
-    print(root.entry2.sample.thickness)
     return
 
 
