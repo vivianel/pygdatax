@@ -10,11 +10,19 @@ required_packages = [
     'silx',
     'fabio~=0.12.0',
     'matplotlib~=3.4.2',
-    'scipy~=1.7.1',
     'pyFAI~=0.20.0',
     'nexusformat~=0.6.1',
     'Ipython',
     'openpyxl~=3.0.7'
+]
+
+required_packages = [
+    'silx',
+    'matplotlib~=3.4.2',
+    'scipy~=1.7.1',
+    'pyFAI',
+    'nexusformat',
+    'openpyxl'
 ]
 
 setup(
