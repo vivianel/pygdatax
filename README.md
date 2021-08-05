@@ -1,5 +1,7 @@
 # PYGATAX 
 
-![Image](screenshot_pygdatax.png?raw=true)
+![plot](src/pygdatax/resources/screenshot_pygdatax.png)
+
+
 
 
