@@ -522,6 +522,7 @@ class FileSurvey(qt.QWidget):
         model = self.nxsTab.treeWidget.treeview.findHdf5TreeModel()
         model.clear()
         self.edfTab.treat()
+        self.nxsTab.tableWidget.refresh()
 
     def set_directory(self):
         text = self.directoryLineEdit.text()
