@@ -835,11 +835,7 @@ class NexusTreeWidget(qt.QWidget):
         model.clear()
         for file in files:
             model.insertFile(file, row=-1)
-        # TODO : expand root
-        # for row in range(model.rowCount()):
-        #     # self.treeview.setExpanded(model.index(row, 0), True)
-        #     index = model.index(row, 0)
-        #     model.is
+        self.treeview.expandToDepth(0)
 
 
     def clear_last(self):
@@ -856,7 +852,7 @@ class NexusTreeWidget(qt.QWidget):
             nxlib.delete_last_entry(root)
             root.close()
             model.insertFile(filename, row=n)
-            self.treeview.expand(model.index(n, 0))
+        self.treeview.expandToDepth(0)
         self.operationPerformed.emit()
 
     def clear_all(self):
@@ -871,7 +867,7 @@ class NexusTreeWidget(qt.QWidget):
             nxlib.delete_all_entry(root)
             root.close()
             model.insertFile(filename, row=n)
-            self.treeview.expand(model.index(n, 0))
+        self.treeview.expandToDepth(0)
         self.operationPerformed.emit()
 
     def sync_all(self):
@@ -887,7 +883,7 @@ class NexusTreeWidget(qt.QWidget):
             nxlib.delete_all_entry(root)
             root.close()
             model.insertFile(filename, row=n)
-            self.treeview.expand(model.index(n, 0))
+        self.treeview.expandToDepth(0)
         self.operationPerformed.emit()
 
 

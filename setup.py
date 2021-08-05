@@ -18,8 +18,8 @@ required_packages = [
 
 required_packages = [
     'silx',
-    'matplotlib~=3.4.2',
-    'scipy~=1.7.1',
+    'matplotlib',
+    'scipy',
     'pyFAI',
     'nexusformat',
     'openpyxl'
@@ -27,7 +27,7 @@ required_packages = [
 
 setup(
     name='pygdatax',
-    version='0.0.3',
+    version='0.0.4',
     url='',
     license='',
     author='achennev',

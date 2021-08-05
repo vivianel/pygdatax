@@ -134,21 +134,19 @@ class EdfFileTable(qt.QTableWidget):
                 filepath = os.path.join(self.directory, file)
                 if filepath == self.darkFile:
                     self.set_row_bkg(i, qt.QColor("blue"))
-                    # self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/dark.ico')))
                     self.item(i, 0).setIcon(getQIcon('dark.ico'))
                 elif filepath == self.emptyCellFile:
                     self.set_row_bkg(i, qt.QColor("cyan"))
                     self.item(i, 0).setIcon(getQIcon('empty_cell.ico'))
-                    self.item(i, 0).setIcon(getQIcon('empty_cell.ico'))
                 elif filepath == self.emptyBeamFile:
                     self.set_row_bkg(i, qt.QColor("red"))
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/beam.ico')))
+                    self.item(i, 0).setIcon(getQIcon('beam.ico'))
                 elif filepath in self.trashFiles:
                     self.set_row_bkg(i, qt.QColor("grey"))
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/cross.ico')))
+                    self.item(i, 0).setIcon(getQIcon('cross.ico'))
                 elif filepath == self.maskFile:
                     self.set_row_bkg(i, qt.QColor("white"))
-                    self.item(i, 0).setIcon(qt.QIcon(qt.QPixmap('../ressources/mask.ico')))
+                    self.item(i, 0).setIcon(getQIcon('mask.ico'))
                 elif os.path.exists(os.path.splitext(filepath)[0]+'.nxs'):
                     self.item(i, 0).setIcon(getQIcon('check.ico'))
 
@@ -524,6 +522,7 @@ class FileSurvey(qt.QWidget):
         model = self.nxsTab.treeWidget.treeview.findHdf5TreeModel()
         model.clear()
         self.edfTab.treat()
+        self.nxsTab.tableWidget.refresh()
 
     def set_directory(self):
         text = self.directoryLineEdit.text()
