@@ -1,4 +1,5 @@
 # PYGATAX 
 
-![Image](screenshot_pygdatax.png)
+![Image](screenshot_pygdatax.png?raw=true)
+
 
