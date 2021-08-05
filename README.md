@@ -1,7 +1,6 @@
 # PYGATAX 
 
-![plot](src/pygdatax/resources/screenshot_pygdatax.png)
+<img src="./screenshot_pygdatax.png" alt="My cool logo"/>
 
-
-
+s
 
