@@ -1062,6 +1062,21 @@ class CodeEditor(qt.QLineEdit):
         self.setFixedHeight(30)
 
 
+class RunningTreatmentDialog(qt.QDialog):
+
+    def __init__(self):
+        super(RunningTreatmentDialog, self).__init__()
+        self.setWindowTitle('SAXS treatement running')
+        self.bar = qt.QProgressBar(self)
+        self.bar.setValue(0)
+        layout = qt.QHBoxLayout()
+        layout.addWidget(qt.QLabel('Performing SAXS data treatment'))
+        layout.addWidget(self.bar)
+        layout.addStretch()
+        self.setLayout(layout)
+
+
+
 def main():
     # unlock hdf5 files for file access during plotting
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
