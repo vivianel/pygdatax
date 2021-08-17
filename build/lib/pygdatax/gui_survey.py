@@ -56,9 +56,9 @@ def get_nxs_description(nxs_filepath):
     des = []
     if os.path.isfile(nxs_filepath):
         if nxs_filepath.endswith('.nxs'):
-            root = nx.nxload(nxs_filepath, mode='r')
-            entry = root[nxlib.get_last_entry_key(root)]
             try:
+                root = nx.nxload(nxs_filepath, mode='r')
+                entry = root[nxlib.get_last_entry_key(root)]
                 des.append(os.path.basename(nxs_filepath))
                 des.append(str(entry.sample.sample_name.nxdata.decode()))
                 des.append(str(str(entry.sample.thickness.nxdata)))
@@ -66,11 +66,14 @@ def get_nxs_description(nxs_filepath):
                 des.append(str(entry.instrument.detector.distance.nxdata))
                 des.append(str(entry.sample.count_time.nxdata))
                 des.append(root.attrs['file_time'])
-            except KeyError:
+                root.close()
+            except (KeyError, nx.NeXusError, ValueError):
                 des.append(os.path.split(nxs_filepath)[1])
                 des += 5 * ['']
             # compatibility with windows
             except AttributeError:
+                root = nx.nxload(nxs_filepath, mode='r')
+                entry = root[nxlib.get_last_entry_key(root)]
                 des.append(os.path.basename(nxs_filepath))
                 des.append(str(entry.sample.sample_name.nxdata))
                 des.append(str(str(entry.sample.thickness.nxdata)))
@@ -78,7 +81,7 @@ def get_nxs_description(nxs_filepath):
                 des.append(str(entry.instrument.detector.distance.nxdata))
                 des.append(str(entry.sample.count_time.nxdata))
                 des.append(root.attrs['file_time'])
-            root.close()
+                root.close()
     return des
 
 

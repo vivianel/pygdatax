@@ -541,6 +541,7 @@ class FileSurvey(qt.QWidget):
             # self.edfTab.table.setDirectory(fname)
             # self.nxsTab.setDirectory(fname)
 
+
 class SaxsUtily(qt.QMainWindow):
     """
     This window show an example of use of a Hdf5TreeView.
