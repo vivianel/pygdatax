@@ -4,8 +4,6 @@
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot_pygdatax.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +44,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -315,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629185846834</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="- try to use theard for treatment">
+      <created>1629809070290</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1629809070290</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -332,6 +338,7 @@
     <MESSAGE value="- add progressbar for treatment (in progress&#10;)" />
     <MESSAGE value="- set refresh problem" />
     <MESSAGE value="- fixed expand tree item" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed expand tree item" />
+    <MESSAGE value="- try to use theard for treatment" />
+    <option name="LAST_COMMIT_MESSAGE" value="- try to use theard for treatment" />
   </component>
 </project>
