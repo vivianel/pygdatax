@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- try to use theard for treatment">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -328,7 +328,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629809131666</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="- completing readme">
+      <created>1629810571773</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1629810571773</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -346,6 +353,7 @@
     <MESSAGE value="- set refresh problem" />
     <MESSAGE value="- fixed expand tree item" />
     <MESSAGE value="- try to use theard for treatment" />
-    <option name="LAST_COMMIT_MESSAGE" value="- try to use theard for treatment" />
+    <MESSAGE value="- completing readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="- completing readme" />
   </component>
 </project>
