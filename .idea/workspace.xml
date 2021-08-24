@@ -4,12 +4,7 @@
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/pygdatax-0.0.4-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/pygdatax-0.0.4-py3-none-any.whl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/pygdatax-0.0.4.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/dist/pygdatax-0.0.4.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screenshot_pygdatax.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +40,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test/pyqt5packaging" />
+    <property name="TODO_SCOPE" value="All Places" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -312,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628172835026</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="- fixed expand tree item">
+      <created>1629185846834</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1629185846834</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
