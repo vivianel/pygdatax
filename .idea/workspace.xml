@@ -3,7 +3,39 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/flib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/icons.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/nxlib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/beam.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/check.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/concat.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/cross.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/dark.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/directory.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/empty_cell.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/gear.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/mask.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/nxs2text.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/resources/refresh.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/beam.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/check.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/concat.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/cross.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/dark.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/directory.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/empty_cell.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/gear.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/mask.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/nxs2text.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/ressources/refresh.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeussredauto.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/resources/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,7 +367,21 @@
       <option name="project" value="LOCAL" />
       <updated>1629810571773</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="- completing readme">
+      <created>1629812155999</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1629812155999</updated>
+    </task>
+    <task id="LOCAL-00037" summary="- fixed intersnity errors problem">
+      <created>1629891930108</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1629891930108</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -354,6 +400,7 @@
     <MESSAGE value="- fixed expand tree item" />
     <MESSAGE value="- try to use theard for treatment" />
     <MESSAGE value="- completing readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="- completing readme" />
+    <MESSAGE value="- fixed intersnity errors problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed intersnity errors problem" />
   </component>
 </project>

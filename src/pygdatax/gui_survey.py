@@ -557,6 +557,7 @@ class FunctionWorker(qt.QObject):
                 eval(cmd)
         self.finished.emit()
 
+
 class SaxsUtily(qt.QMainWindow):
     """
     This window show an example of use of a Hdf5TreeView.
