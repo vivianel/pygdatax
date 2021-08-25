@@ -481,9 +481,6 @@ class EdfTreatmentWidget(qt.QWidget):
         self.table.refresh()
 
 # TODO : save configuration in table
-# TODO: tab for treated data inspection
-# TODO : add checkbox when sample is treated
-# TODO: pb with double legend
 
 
 class FileSurvey(qt.QWidget):
@@ -540,6 +537,26 @@ class FileSurvey(qt.QWidget):
             self.directoryLineEdit.setText(fname)
             # self.edfTab.table.setDirectory(fname)
             # self.nxsTab.setDirectory(fname)
+
+
+class FunctionWorker(qt.QObject):
+    progress = qt.pyqtSignal()
+    finished = qt.pyqtSignal()
+
+    def __init__(self, cmdList, fileList):
+        super(FunctionWorker, self).__init__()
+        self.cmdList = cmdList
+        self.fileList = fileList
+
+    def run(self):
+        self.progress.emit()
+        for file in self.fileList:
+            for script in self.cmdList:
+                cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
+                print(cmd)
+                eval(cmd)
+        self.finished.emit()
+
 
 class SaxsUtily(qt.QMainWindow):
     """
@@ -619,6 +636,38 @@ class SaxsUtily(qt.QMainWindow):
         self.fileSurvey.nxsTab.nxsSelectionChanged.connect(self.displayNxs)
         self.editor.runClicked.connect(self.run_function)
 
+    def run_functionTest(self, cmdList):
+        selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
+        model = self.fileSurvey.nxsTab.treeWidget.treeview.findHdf5TreeModel()
+        model.clear()
+        self.thread = qt.QThread()
+        self.worker = FunctionWorker(cmdList, selectedFiles)
+        self.worker.moveToThread(self.thread)
+
+        self.thread.started.connect(self.worker.run)
+        self.worker.progress.connect(lambda: self.editor.run_btn.setEnabled(False))
+        # when thread finishes
+        self.worker.finished.connect(lambda: self.editor.run_btn.setEnabled(True))
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.worker.finished.connect(self.thread.deleteLater)
+        self.thread.finished.connect(self.fileSurvey.nxsTab.tableWidget.on_selectionChanged)
+        self.thread.start()
+
+
+        # for file in selectedFiles:
+        #     for script in cmdList:
+        #         cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
+        #         print(cmd)
+        #         eval(cmd)
+        #         # try:
+        #         #     eval(cmd)
+        #         #     print(cmd)
+        #         # except:
+        #         #     print('command'+cmd+'not performed on:' + file)
+        #     # model.insertFile(file)
+        # self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
+        # self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
+
     def run_function(self, cmdList):
         selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
         model = self.fileSurvey.nxsTab.treeWidget.treeview.findHdf5TreeModel()
@@ -652,7 +701,7 @@ class SaxsUtily(qt.QMainWindow):
                 #     print(cmd)
                 # except:
                 #     print('command'+cmd+'not performed on:' + file)
-            model.insertFile(file)
+            # model.insertFile(file)
         self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
         self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
 
