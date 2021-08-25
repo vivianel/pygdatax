@@ -1,5 +1,6 @@
 # PYGDATAX
-Python graphical user interface for Data treatment on Xeuss 2.0 SAXS instrument.
+Python graphical user interface for Data treatment on Xeuss 2.0 SAXS instrument based on silx API (http://www.silx.org/)
+
 ## Installation
 To install pygdatax, run:
 ```
@@ -19,4 +20,6 @@ pygdatax_gui
 
 
 
-truc
+## Quick Overview
+
+### EDF viewer

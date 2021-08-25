@@ -69,8 +69,9 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
     #                                   'signal': 'I', 'axes': ['Q']})
     entry.data = nx.NXdata()
     # new_entry.data.I = nx.NXfield(i, units='counts')  # uncertainties='I_errors'
-    entry.data.nxsignal = nx.NXfield(i, name='counts', attrs={'interpretation': 'spectrum'})
-    entry.data.nxerrors = sigma
+    entry.data.nxsignal = nx.NXfield(i, name='counts', attrs={'interpretation': 'spectrum',
+                                                              'uncertainties': 'counts_errors'})
+    entry.data.count_errors = sigma
     entry.data.nxaxes = nx.NXfield(r, name='r', attrs={'units': 'mm', 'uncertainties': 'r_errors'})
     entry.data.r_errors = nx.NXfield(dr, attrs={'units': 'mm'})
     # new_entry.data.nxerrors = sigma
@@ -292,7 +293,7 @@ def q_scale(root, distance=None):
         entry.instrument.detector.distance = nx.NXfield(distance, attrs={'units' : 'mm'})
     signal_key = root[last_key + '/data'].signal
     i = entry.data.nxsignal
-    i_errors = entry.data[i.attrs['uncertainties']].nxdata
+    i_errors = entry.data.nxerrors.nxdata
     data = nx.NXdata()
     data.nxsignal = i
     data.nxerrors = i_errors
