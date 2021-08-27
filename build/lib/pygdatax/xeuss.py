@@ -71,7 +71,7 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
     # new_entry.data.I = nx.NXfield(i, units='counts')  # uncertainties='I_errors'
     entry.data.nxsignal = nx.NXfield(i, name='counts', attrs={'interpretation': 'spectrum',
                                                               'uncertainties': 'counts_errors'})
-    entry.data.count_errors = sigma
+    entry.data.counts_errors = sigma
     entry.data.nxaxes = nx.NXfield(r, name='r', attrs={'units': 'mm', 'uncertainties': 'r_errors'})
     entry.data.r_errors = nx.NXfield(dr, attrs={'units': 'mm'})
     # new_entry.data.nxerrors = sigma
@@ -189,12 +189,12 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
     fs /= np.cos(theta) ** 3
 
     data = nx.NXdata()
-    data.nxsignal = nx.NXfield(fs.nxsignal.nxdata, name='i', attrs={'units': r'cm$^{-1}$'})
-    data.nxerrors = fs.nxerrors.nxdata
+    data.nxsignal = nx.NXfield(fs.nxsignal.nxdata, name='i', attrs={'units': r'cm$^{-1}$}'})
+    data.nxerrors = fs[fs.nxsignal.attrs['uncertainties']]
     data.nxaxes = fs.nxaxes
     data.r_errors = fs.r_errors
     del entry['data']
-    entry.data = data
+    entry['data'] = data
     q_scale(root.file_name, distance=distance, new_entry=False)
     return
 
@@ -293,7 +293,7 @@ def q_scale(root, distance=None):
         entry.instrument.detector.distance = nx.NXfield(distance, attrs={'units' : 'mm'})
     signal_key = root[last_key + '/data'].signal
     i = entry.data.nxsignal
-    i_errors = entry.data.nxerrors.nxdata
+    i_errors = entry.data[i.attrs['uncertainties']].nxdata
     data = nx.NXdata()
     data.nxsignal = i
     data.nxerrors = i_errors

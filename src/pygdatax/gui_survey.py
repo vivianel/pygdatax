@@ -53,10 +53,10 @@ def get_edf_description(edf_filepath):
 
 
 def get_nxs_description(nxs_filepath):
-    des = []
     if os.path.isfile(nxs_filepath):
         if nxs_filepath.endswith('.nxs'):
             try:
+                des = []
                 root = nx.nxload(nxs_filepath, mode='r')
                 entry = root[nxlib.get_last_entry_key(root)]
                 des.append(os.path.basename(nxs_filepath))
@@ -68,10 +68,12 @@ def get_nxs_description(nxs_filepath):
                 des.append(root.attrs['file_time'])
                 root.close()
             except (KeyError, nx.NeXusError, ValueError):
+                des = []
                 des.append(os.path.split(nxs_filepath)[1])
                 des += 5 * ['']
             # compatibility with windows
             except AttributeError:
+                des = []
                 root = nx.nxload(nxs_filepath, mode='r')
                 entry = root[nxlib.get_last_entry_key(root)]
                 des.append(os.path.basename(nxs_filepath))
@@ -867,6 +869,7 @@ class NexusTreeWidget(qt.QWidget):
         self.__treeModelSorted.sort(0, qt.Qt.AscendingOrder)
         self.__treeModelSorted.setSortCaseSensitivity(qt.Qt.CaseInsensitive)
         self.treeview.setModel(self.__treeModelSorted)
+        self.treeview.setSelectionMode(qt.QAbstractItemView.ExtendedSelection)
         # layout
         hlayout = qt.QHBoxLayout()
         hlayout.addWidget(self.clear_last_btn)
@@ -881,6 +884,7 @@ class NexusTreeWidget(qt.QWidget):
         # self.sync_btn.clicked.connect(self.sync_all)
         self.clear_last_btn.clicked.connect(self.clear_last)
         self.clear_all_btn.clicked.connect(self.clear_all)
+        self.treeview.selectionModel().selectionChanged.connect(self.on_tree_selection)
 
     def load_files(self, files):
         model = self.treeview.findHdf5TreeModel()
@@ -937,6 +941,9 @@ class NexusTreeWidget(qt.QWidget):
             model.insertFile(filename, row=n)
         self.treeview.expandToDepth(0)
         self.operationPerformed.emit()
+
+    def on_tree_selection(self):
+        selected = list(self.treeview.selectedH5Nodes())
 
 
 class NexusTreatmentWidget(qt.QWidget):
