@@ -546,7 +546,10 @@ def save_as_txt(filename):
         return
     root = nx.nxload(filename, mode='r')
     last_key = nxlib.get_last_entry_key(root)
-    sample_description = root[last_key].sample.sample_name.nxdata.decode()
+    try:
+        sample_description = root[last_key].sample.sample_name.nxdata.decode()
+    except AttributeError:
+        sample_description = root[last_key].sample.sample_name.nxdata
     data = root[last_key + '/data']
     signal_key = data.signal
     if isinstance(data[signal_key], nx.tree.NXlinkfield):
