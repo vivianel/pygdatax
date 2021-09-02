@@ -23,6 +23,7 @@ src/pygdatax/resources/dark.ico
 src/pygdatax/resources/directory.ico
 src/pygdatax/resources/empty_cell.ico
 src/pygdatax/resources/gear.ico
+src/pygdatax/resources/logo_llb.ico
 src/pygdatax/resources/mask.ico
 src/pygdatax/resources/nxs2text.ico
 src/pygdatax/resources/refresh.ico

@@ -576,6 +576,7 @@ class SaxsUtily(qt.QMainWindow):
 
         qt.QMainWindow.__init__(self)
         self.setWindowTitle("pygdatax GUI")
+        self.setWindowIcon(getQIcon('logo_llb.ico'))
 
         self.__asyncload = False
         central_wigdet = self.centralWidget()

@@ -6,5 +6,6 @@ import os
 def getQIcon(name):
     ans = None
     path = os.path.abspath(os.path.dirname(pygdatax.resources.__file__))
-    ans = os.path.join(path, name)
-    return qt.QIcon(ans)
+    fullname = os.path.join(path, name)
+    icon = qt.QIcon(fullname)
+    return icon
