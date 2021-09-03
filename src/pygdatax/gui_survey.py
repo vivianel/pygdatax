@@ -773,6 +773,38 @@ class SaxsUtily(qt.QMainWindow):
                     self.__plotWindow.setGraphXLabel(xlabel)
                     self.__plotWindow.setGraphYLabel(ylabel)
                     self.__plotWindow.setKeepDataAspectRatio(False)
+                elif nxd.is_image:
+                    if nxd.axes_names == [None, None]:
+                        origin = (0., 0.)
+                        scale = (1., 1.)
+                        xlabel = 'x [pixel]'
+                        ylabel = 'y [pixel]'
+                        self.__plotWindow.setKeepDataAspectRatio(True)
+                        self.__plotWindow.setXAxisLogarithmic(False)
+                        self.__plotWindow.setYAxisLogarithmic(False)
+                    else:
+                        aspect_button = self.__plotWindow.getKeepDataAspectRatioButton()
+                        self.__plotWindow.setKeepDataAspectRatio(False)
+                        origin = (nxd.axes[1][0], nxd.axes[0][1])
+                        scale_x = np.abs(nxd.axes[1][0] - nxd.axes[1][-1]) / len(nxd.axes[1])
+                        scale_y = np.abs(nxd.axes[0][0] - nxd.axes[0][-1]) / len(nxd.axes[0])
+                        scale = (scale_x, scale_y)
+                        xlabel = nxd.axes_names[1]
+                        ylabel = nxd.axes_names[0]
+                        if 'units' in nxd.axes[1].attrs:
+                            xlabel += ' [' + nxd.axes[1].attrs['units'] + ']'
+                        if 'units' in nxd.axes[0].attrs:
+                            ylabel += ' [' + nxd.axes[0].attrs['units'] + ']'
+
+                    self.__plotWindow.addImage(nxd.signal, replace=True,
+                                               legend=legend, xlabel='x',
+                                               ylabel='y',
+                                               origin=origin,
+                                               scale=scale)
+                    self.__plotWindow.setGraphXLabel(xlabel)
+                    self.__plotWindow.setGraphYLabel(ylabel)
+                else:
+                    return
 
     def displayNxTree(self, nodes):
         self.__plotWindow.clear()
@@ -1136,13 +1168,6 @@ class CommandTreatmentWidget(qt.QWidget):
         self.runAll_btn = qt.QPushButton('run all')
         self.run_btn.clicked.connect(self.run)
         self.runAll_btn.clicked.connect(self.runAll)
-        # combox for treatment fucntion
-        self.funcionComboBox = qt.QComboBox()
-        for func in COMPLETER_NAMES:
-            self.funcionComboBox.addItem(func)
-        self.funcionComboBox.currentTextChanged.connect(self.on_comboBox)
-        self.funcionComboBox.setMinimumWidth(200)
-        # self.remove_btn = qt.QPushButton('-')
         self.tabWidget = qt.QTabWidget()
         self.add_btn = qt.QPushButton('+')
         self.add_btn.setFixedSize(20,20)
@@ -1151,24 +1176,13 @@ class CommandTreatmentWidget(qt.QWidget):
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.setMaximumHeight(60)
         self.tabWidget.tabCloseRequested.connect(self.closeTabs)
-        # widget = qt.QWidget(parent=self.tabWidget)
-        # layoutTab = qt.QVBoxLayout()
-        # layoutTab.addWidget(CodeEditor(self))
-        # layoutTab.addStretch()
-        # widget.setLayout(layoutTab)
-        # self.tabWidget.addTab(widget, 'cmd1')
         self.tabWidget.addTab(CodeEditor(self), 'cmd1')
-        # self.codeEditor = CodeEditor(self)
-        # btn_layout = qt.QHBoxLayout()
-        # btn_layout.addWidget(self.run_btn)
-        # btn_layout.addWidget()
         hlayout = qt.QHBoxLayout()
         layout = qt.QVBoxLayout(self)
         hlayout.addWidget(self.run_btn)
         hlayout.addWidget(self.runAll_btn)
         hlayout.addStretch()
         layout.addLayout(hlayout)
-        layout.addWidget(self.funcionComboBox)
         layout.addWidget(self.tabWidget)
         layout.addStretch()
         # self.formLayout = qt.QFormLayout(self)
@@ -1221,7 +1235,18 @@ class CodeEditor(qt.QLineEdit):
         completer = qt.QCompleter(COMPLETER_NAMES)
         self.setCompleter(completer)
         self.setFixedHeight(30)
+        self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.generateMenu)
 
+    def generateMenu(self, event):
+        menu = qt.QMenu()
+        for fun in COMPLETER_NAMES:
+            menu.addAction(fun, self.actionClicked)
+        menu.exec_(self.mapToGlobal(event))
+
+    def actionClicked(self):
+        action = self.sender()
+        self.setText(action.text())
 
 class RunningTreatmentDialog(qt.QDialog):
 
