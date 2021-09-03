@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/icons.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/icons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/icons.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/icons.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +18,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -106,6 +107,9 @@
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
+        <item itemvalue="Python.xeuss" />
+        <item itemvalue="Python.gui_survey" />
+        <item itemvalue="Python.gui_survey" />
       </list>
     </recent_temporary>
   </component>
@@ -412,7 +416,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630326859498</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="- add LLB logo to main window">
+      <created>1630570577677</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1630570577677</updated>
+    </task>
+    <task id="LOCAL-00044" summary="- add LLB logo to main window">
+      <created>1630570616042</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1630570616042</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -434,7 +452,8 @@
     <MESSAGE value="- fixed intersnity errors problem" />
     <MESSAGE value="- fixed intensity errors problem" />
     <MESSAGE value="- fixed columns names problems on nxs tale for windows users" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed columns names problems on nxs tale for windows users" />
+    <MESSAGE value="- add LLB logo to main window" />
+    <option name="LAST_COMMIT_MESSAGE" value="- add LLB logo to main window" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

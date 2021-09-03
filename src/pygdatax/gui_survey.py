@@ -2,17 +2,20 @@ import sys
 import os
 import warnings
 from matplotlib import mplDeprecation
+import numpy as np
 import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
 import silx.io as sio
+from silx.io.utils import is_group, is_dataset, is_file
 from silx.io.nxdata import is_NXroot_with_default_NXdata, get_default
 import nexusformat.nexus as nx
 from numpy.random import randint
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
+
 
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
@@ -635,9 +638,14 @@ class SaxsUtily(qt.QMainWindow):
         self.setCentralWidget(main_panel)
 
         # connect signals
+        # edf table dispplay
         self.fileSurvey.edfTab.edfSelectionChanged.connect(self.displayEdf)
+        # nxs table dispplay
         self.fileSurvey.nxsTab.nxsSelectionChanged.connect(self.displayNxs)
+        # treatement run
         self.editor.runClicked.connect(self.run_function)
+        self.fileSurvey.nxsTab.treeWidget.selectedNodeChanged.connect(self.displayNxTree)
+
 
     def run_functionTest(self, cmdList):
         selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
@@ -766,6 +774,103 @@ class SaxsUtily(qt.QMainWindow):
                     self.__plotWindow.setGraphYLabel(ylabel)
                     self.__plotWindow.setKeepDataAspectRatio(False)
 
+    def displayNxTree(self, nodes):
+        self.__plotWindow.clear()
+        c = ['blue', 'red', 'green', 'black', 'yellow', 'grey', 'magenta', 'cyan',
+             'darkGreen', 'darkBrown', 'darkCyan', 'darkYellow', 'darkMagenta']
+
+        for i, s in enumerate(nodes):
+            if is_group(s.h5py_object) or is_file(s.h5py_object):
+                nxd = get_default(s.h5py_object)
+                if nxd is None:
+                    return
+                elif not nxd.is_valid:
+                    return
+                legend = os.path.split(s.h5py_object.file.filename)[1] + s.h5py_object.name
+                if nxd.is_curve:
+                    xlabel = nxd.axes_names[0]
+                    ylabel = nxd.signal_name
+                    if 'units' in nxd.axes[0].attrs:
+                        xlabel += ' [' + nxd.axes[0].attrs['units'] + ']'
+                    if 'units' in nxd.signal.attrs:
+                        ylabel += ' [' + nxd.signal.attrs['units'] + ']'
+                    self.__plotWindow.addCurve(nxd.axes[0], nxd.signal,
+                                               yerror=nxd.errors,
+                                               legend=legend,
+                                               replace=False,
+                                               color=colors.COLORDICT[c[i]],
+                                               xlabel=xlabel,
+                                               ylabel=ylabel,
+                                               resetzoom=True)
+                    self.__plotWindow.setGraphXLabel(xlabel)
+                    self.__plotWindow.setGraphYLabel(ylabel)
+                    self.__plotWindow.setKeepDataAspectRatio(False)
+                elif nxd.is_image:
+                    if nxd.axes_names == [None, None]:
+                        origin = (0., 0.)
+                        scale = (1., 1.)
+                        xlabel = 'x [pixel]'
+                        ylabel = 'y [pixel]'
+                        self.__plotWindow.setKeepDataAspectRatio(True)
+                        self.__plotWindow.setXAxisLogarithmic(False)
+                        self.__plotWindow.setYAxisLogarithmic(False)
+                    else:
+                        aspect_button = self.__plotWindow.getKeepDataAspectRatioButton()
+                        self.__plotWindow.setKeepDataAspectRatio(False)
+                        origin = (nxd.axes[1][0], nxd.axes[0][1])
+                        scale_x = np.abs(nxd.axes[1][0] - nxd.axes[1][-1]) / len(nxd.axes[1])
+                        scale_y = np.abs(nxd.axes[0][0] - nxd.axes[0][-1]) / len(nxd.axes[0])
+                        scale = (scale_x, scale_y)
+                        xlabel = nxd.axes_names[1]
+                        ylabel = nxd.axes_names[0]
+                        if 'units' in nxd.axes[1].attrs:
+                            xlabel += ' [' + nxd.axes[1].attrs['units'] + ']'
+                        if 'units' in nxd.axes[0].attrs:
+                            ylabel += ' [' + nxd.axes[0].attrs['units'] + ']'
+
+                    self.__plotWindow.addImage(nxd.signal, replace=True,
+                                               legend=legend, xlabel='x',
+                                               ylabel='y',
+                                               origin=origin,
+                                               scale=scale)
+                    self.__plotWindow.setGraphXLabel(xlabel)
+                    self.__plotWindow.setGraphYLabel(ylabel)
+                else:
+                    return
+            elif is_dataset(s.h5py_object):
+                legend = os.path.split(s.h5py_object.file.filename)[1] + s.h5py_object.name
+                if len(s.h5py_object.shape) == 2:
+                    origin = (0., 0.)
+                    scale = (1., 1.)
+                    xlabel = 'x [pixel]'
+                    ylabel = 'y [pixel]'
+                    self.__plotWindow.setKeepDataAspectRatio(True)
+                    self.__plotWindow.addImage(s.h5py_object, replace=True,
+                                               legend=legend, xlabel='x',
+                                               ylabel='y',
+                                               origin=origin,
+                                               scale=scale)
+                    self.__plotWindow.setGraphXLabel(xlabel)
+                    self.__plotWindow.setGraphYLabel(ylabel)
+                elif len(s.h5py_object.shape) == 1:
+                    xlabel = 'index'
+                    ylabel = s.h5py_object.name
+                    if 'units' in s.h5py_object.attrs:
+                        ylabel += ' [' + str(s.h5py_object.attrs['units']) + ']'
+                    x = np.arange(len(s.h5py_object)) + 1
+                    self.__plotWindow.addCurve(x, s.h5py_object,
+                                               legend=legend,
+                                               replace=False,
+                                               color=colors.COLORDICT[c[i]],
+                                               xlabel=xlabel,
+                                               ylabel=ylabel,
+                                               resetzoom=True)
+                    self.__plotWindow.setGraphXLabel(xlabel)
+                    self.__plotWindow.setGraphYLabel(ylabel)
+                    self.__plotWindow.setKeepDataAspectRatio(False)
+                else:
+                    return
+
     def _zValue(self, x, y):
         value = '-'
         valueZ = - float('inf')
@@ -846,6 +951,7 @@ class NexusFileTable(qt.QTableWidget):
 
 class NexusTreeWidget(qt.QWidget):
     operationPerformed = qt.pyqtSignal()
+    selectedNodeChanged = qt.pyqtSignal(list)
 
     def __init__(self):
         super(NexusTreeWidget, self).__init__()
@@ -893,7 +999,6 @@ class NexusTreeWidget(qt.QWidget):
         for file in files:
             model.insertFile(file, row=-1)
         self.treeview.expandToDepth(0)
-
 
     def clear_last(self):
         model = self.treeview.findHdf5TreeModel()
@@ -945,6 +1050,7 @@ class NexusTreeWidget(qt.QWidget):
 
     def on_tree_selection(self):
         selected = list(self.treeview.selectedH5Nodes())
+        self.selectedNodeChanged.emit(selected)
 
 
 class NexusTreatmentWidget(qt.QWidget):
@@ -1146,27 +1252,23 @@ def main():
     sys.exit(result)
 
 
-def testTree():
-    app = qt.QApplication([])
-    window = NexusTreatmentWidget()
-    window.show()
-    file = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC/2021-07-21_TOC_0_89050.nxs'
-    file1 = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC/2021-07-21_TOC_0_89051.nxs'
-    window.set_directory('/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC')
-    result = app.exec_()
-    # remove ending warnings relative to QTimer
-    app.deleteLater()
-    sys.exit(result)
-
-
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
     app = qt.QApplication([])
+
+    splash_pix = qt.QPixmap('/home/achennev/python/pygdatax/src/pygdatax/resources/empty_cell.png')
+
+    splash = qt.QSplashScreen(splash_pix, qt.Qt.WindowStaysOnTopHint)
+    splash.setMask(splash_pix.mask())
+    splash.show()
+    app.processEvents()
+
     # warnings.filterwarnings("ignore", category=mplDeprecation)
     window = SaxsUtily()
     window.show()
     folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
     window.fileSurvey.directoryLineEdit.setText(folder)
+    splash.finish(window)
     result = app.exec_()
     app.deleteLater()
     sys.exit(result)
