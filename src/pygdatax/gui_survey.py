@@ -495,8 +495,10 @@ class FileSurvey(qt.QWidget):
         self.directoryLineEdit = qt.QLineEdit(parent=self)
         self.directoryPickerButton = qt.QPushButton()
         self.directoryPickerButton.setIcon(getQIcon('directory.ico'))
+        self.directoryPickerButton.setToolTip('open data directory')
         self.refreshButton = qt.QPushButton()
         self.refreshButton.setIcon(getQIcon('refresh.ico'))
+        self.refreshButton.setToolTip('refresh directory')
 
         self.tabWidget = qt.QTabWidget()
         self.edfTab = EdfTreatmentWidget()
