@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- save and load treatmet parameters&#10;- copy nxs file path to clip board">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,13 +140,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00002" summary="- init packages">
-      <created>1627909434738</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1627909434739</updated>
     </task>
     <task id="LOCAL-00003" summary="- init packages">
       <created>1627909449538</created>
@@ -485,7 +477,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632487854639</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="- save and load treatmet parameters&#10;- copy nxs file path to clip board">
+      <created>1632493333556</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1632493333556</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
