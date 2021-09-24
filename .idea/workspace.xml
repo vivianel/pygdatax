@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- save and load treatmet parameters&#10;- copy nxs file path to clip board">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,6 +81,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pygdatax" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/pygdatax" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="xeuss" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -104,9 +126,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.gui_survey" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.gui_survey" />
-        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.xeuss" />
       </list>
     </recent_temporary>
@@ -119,13 +141,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00001" summary="- init packages">
-      <created>1627909101726</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1627909101726</updated>
     </task>
     <task id="LOCAL-00002" summary="- init packages">
       <created>1627909434738</created>
@@ -463,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631106012108</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height">
+      <created>1632487854638</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1632487854639</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -488,7 +510,9 @@
     <MESSAGE value="- add LLB logo to main window" />
     <MESSAGE value="- add right click for treatment function&#10;- add nxs table view for 2D data" />
     <MESSAGE value="- add toolips" />
-    <option name="LAST_COMMIT_MESSAGE" value="- add toolips" />
+    <MESSAGE value="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height" />
+    <MESSAGE value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
+    <option name="LAST_COMMIT_MESSAGE" value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

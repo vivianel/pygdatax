@@ -8,3 +8,4 @@ nexusformat~=0.6.1
 setuptools~=57.0.0
 Ipython
 openpyxl~=3.0.7
+pyyaml~=5.4.1

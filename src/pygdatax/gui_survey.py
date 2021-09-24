@@ -15,6 +15,7 @@ from numpy.random import randint
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
+import yaml
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
@@ -177,8 +178,8 @@ class EdfFileTable(qt.QTableWidget):
         emptyBeamAction.triggered.connect(self._set_empty_beam)
         # trashAction = qt.QAction(getQIcon('cross.ico'), 'trash')
         # trashAction.triggered.connect(self._set_trash)
-        # sampleAction = qt.QAction('sample')
-        # sampleAction.triggered.connect(self._set_sample)
+        sampleAction = qt.QAction('sample')
+        sampleAction.triggered.connect(self._set_sample)
         maskAction = qt.QAction(getQIcon('mask.ico'), 'mask')
         maskAction.triggered.connect(self._set_mask)
         # build menu
@@ -186,7 +187,7 @@ class EdfFileTable(qt.QTableWidget):
         menu.addAction(emptyCellAction)
         menu.addAction(emptyBeamAction)
         # menu.addAction(trashAction)
-        # menu.addAction(sampleAction)
+        menu.addAction(sampleAction)
         menu.addAction(maskAction)
         action = menu.exec_(self.mapToGlobal(event))
         # print('###################################### \n')
@@ -227,27 +228,27 @@ class EdfFileTable(qt.QTableWidget):
             else:
                 pass
 
-    # def _set_sample(self):
-    #     for current_item in self.selectedItems():
-    #         if current_item is not None:
-    #             row = current_item.row()
-    #             ncol = self.columnCount()
-    #             first_col_item = self.item(row, 0)
-    #             file = first_col_item.text()
-    #             self.set_row_bkg(row, qt.QColor("white"))
-    #             first_col_item.setIcon(qt.QIcon())
-    #             fullfile = os.path.join(self.directory, file)
-    #             # remove double reference
-    #             if fullfile == self.emptyCellFile:
-    #                 self.emptyCellFile = None
-    #             elif fullfile == self.darkFile:
-    #                 self.darkFile = None
-    #             elif fullfile == self.emptyBeamFile:
-    #                 self.emptyBeamFile = None
-    #             elif fullfile == self.maskFile:
-    #                 self.maskFile = None
-    #             elif fullfile in self.trashFiles:
-    #                 self.trashFiles.remove(fullfile)
+    def _set_sample(self):
+        for current_item in self.selectedItems():
+            if current_item is not None:
+                row = current_item.row()
+                ncol = self.columnCount()
+                first_col_item = self.item(row, 0)
+                file = first_col_item.text()
+                self.set_row_bkg(row, qt.QColor("white"))
+                first_col_item.setIcon(qt.QIcon())
+                fullfile = os.path.join(self.directory, file)
+                # remove double reference
+                if fullfile == self.emptyCellFile:
+                    self.emptyCellFile = None
+                elif fullfile == self.darkFile:
+                    self.darkFile = None
+                elif fullfile == self.emptyBeamFile:
+                    self.emptyBeamFile = None
+                elif fullfile == self.maskFile:
+                    self.maskFile = None
+                # elif fullfile in self.trashFiles:
+                #     self.trashFiles.remove(fullfile)
 
     def _set_dark(self, event):
         current_item = self.currentItem()
@@ -398,7 +399,6 @@ class EdfTreatmentWidget(qt.QWidget):
         self.binsLineEdit = qt.QLineEdit('900')
         self.binsLineEdit.setValidator(qt.QIntValidator())
         # load and save integration parameters
-        # TODO : finish implementation of save load layout and signals
         self.saveConfigButton = qt.QPushButton('save')
         self.loadConfigButton = qt.QPushButton('load')
 
@@ -415,8 +415,12 @@ class EdfTreatmentWidget(qt.QWidget):
         formLayout.addRow('distance (mm):', self.distanceLineEdit)
         formLayout.addRow('bins :', self.binsLineEdit)
         # parameter total layout
-        paramLayout=qt.QHBoxLayout()
+        paramLayout = qt.QHBoxLayout()
+        configLayout= qt.QVBoxLayout()
+        configLayout.addWidget(self.loadConfigButton)
+        configLayout.addWidget(self.saveConfigButton)
         paramLayout.addLayout(formLayout)
+        paramLayout.addLayout(configLayout)
         # general layout
         hlayout = qt.QHBoxLayout()
         # hlayout.addWidget(qt.QLabel('directory :'))
@@ -424,7 +428,7 @@ class EdfTreatmentWidget(qt.QWidget):
         # hlayout.addWidget(self.directoryPickerButton)
         # hlayout.addWidget(self.refreshButton)
         vlayout = qt.QVBoxLayout()
-        vlayout.addLayout(formLayout)
+        vlayout.addLayout(paramLayout)
         vlayout.addLayout(hlayout)
         vlayout.addWidget(self.table)
         vlayout.addWidget(self.treatButton)
@@ -436,6 +440,8 @@ class EdfTreatmentWidget(qt.QWidget):
         # we unconnect the treatbutton here because of interactions with treeview
         # self.treatButton.clicked.connect(self.treat)
         self.table.fileSelectedChanged.connect(self.on_file_selected)
+        self.saveConfigButton.clicked.connect(self.saveConfig_clicked)
+        self.loadConfigButton.clicked.connect(self.loadConfig_clicked)
 
     def on_file_selected(self, file):
         self.edfSelectionChanged.emit(file)
@@ -493,7 +499,66 @@ class EdfTreatmentWidget(qt.QWidget):
                 print(('%s was ignored during the treatment') % (sample))
         self.table.refresh()
 
-# TODO : save configuration in table
+    def saveConfig_clicked(self):
+        dic = {}
+        if self.table.directory:
+            basedir = self.table.directory
+        else:
+            basedir = os.path.expanduser("~")
+        fname, ext = qt.QFileDialog.getSaveFileName(self, 'Save treatment parameters', str(basedir),'YAML files (*.yaml);; all files (*.*)',
+                                               options=qt.QFileDialog.DontUseNativeDialog)
+        if fname:
+            try:
+                dic['x0'] = float(self.x0LineEdit.text())
+            except ValueError:
+                dic['x0'] = None
+            try:
+                dic['y0'] = float(self.y0LineEdit.text())
+            except ValueError:
+                dic['y0'] = None
+            try:
+                dic['distance'] = float(self.distanceLineEdit.text())
+            except ValueError:
+                dic['distance'] = None
+            dic['nbins'] = int(self.binsLineEdit.text())
+            dic['mask_file'] = self.table.maskFile
+            dic['dark_file'] = self.table.darkFile
+            dic['ec_file'] = self.table.emptyCellFile
+            dic['eb_file'] = self.table.emptyBeamFile
+            p = Path(fname)
+            if p.suffix != '.yaml':
+                fname = str(p.with_suffix('.yaml'))
+            with open(fname, 'w') as fid:
+                yaml.dump(dic, fid)
+
+    def loadConfig_clicked(self):
+        if self.table.directory:
+            basedir = self.table.directory
+        else:
+            basedir = os.path.expanduser("~")
+        fname, ext = qt.QFileDialog.getOpenFileName(self, 'Load treatment parameters', str(basedir),
+                                                    'YAML files (*.yaml);; all files (*.*)',
+                                                    options=qt.QFileDialog.DontUseNativeDialog)
+        if fname:
+            with open(fname, 'r') as fid:
+                params = yaml.safe_load(fid)
+            if params['x0'] is not None:
+                self.x0LineEdit.setText(str(params['x0']))
+            else:
+                self.x0LineEdit.setText('')
+            if params['y0'] is not None:
+                self.y0LineEdit.setText(str(params['y0']))
+            else:
+                self.y0LineEdit.setText('')
+            if params['distance'] is not None:
+                self.distanceLineEdit.setText(str(params['distance']))
+            else:
+                self.distanceLineEdit.setText('')
+            if params['nbins'] is not None:
+                self.binsLineEdit.setText(str(params['nbins']))
+            else:
+                self.binsLineEdit.setText('900')
+            # TODO : update standard files
 
 
 class FileSurvey(qt.QWidget):
@@ -1133,9 +1198,21 @@ class NexusTreatmentWidget(qt.QWidget):
         concatAction.triggered.connect(self._concat)
         convertAction = qt.QAction(getQIcon('nxs2text.ico'), 'convert to .txt')
         convertAction.triggered.connect(self._convert2txt)
+        getPathAction = qt.QAction(getQIcon('clipboard.ico'), 'copy file path')
+        getPathAction.triggered.connect(self._copyPath2clipboard)
         menu.addAction(concatAction)
         menu.addAction(convertAction)
+        menu.addAction(getPathAction)
         action = menu.exec_(self.mapToGlobal(event))
+
+    def _copyPath2clipboard(self):
+        items = self.tableWidget.selectedItems()
+        fileList = []
+        for item in items:
+            row = item.row()
+            fileList.append(os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text()))
+        if fileList:
+            qt.QApplication.clipboard().setText(fileList[0])
 
     def _concat(self, items):
         items = self.tableWidget.selectedItems()
