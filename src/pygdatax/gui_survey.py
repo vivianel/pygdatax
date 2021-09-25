@@ -90,7 +90,6 @@ def get_nxs_description(nxs_filepath):
 
 
 class EdfFileTable(qt.QTableWidget):
-    # TODO: edit set dark, .... in order to update the good icon (if it is already treated)
     directory = ''
     file_extension = '.edf'
     fileSelectedChanged = qt.pyqtSignal(str)
@@ -209,9 +208,11 @@ class EdfFileTable(qt.QTableWidget):
             # remove the previous empty cell icons
             if current_ec_item:
                 self.set_row_bkg(current_ec_item[0].row(), qt.QColor("white"))
-                current_ec_item[0].setIcon(qt.QIcon())
-                # elif os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
-                # self.item(i, 0).setIcon(getQIcon('check.ico'))
+                filepath = os.path.join(self.directory, current_ec_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_ec_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_ec_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
@@ -240,6 +241,10 @@ class EdfFileTable(qt.QTableWidget):
                 self.set_row_bkg(row, qt.QColor("white"))
                 first_col_item.setIcon(qt.QIcon())
                 fullfile = os.path.join(self.directory, file)
+                if os.path.exists(os.path.splitext(fullfile)[0] + '.nxs'):
+                    first_col_item.setIcon(getQIcon('check.ico'))
+                else:
+                    first_col_item.setIcon(qt.QIcon())
                 # remove double reference
                 if fullfile == self.emptyCellFile:
                     self.emptyCellFile = None
@@ -259,7 +264,11 @@ class EdfFileTable(qt.QTableWidget):
             # remove the previous empty cell icons
             if current_dark_item:
                 self.set_row_bkg(current_dark_item[0].row(), qt.QColor("white"))
-                current_dark_item[0].setIcon(qt.QIcon())
+                filepath = os.path.join(self.directory, current_dark_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_dark_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_dark_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
@@ -285,7 +294,11 @@ class EdfFileTable(qt.QTableWidget):
             # remove the previous empty cell icons
             if current_eb_item:
                 self.set_row_bkg(current_eb_item[0].row(), qt.QColor("white"))
-                current_eb_item[0].setIcon(qt.QIcon())
+                filepath = os.path.join(self.directory, current_eb_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_eb_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_eb_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
@@ -335,7 +348,11 @@ class EdfFileTable(qt.QTableWidget):
             # remove the previous empty cell icons
             if current_mask_item:
                 self.set_row_bkg(current_mask_item[0].row(), qt.QColor("white"))
-                current_mask_item[0].setIcon(qt.QIcon())
+                filepath = os.path.join(self.directory, current_mask_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_mask_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_mask_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
@@ -400,7 +417,11 @@ class EdfTreatmentWidget(qt.QWidget):
         self.binsLineEdit.setValidator(qt.QIntValidator())
         # load and save integration parameters
         self.saveConfigButton = qt.QPushButton('save')
+        self.saveConfigButton.setToolTip('Save treatment parameters\n'
+                                         'and the subtraction files')
         self.loadConfigButton = qt.QPushButton('load')
+        self.loadConfigButton.setToolTip('Save treatment parameters\n'
+                                         'and the subtraction files')
 
         # button to treat data
         self.treatButton = qt.QPushButton('treat selected')
@@ -558,7 +579,6 @@ class EdfTreatmentWidget(qt.QWidget):
                 self.binsLineEdit.setText(str(params['nbins']))
             else:
                 self.binsLineEdit.setText('900')
-            # TODO : update standard files
             if self.table.directory:
                 self.table.emptyCellFile = params['ec_file']
                 self.table.darkFile = params['dark_file']
