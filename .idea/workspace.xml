@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -164,13 +161,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00004" summary="- init packages">
-      <created>1627910595524</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1627910595524</updated>
     </task>
     <task id="LOCAL-00005" summary="- init packages">
       <created>1627942780758</created>
@@ -508,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632565319757</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="-add new version number">
+      <created>1632684410535</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1632684410536</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
