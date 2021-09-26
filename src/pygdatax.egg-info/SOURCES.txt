@@ -17,6 +17,7 @@ src/pygdatax.egg-info/top_level.txt
 src/pygdatax/resources/__init__.py
 src/pygdatax/resources/beam.ico
 src/pygdatax/resources/check.ico
+src/pygdatax/resources/clipboard.ico
 src/pygdatax/resources/concat.ico
 src/pygdatax/resources/cross.ico
 src/pygdatax/resources/dark.ico

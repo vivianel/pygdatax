@@ -15,11 +15,10 @@ from numpy.random import randint
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
-
-
+import yaml
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
-                   'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360',
+                   'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
                    'bkg_substraction(root, bkg=0)',
                    'concat(root, file=None)',
                    'cut(root, xmin=None, xmax=None)',
@@ -149,9 +148,9 @@ class EdfFileTable(qt.QTableWidget):
                 elif filepath == self.emptyBeamFile:
                     self.set_row_bkg(i, qt.QColor("red"))
                     self.item(i, 0).setIcon(getQIcon('beam.ico'))
-                elif filepath in self.trashFiles:
-                    self.set_row_bkg(i, qt.QColor("grey"))
-                    self.item(i, 0).setIcon(getQIcon('cross.ico'))
+                # elif filepath in self.trashFiles:
+                #     self.set_row_bkg(i, qt.QColor("grey"))
+                #     self.item(i, 0).setIcon(getQIcon('cross.ico'))
                 elif filepath == self.maskFile:
                     self.set_row_bkg(i, qt.QColor("white"))
                     self.item(i, 0).setIcon(getQIcon('mask.ico'))
@@ -166,7 +165,6 @@ class EdfFileTable(qt.QTableWidget):
         file = self.item(row, 0).text()
         self.fileSelectedChanged.emit(os.path.join(self.directory, file))
 
-
     def generateMenu(self, event):
         current_item = self.itemAt(event)
         # current_item = self.selectedItems()
@@ -178,8 +176,8 @@ class EdfFileTable(qt.QTableWidget):
         darkAction.triggered.connect(self._set_dark)
         emptyBeamAction = qt.QAction(getQIcon('beam.ico'), 'empty beam')
         emptyBeamAction.triggered.connect(self._set_empty_beam)
-        trashAction = qt.QAction(getQIcon('cross.ico'), 'trash')
-        trashAction.triggered.connect(self._set_trash)
+        # trashAction = qt.QAction(getQIcon('cross.ico'), 'trash')
+        # trashAction.triggered.connect(self._set_trash)
         sampleAction = qt.QAction('sample')
         sampleAction.triggered.connect(self._set_sample)
         maskAction = qt.QAction(getQIcon('mask.ico'), 'mask')
@@ -188,7 +186,7 @@ class EdfFileTable(qt.QTableWidget):
         menu.addAction(darkAction)
         menu.addAction(emptyCellAction)
         menu.addAction(emptyBeamAction)
-        menu.addAction(trashAction)
+        # menu.addAction(trashAction)
         menu.addAction(sampleAction)
         menu.addAction(maskAction)
         action = menu.exec_(self.mapToGlobal(event))
@@ -206,18 +204,21 @@ class EdfFileTable(qt.QTableWidget):
     def _set_empty_cell(self):
         current_item = self.currentItem()
         if current_item is not None:
+            current_ec_item = self.findItems(os.path.basename(str(self.emptyCellFile)), qt.Qt.MatchExactly)
+            # remove the previous empty cell icons
+            if current_ec_item:
+                self.set_row_bkg(current_ec_item[0].row(), qt.QColor("white"))
+                filepath = os.path.join(self.directory, current_ec_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_ec_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_ec_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             first_col_item.setIcon(getQIcon('empty_cell.ico'))
             self.set_row_bkg(row, qt.QColor("cyan"))
-
-            current_ec_item = self.findItems(os.path.basename(str(self.emptyCellFile)), qt.Qt.MatchExactly)
-            # remove the previous empty cell icons
-            if current_ec_item:
-                self.set_row_bkg(current_ec_item[0].row(), qt.QColor("white"))
-                current_ec_item[0].setIcon(qt.QIcon())
             fullfile = os.path.join(self.directory, file)
             self.emptyCellFile = fullfile
             # remove double reference
@@ -227,8 +228,8 @@ class EdfFileTable(qt.QTableWidget):
                 self.emptyBeamFile = None
             elif fullfile == self.maskFile:
                 self.maskFile = None
-            elif fullfile in self.trashFiles:
-                self.trashFiles.remove(fullfile)
+            else:
+                pass
 
     def _set_sample(self):
         for current_item in self.selectedItems():
@@ -240,6 +241,10 @@ class EdfFileTable(qt.QTableWidget):
                 self.set_row_bkg(row, qt.QColor("white"))
                 first_col_item.setIcon(qt.QIcon())
                 fullfile = os.path.join(self.directory, file)
+                if os.path.exists(os.path.splitext(fullfile)[0] + '.nxs'):
+                    first_col_item.setIcon(getQIcon('check.ico'))
+                else:
+                    first_col_item.setIcon(qt.QIcon())
                 # remove double reference
                 if fullfile == self.emptyCellFile:
                     self.emptyCellFile = None
@@ -249,23 +254,27 @@ class EdfFileTable(qt.QTableWidget):
                     self.emptyBeamFile = None
                 elif fullfile == self.maskFile:
                     self.maskFile = None
-                elif fullfile in self.trashFiles:
-                    self.trashFiles.remove(fullfile)
+                # elif fullfile in self.trashFiles:
+                #     self.trashFiles.remove(fullfile)
 
     def _set_dark(self, event):
         current_item = self.currentItem()
         if current_item is not None:
+            current_dark_item = self.findItems(os.path.basename(str(self.darkFile)), qt.Qt.MatchExactly)
+            # remove the previous empty cell icons
+            if current_dark_item:
+                self.set_row_bkg(current_dark_item[0].row(), qt.QColor("white"))
+                filepath = os.path.join(self.directory, current_dark_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_dark_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_dark_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             self.set_row_bkg(row, qt.QColor("blue"))
             first_col_item.setIcon(getQIcon('dark.ico'))
-            current_dark_item = self.findItems(os.path.basename(str(self.darkFile)), qt.Qt.MatchExactly)
-            # remove the previous empty cell icons
-            if current_dark_item:
-                self.set_row_bkg(current_dark_item[0].row(), qt.QColor("white"))
-                current_dark_item[0].setIcon(qt.QIcon())
             # remove double reference
             fullfile = os.path.join(self.directory, file)
             self.darkFile = fullfile
@@ -275,26 +284,27 @@ class EdfFileTable(qt.QTableWidget):
                 self.emptyBeamFile = None
             elif fullfile == self.maskFile:
                 self.maskFile = None
-            elif fullfile in self.trashFiles:
-                self.trashFiles.remove(fullfile)
             else:
                 pass
 
     def _set_empty_beam(self):
         current_item = self.currentItem()
         if current_item is not None:
+            current_eb_item = self.findItems(os.path.basename(str(self.emptyBeamFile)), qt.Qt.MatchExactly)
+            # remove the previous empty cell icons
+            if current_eb_item:
+                self.set_row_bkg(current_eb_item[0].row(), qt.QColor("white"))
+                filepath = os.path.join(self.directory, current_eb_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_eb_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_eb_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             self.set_row_bkg(row, qt.QColor("red"))
             first_col_item.setIcon(getQIcon('beam.ico'))
-
-            current_eb_item = self.findItems(os.path.basename(str(self.emptyBeamFile)), qt.Qt.MatchExactly)
-            # remove the previous empty cell icons
-            if current_eb_item:
-                self.set_row_bkg(current_eb_item[0].row(), qt.QColor("white"))
-                current_eb_item[0].setIcon(qt.QIcon())
             # remove double reference
             fullfile = os.path.join(self.directory, file)
             self.emptyBeamFile = fullfile
@@ -304,50 +314,51 @@ class EdfFileTable(qt.QTableWidget):
                 self.darkFile = None
             elif fullfile == self.maskFile:
                 self.maskFile = None
-            elif fullfile in self.trashFiles:
-                self.trashFiles.remove(fullfile)
             else:
                 pass
 
-    def _set_trash(self):
-        # can be applied to the overall selection
-        for current_item in self.selectedItems():
-            if current_item is not None:
-                row = current_item.row()
-                ncol = self.columnCount()
-                first_col_item = self.item(row, 0)
-                file = first_col_item.text()
-                self.set_row_bkg(row, qt.QColor("grey"))
-                first_col_item.setIcon(getQIcon('cross.ico'))
-                # remove double reference
-                fullfile = os.path.join(self.directory, file)
-                self.trashFiles.append(fullfile)
-                if fullfile == self.emptyCellFile:
-                    self.emptyCellFile = None
-                elif fullfile == self.darkFile:
-                    self.darkFile = None
-                elif fullfile == self.emptyBeamFile:
-                    self.emptyBeamFile = None
-                elif fullfile == self.maskFile:
-                    self.maskFile = None
-                else:
-                    pass
+    # def _set_trash(self):
+    #     # can be applied to the overall selection
+    #     for current_item in self.selectedItems():
+    #         if current_item is not None:
+    #             row = current_item.row()
+    #             ncol = self.columnCount()
+    #             first_col_item = self.item(row, 0)
+    #             file = first_col_item.text()
+    #             self.set_row_bkg(row, qt.QColor("grey"))
+    #             first_col_item.setIcon(getQIcon('cross.ico'))
+    #             # remove double reference
+    #             fullfile = os.path.join(self.directory, file)
+    #             self.trashFiles.append(fullfile)
+    #             if fullfile == self.emptyCellFile:
+    #                 self.emptyCellFile = None
+    #             elif fullfile == self.darkFile:
+    #                 self.darkFile = None
+    #             elif fullfile == self.emptyBeamFile:
+    #                 self.emptyBeamFile = None
+    #             elif fullfile == self.maskFile:
+    #                 self.maskFile = None
+    #             else:
+    #                 pass
 
     def _set_mask(self):
         current_item = self.currentItem()
         if current_item is not None:
+            current_mask_item = self.findItems(os.path.basename(str(self.maskFile)), qt.Qt.MatchExactly)
+            # remove the previous empty cell icons
+            if current_mask_item:
+                self.set_row_bkg(current_mask_item[0].row(), qt.QColor("white"))
+                filepath = os.path.join(self.directory, current_mask_item[0].text())
+                if os.path.exists(os.path.splitext(filepath)[0] + '.nxs'):
+                    current_mask_item[0].setIcon(getQIcon('check.ico'))
+                else:
+                    current_mask_item[0].setIcon(qt.QIcon())
             row = current_item.row()
             ncol = self.columnCount()
             first_col_item = self.item(row, 0)
             file = first_col_item.text()
             first_col_item.setIcon(getQIcon('mask.ico'))
             # self.set_row_bkg(row, qt.QColor("cyan"))
-
-            current_mask_item = self.findItems(os.path.basename(str(self.maskFile)), qt.Qt.MatchExactly)
-            # remove the previous empty cell icons
-            if current_mask_item:
-                self.set_row_bkg(current_mask_item[0].row(), qt.QColor("white"))
-                current_mask_item[0].setIcon(qt.QIcon())
 
             fullfile = os.path.join(self.directory, file)
             self.maskFile = fullfile
@@ -358,20 +369,24 @@ class EdfFileTable(qt.QTableWidget):
                 self.emptyBeamFile = None
             elif fullfile == self.emptyCellFile:
                 self.maskFile = None
-            elif fullfile in self.trashFiles:
-                self.trashFiles.remove(fullfile)
+            else:
+                pass
 
     def get_sample_files(self):
         sampleList = []
         thicknessList = []
-        for i in range(self.rowCount()):
-            file = os.path.join(self.directory, self.item(i, 0).text())
-            referenceList = [self.darkFile, self.emptyCellFile, self.emptyBeamFile, self.maskFile]
-            referenceList += self.trashFiles
-            if file not in referenceList:
-                sampleList.append(file)
+        for current_item in self.selectedItems():
+            row = current_item.row()
+            ncol = self.columnCount()
+            first_col_item = self.item(row, 0)
+            file = first_col_item.text()
+            # remove double reference
+            fullfile = os.path.join(self.directory, file)
+            self.trashFiles.append(fullfile)
+            if fullfile not in [self.emptyCellFile, self.darkFile, self.emptyBeamFile]:
+                sampleList.append(fullfile)
                 try:
-                    thicknessList.append(float(self.item(i, 2).text()))
+                    thicknessList.append(float(self.item(row, 2).text()))
                 except ValueError:
                     thicknessList.append(1.5)
         return sampleList, thicknessList
@@ -400,15 +415,33 @@ class EdfTreatmentWidget(qt.QWidget):
         # define the number of bins for azimutal averaging
         self.binsLineEdit = qt.QLineEdit('900')
         self.binsLineEdit.setValidator(qt.QIntValidator())
+        # load and save integration parameters
+        self.saveConfigButton = qt.QPushButton('save')
+        self.saveConfigButton.setToolTip('Save treatment parameters\n'
+                                         'and the subtraction files')
+        self.loadConfigButton = qt.QPushButton('load')
+        self.loadConfigButton.setToolTip('Save treatment parameters\n'
+                                         'and the subtraction files')
+
         # button to treat data
-        self.treatButton = qt.QPushButton('treat now')
+        self.treatButton = qt.QPushButton('treat selected')
         self.treatButton.setIcon(getQIcon('gear.ico'))
+        self.treatButton.setToolTip('Perform azimutal integration and \n '
+                                    'data substraction\n'
+                                    'on selected files')
         # parameter form layout
         formLayout = qt.QFormLayout()
         formLayout.addRow('x0 (pixels):', self.x0LineEdit)
         formLayout.addRow('y0 (pixels):', self.y0LineEdit)
         formLayout.addRow('distance (mm):', self.distanceLineEdit)
         formLayout.addRow('bins :', self.binsLineEdit)
+        # parameter total layout
+        paramLayout = qt.QHBoxLayout()
+        configLayout= qt.QVBoxLayout()
+        configLayout.addWidget(self.loadConfigButton)
+        configLayout.addWidget(self.saveConfigButton)
+        paramLayout.addLayout(formLayout)
+        paramLayout.addLayout(configLayout)
         # general layout
         hlayout = qt.QHBoxLayout()
         # hlayout.addWidget(qt.QLabel('directory :'))
@@ -416,7 +449,7 @@ class EdfTreatmentWidget(qt.QWidget):
         # hlayout.addWidget(self.directoryPickerButton)
         # hlayout.addWidget(self.refreshButton)
         vlayout = qt.QVBoxLayout()
-        vlayout.addLayout(formLayout)
+        vlayout.addLayout(paramLayout)
         vlayout.addLayout(hlayout)
         vlayout.addWidget(self.table)
         vlayout.addWidget(self.treatButton)
@@ -428,6 +461,8 @@ class EdfTreatmentWidget(qt.QWidget):
         # we unconnect the treatbutton here because of interactions with treeview
         # self.treatButton.clicked.connect(self.treat)
         self.table.fileSelectedChanged.connect(self.on_file_selected)
+        self.saveConfigButton.clicked.connect(self.saveConfig_clicked)
+        self.loadConfigButton.clicked.connect(self.loadConfig_clicked)
 
     def on_file_selected(self, file):
         self.edfSelectionChanged.emit(file)
@@ -485,7 +520,73 @@ class EdfTreatmentWidget(qt.QWidget):
                 print(('%s was ignored during the treatment') % (sample))
         self.table.refresh()
 
-# TODO : save configuration in table
+    def saveConfig_clicked(self):
+        dic = {}
+        if self.table.directory:
+            basedir = self.table.directory
+        else:
+            basedir = os.path.expanduser("~")
+        fname, ext = qt.QFileDialog.getSaveFileName(self, 'Save treatment parameters', str(basedir),'YAML files (*.yaml);; all files (*.*)',
+                                                      options=qt.QFileDialog.DontUseNativeDialog)
+        if fname:
+            try:
+                dic['x0'] = float(self.x0LineEdit.text())
+            except ValueError:
+                dic['x0'] = None
+            try:
+                dic['y0'] = float(self.y0LineEdit.text())
+            except ValueError:
+                dic['y0'] = None
+            try:
+                dic['distance'] = float(self.distanceLineEdit.text())
+            except ValueError:
+                dic['distance'] = None
+            dic['nbins'] = int(self.binsLineEdit.text())
+            dic['mask_file'] = self.table.maskFile
+            dic['dark_file'] = self.table.darkFile
+            dic['ec_file'] = self.table.emptyCellFile
+            dic['eb_file'] = self.table.emptyBeamFile
+            p = Path(fname)
+            if p.suffix != '.yaml':
+                fname = str(p.with_suffix('.yaml'))
+            with open(fname, 'w') as fid:
+                yaml.dump(dic, fid)
+
+    def loadConfig_clicked(self):
+        if self.table.directory:
+            basedir = self.table.directory
+        else:
+            basedir = os.path.expanduser("~")
+        fname, ext = qt.QFileDialog.getOpenFileName(self, 'Load treatment parameters', str(basedir),
+                                                    'YAML files (*.yaml);; all files (*.*)',
+                                                    options=qt.QFileDialog.DontUseNativeDialog)
+        if fname:
+            with open(fname, 'r') as fid:
+                params = yaml.safe_load(fid)
+            if params['x0'] is not None:
+                self.x0LineEdit.setText(str(params['x0']))
+            else:
+                self.x0LineEdit.setText('')
+            if params['y0'] is not None:
+                self.y0LineEdit.setText(str(params['y0']))
+            else:
+                self.y0LineEdit.setText('')
+            if params['distance'] is not None:
+                self.distanceLineEdit.setText(str(params['distance']))
+            else:
+                self.distanceLineEdit.setText('')
+            if params['nbins'] is not None:
+                self.binsLineEdit.setText(str(params['nbins']))
+            else:
+                self.binsLineEdit.setText('900')
+            if self.table.directory:
+                self.table.emptyCellFile = params['ec_file']
+                self.table.darkFile = params['dark_file']
+                self.table.emptyBeamFile = params['eb_file']
+                self.table.maskFile = params['mask_file']
+                self.table.refresh()
+
+
 
 
 class FileSurvey(qt.QWidget):
@@ -495,8 +596,10 @@ class FileSurvey(qt.QWidget):
         self.directoryLineEdit = qt.QLineEdit(parent=self)
         self.directoryPickerButton = qt.QPushButton()
         self.directoryPickerButton.setIcon(getQIcon('directory.ico'))
+        self.directoryPickerButton.setToolTip('open data directory')
         self.refreshButton = qt.QPushButton()
         self.refreshButton.setIcon(getQIcon('refresh.ico'))
+        self.refreshButton.setToolTip('refresh directory')
 
         self.tabWidget = qt.QTabWidget()
         self.edfTab = EdfTreatmentWidget()
@@ -537,7 +640,7 @@ class FileSurvey(qt.QWidget):
     def choose_directory(self):
         basedir = os.path.expanduser("~")
         fname = qt.QFileDialog.getExistingDirectory(self, 'Select data directory', basedir,
-                                                    options=qt.QFileDialog.DontUseNativeDialog|qt.QFileDialog.ShowDirsOnly)
+                                                    options=qt.QFileDialog.DontUseNativeDialog)
         if fname:
             self.directoryLineEdit.setText(fname)
             # self.edfTab.table.setDirectory(fname)
@@ -1123,9 +1226,21 @@ class NexusTreatmentWidget(qt.QWidget):
         concatAction.triggered.connect(self._concat)
         convertAction = qt.QAction(getQIcon('nxs2text.ico'), 'convert to .txt')
         convertAction.triggered.connect(self._convert2txt)
+        getPathAction = qt.QAction(getQIcon('clipboard.ico'), 'copy file path')
+        getPathAction.triggered.connect(self._copyPath2clipboard)
         menu.addAction(concatAction)
         menu.addAction(convertAction)
+        menu.addAction(getPathAction)
         action = menu.exec_(self.mapToGlobal(event))
+
+    def _copyPath2clipboard(self):
+        items = self.tableWidget.selectedItems()
+        fileList = []
+        for item in items:
+            row = item.row()
+            fileList.append(os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text()))
+        if fileList:
+            qt.QApplication.clipboard().setText(fileList[0])
 
     def _concat(self, items):
         items = self.tableWidget.selectedItems()
@@ -1234,7 +1349,7 @@ class CodeEditor(qt.QLineEdit):
         # self.highlighter = PythonHighlighter(self.document())
         completer = qt.QCompleter(COMPLETER_NAMES)
         self.setCompleter(completer)
-        self.setFixedHeight(30)
+        # self.setFixedHeight(30)
         self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.generateMenu)
 
