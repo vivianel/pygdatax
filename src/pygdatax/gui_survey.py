@@ -583,6 +583,7 @@ class EdfTreatmentWidget(qt.QWidget):
             else:
                 self.binsLineEdit.setText('900')
             if self.table.directory:
+                # TODO : Check file existance and location
                 self.table.emptyCellFile = params['ec_file']
                 self.table.darkFile = params['dark_file']
                 self.table.emptyBeamFile = params['eb_file']
