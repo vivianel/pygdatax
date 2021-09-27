@@ -162,13 +162,6 @@
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
     </task>
-    <task id="LOCAL-00005" summary="- init packages">
-      <created>1627942780758</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1627942780758</updated>
-    </task>
     <task id="LOCAL-00006" summary="- add icons modules">
       <created>1627942928969</created>
       <option name="number" value="00006" />
@@ -505,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632684410536</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar">
+      <created>1632693098932</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1632693098932</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -533,7 +533,8 @@
     <MESSAGE value="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height" />
     <MESSAGE value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
     <MESSAGE value="-add new version number" />
-    <option name="LAST_COMMIT_MESSAGE" value="-add new version number" />
+    <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

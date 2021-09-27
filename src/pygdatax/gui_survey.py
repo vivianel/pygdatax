@@ -8,12 +8,13 @@ import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
 from silx .gui.plot.tools.roi import RegionOfInterestManager
-from silx.gui.plot.items.roi import RectangleROI
+from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
 from silx.io.utils import is_group, is_dataset, is_file
 from silx.io.nxdata import is_NXroot_with_default_NXdata, get_default
 import nexusformat.nexus as nx
 from numpy.random import randint
+from scipy.ndimage.measurements import center_of_mass
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
@@ -693,10 +694,6 @@ class SaxsUtily(qt.QMainWindow):
         # self.nxsFileTable = NexusFileTable()
 
         # plot widget
-        """Widget displaying information"""
-        posInfo = [('X', lambda x, y: x),
-                   ('Y', lambda x, y: y),
-                   ('Data', self._zValue)]
         self.plotWindow = DataView()
         # treatment dock widget
         self.treatmentDock = qt.QDockWidget('treatment', self)
@@ -1383,6 +1380,11 @@ class DataView(PlotWindow):
         action = self.roiManager.getInteractionModeAction(RectangleROI)
         toolbar = qt.QToolBar('')
         toolbar.addAction(action)
+        findCenterAction = qt.QAction(self)
+        findCenterAction.setIcon(getQIcon('target.ico'))
+        findCenterAction.setToolTip('find beam on the current ROI')
+        findCenterAction.triggered.connect(self.findCenter)
+        toolbar.addAction(findCenterAction)
         self.addToolBar(toolbar)
         legendWidget = self.getLegendsDockWidget()
         # self.plotWindow.setDockOptions()
@@ -1407,8 +1409,9 @@ class DataView(PlotWindow):
         #     roi.setLineStyle('--')
         # if isinstance(roi, SymbolMixIn):
         #     roi.setSymbolSize(5)
-        roi.setSelectable(True)
-        roi.setEditable(True)
+        if isinstance(roi, RectangleROI):
+            roi.setSelectable(True)
+            roi.setEditable(True)
 
     def _zValue(self, x, y):
         value = '-'
@@ -1426,6 +1429,34 @@ class DataView(PlotWindow):
                         value = data[row, col]
                         valueZ = image.getZValue()
         return value
+
+    def findCenter(self):
+        roisList = self.roiManager.getRois()
+        if roisList:
+            if isinstance(roisList[0],RectangleROI):
+                point = roisList[0].getOrigin()
+                size = roisList[0].getSize()
+                for image in self.getAllImages():
+                    data = image.getData(copy=False)
+                    center = center_of_mass(data[int(point[1]):int(point[1])+int(size[1]),int(point[0]):int(point[0])+int(size[0])])
+                    roiCenter = CrossROI()
+                    absoluteCenter = [center[1]+int(point[0]), center[0]+int(point[1])]
+                    roiCenter.setPosition(absoluteCenter)
+                    label = 'beam center\n x0 : %.3f y0: %.3f' % (absoluteCenter[0], absoluteCenter[1])
+                    roiCenter.setName(label)
+                    self.roiManager.addRoi(roiCenter)
+
+            #
+            # if image.getZValue() >= valueZ:  # This image is over the previous one
+            #     ox, oy = image.getOrigin()
+            #     sx, sy = image.getScale()
+            #     row, col = (y - oy) / sy, (x - ox) / sx
+            #     if row >= 0 and col >= 0:
+            #         # Test positive before cast otherwise issue with int(-0.5) = 0
+            #         row, col = int(row), int(col)
+            #         if row < data.shape[0] and col < data.shape[1]:
+            #             value = data[row, col]
+            #             valueZ = image.getZValue()
 
 
 def main():
