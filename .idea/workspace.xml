@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pygdatax_screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/pygdatax_screenshot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" afterDir="false" />
-    </list>
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -165,13 +158,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00007" summary="- fixed icons problems">
-      <created>1627944033117</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1627944033117</updated>
     </task>
     <task id="LOCAL-00008" summary="- fixed icons problems">
       <created>1627944998270</created>
@@ -509,11 +495,28 @@
       <option name="project" value="LOCAL" />
       <updated>1632742291319</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="- update screenshot">
+      <created>1632744396941</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1632744396941</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- init packages" />
     <MESSAGE value="- add icons modules" />
     <MESSAGE value="- fixed icons problems" />
     <MESSAGE value="- remove print functions" />
@@ -538,7 +541,8 @@
     <MESSAGE value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
     <MESSAGE value="-add new version number" />
     <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
+    <MESSAGE value="- update screenshot" />
+    <option name="LAST_COMMIT_MESSAGE" value="- update screenshot" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
