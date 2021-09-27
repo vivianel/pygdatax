@@ -7,11 +7,14 @@ import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
+from silx .gui.plot.tools.roi import RegionOfInterestManager
+from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
 from silx.io.utils import is_group, is_dataset, is_file
 from silx.io.nxdata import is_NXroot_with_default_NXdata, get_default
 import nexusformat.nexus as nx
 from numpy.random import randint
+from scipy.ndimage.measurements import center_of_mass
 from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
@@ -691,27 +694,7 @@ class SaxsUtily(qt.QMainWindow):
         # self.nxsFileTable = NexusFileTable()
 
         # plot widget
-        """Widget displaying information"""
-        posInfo = [('X', lambda x, y: x),
-                   ('Y', lambda x, y: y),
-                   ('Data', self._zValue)]
-        self.__plotWindow = PlotWindow(backend=None, resetzoom=True,
-                                       autoScale=True, logScale=True,
-                                       grid=True, curveStyle=True, colormap=True,
-                                       aspectRatio=True, yInverted=True,
-                                       copy=True, save=True, print_=True,
-                                       control=True, position=posInfo,
-                                       roi=False, mask=True, fit=True)
-        legendWidget = self.__plotWindow.getLegendsDockWidget()
-        # self.__plotWindow.setDockOptions()
-        legendWidget.setAllowedAreas(qt.Qt.TopDockWidgetArea)
-        self.profileTools = Profile.ProfileToolBar(parent=self.__plotWindow,
-                                                   plot=self.__plotWindow)
-        self.__plotWindow.addToolBar(self.profileTools)
-        self.__plotWindow.setDefaultColormap(colors.Colormap(name='jet', normalization='log',
-                                                             vmin=None, vmax=None, autoscaleMode='stddev3')
-                                             )
-
+        self.plotWindow = DataView()
         # treatment dock widget
         self.treatmentDock = qt.QDockWidget('treatment', self)
         # self.treatmentDock.setStyleSheet("border: 5px solid black")
@@ -721,8 +704,8 @@ class SaxsUtily(qt.QMainWindow):
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
         # replace the addTabbedwidget metho of the plot window
-        self.__plotWindow._dockWidgets.append(self.treatmentDock)
-        self.__plotWindow.addDockWidget(qt.Qt.BottomDockWidgetArea,self.treatmentDock)
+        self.plotWindow._dockWidgets.append(self.treatmentDock)
+        self.plotWindow.addDockWidget(qt.Qt.BottomDockWidgetArea,self.treatmentDock)
         # self.treatmentDock.setAllowedAreas(qt.Qt.BottomDockWidgetArea)
         # self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
@@ -731,7 +714,7 @@ class SaxsUtily(qt.QMainWindow):
         # directory picker layout
         spliter = qt.QSplitter(qt.Qt.Horizontal)
         spliter.addWidget(self.fileSurvey)
-        spliter.addWidget(self.__plotWindow)
+        spliter.addWidget(self.plotWindow)
         spliter.setStretchFactor(1, 1)
         main_panel = qt.QWidget(self)
         layout = qt.QVBoxLayout()
@@ -749,6 +732,21 @@ class SaxsUtily(qt.QMainWindow):
         self.editor.runClicked.connect(self.run_function)
         self.fileSurvey.nxsTab.treeWidget.selectedNodeChanged.connect(self.displayNxTree)
 
+    def updateAddedRegionOfInterest(self, roi):
+        """Called for each added region of interest: set the name"""
+        roisList = self.roiManager.getRois()
+        if len(roisList)>1:
+            self.roiManager.removeRoi(roisList[0])
+        roisList = self.roiManager.getRois()
+        if roi.getName() == '':
+            roi.setName('ROI %d' % len(self.roiManager.getRois()))
+        # if isinstance(roi, LineMixIn):
+        #     roi.setLineWidth(1)
+        #     roi.setLineStyle('--')
+        # if isinstance(roi, SymbolMixIn):
+        #     roi.setSymbolSize(5)
+        roi.setSelectable(True)
+        roi.setEditable(True)
 
     def run_functionTest(self, cmdList):
         selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
@@ -808,13 +806,11 @@ class SaxsUtily(qt.QMainWindow):
         for file in selectedFiles:
             for script in cmdList:
                 cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
-                print(cmd)
-                eval(cmd)
-                # try:
-                #     eval(cmd)
-                #     print(cmd)
-                # except:
-                #     print('command'+cmd+'not performed on:' + file)
+                try:
+                    eval(cmd)
+                    print(cmd)
+                except:
+                    print('command'+cmd+'not performed on:' + file)
             # model.insertFile(file)
         self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
         self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
@@ -823,24 +819,24 @@ class SaxsUtily(qt.QMainWindow):
         """
         Called to update the dataviewer with the selected data.
         """
-        self.__plotWindow.clear()
-        self.__plotWindow.setKeepDataAspectRatio(True)
-        self.__plotWindow.setXAxisLogarithmic(False)
-        self.__plotWindow.setYAxisLogarithmic(False)
+        self.plotWindow.clear()
+        self.plotWindow.setKeepDataAspectRatio(True)
+        self.plotWindow.setXAxisLogarithmic(False)
+        self.plotWindow.setYAxisLogarithmic(False)
         if file.endswith('.edf'):
             dataObj = fabio.open(file)
             data = dataObj.data
-            self.__plotWindow.clear()
+            self.plotWindow.clear()
             if 'Comments' in dataObj.header:
                 legend = dataObj.header['Comments']
             else:
                 legend = dataObj.filename
-            self.__plotWindow.addImage(data, replace=True,
+            self.plotWindow.addImage(data, replace=True,
                                        legend=legend, xlabel='x [pixel]',
                                        ylabel='y [pixel]')
 
     def displayNxs(self, files):
-        self.__plotWindow.clear()
+        self.plotWindow.clear()
         c = ['blue', 'red', 'green', 'black', 'yellow', 'grey', 'magenta', 'cyan',
              'darkGreen', 'darkBrown', 'darkCyan', 'darkYellow', 'darkMagenta']
 
@@ -865,7 +861,7 @@ class SaxsUtily(qt.QMainWindow):
                         col = colors.COLORDICT[c[i]]
                     except IndexError:
                         col = c[randint(len(c))]
-                    self.__plotWindow.addCurve(nxd.axes[0], nxd.signal,
+                    self.plotWindow.addCurve(nxd.axes[0], nxd.signal,
                                                yerror=nxd.errors,
                                                legend=legend,
                                                replace=False,
@@ -873,21 +869,21 @@ class SaxsUtily(qt.QMainWindow):
                                                xlabel=xlabel,
                                                ylabel=ylabel,
                                                resetzoom=True)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
-                    self.__plotWindow.setKeepDataAspectRatio(False)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setKeepDataAspectRatio(False)
                 elif nxd.is_image:
                     if nxd.axes_names == [None, None]:
                         origin = (0., 0.)
                         scale = (1., 1.)
                         xlabel = 'x [pixel]'
                         ylabel = 'y [pixel]'
-                        self.__plotWindow.setKeepDataAspectRatio(True)
-                        self.__plotWindow.setXAxisLogarithmic(False)
-                        self.__plotWindow.setYAxisLogarithmic(False)
+                        self.plotWindow.setKeepDataAspectRatio(True)
+                        self.plotWindow.setXAxisLogarithmic(False)
+                        self.plotWindow.setYAxisLogarithmic(False)
                     else:
-                        aspect_button = self.__plotWindow.getKeepDataAspectRatioButton()
-                        self.__plotWindow.setKeepDataAspectRatio(False)
+                        aspect_button = self.plotWindow.getKeepDataAspectRatioButton()
+                        self.plotWindow.setKeepDataAspectRatio(False)
                         origin = (nxd.axes[1][0], nxd.axes[0][1])
                         scale_x = np.abs(nxd.axes[1][0] - nxd.axes[1][-1]) / len(nxd.axes[1])
                         scale_y = np.abs(nxd.axes[0][0] - nxd.axes[0][-1]) / len(nxd.axes[0])
@@ -899,18 +895,18 @@ class SaxsUtily(qt.QMainWindow):
                         if 'units' in nxd.axes[0].attrs:
                             ylabel += ' [' + nxd.axes[0].attrs['units'] + ']'
 
-                    self.__plotWindow.addImage(nxd.signal, replace=True,
+                    self.plotWindow.addImage(nxd.signal, replace=True,
                                                legend=legend, xlabel='x',
                                                ylabel='y',
                                                origin=origin,
                                                scale=scale)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
                 else:
                     return
 
     def displayNxTree(self, nodes):
-        self.__plotWindow.clear()
+        self.plotWindow.clear()
         c = ['blue', 'red', 'green', 'black', 'yellow', 'grey', 'magenta', 'cyan',
              'darkGreen', 'darkBrown', 'darkCyan', 'darkYellow', 'darkMagenta']
 
@@ -929,7 +925,7 @@ class SaxsUtily(qt.QMainWindow):
                         xlabel += ' [' + nxd.axes[0].attrs['units'] + ']'
                     if 'units' in nxd.signal.attrs:
                         ylabel += ' [' + nxd.signal.attrs['units'] + ']'
-                    self.__plotWindow.addCurve(nxd.axes[0], nxd.signal,
+                    self.plotWindow.addCurve(nxd.axes[0], nxd.signal,
                                                yerror=nxd.errors,
                                                legend=legend,
                                                replace=False,
@@ -937,21 +933,21 @@ class SaxsUtily(qt.QMainWindow):
                                                xlabel=xlabel,
                                                ylabel=ylabel,
                                                resetzoom=True)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
-                    self.__plotWindow.setKeepDataAspectRatio(False)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setKeepDataAspectRatio(False)
                 elif nxd.is_image:
                     if nxd.axes_names == [None, None]:
                         origin = (0., 0.)
                         scale = (1., 1.)
                         xlabel = 'x [pixel]'
                         ylabel = 'y [pixel]'
-                        self.__plotWindow.setKeepDataAspectRatio(True)
-                        self.__plotWindow.setXAxisLogarithmic(False)
-                        self.__plotWindow.setYAxisLogarithmic(False)
+                        self.plotWindow.setKeepDataAspectRatio(True)
+                        self.plotWindow.setXAxisLogarithmic(False)
+                        self.plotWindow.setYAxisLogarithmic(False)
                     else:
-                        aspect_button = self.__plotWindow.getKeepDataAspectRatioButton()
-                        self.__plotWindow.setKeepDataAspectRatio(False)
+                        aspect_button = self.plotWindow.getKeepDataAspectRatioButton()
+                        self.plotWindow.setKeepDataAspectRatio(False)
                         origin = (nxd.axes[1][0], nxd.axes[0][1])
                         scale_x = np.abs(nxd.axes[1][0] - nxd.axes[1][-1]) / len(nxd.axes[1])
                         scale_y = np.abs(nxd.axes[0][0] - nxd.axes[0][-1]) / len(nxd.axes[0])
@@ -963,13 +959,13 @@ class SaxsUtily(qt.QMainWindow):
                         if 'units' in nxd.axes[0].attrs:
                             ylabel += ' [' + nxd.axes[0].attrs['units'] + ']'
 
-                    self.__plotWindow.addImage(nxd.signal, replace=True,
+                    self.plotWindow.addImage(nxd.signal, replace=True,
                                                legend=legend, xlabel='x',
                                                ylabel='y',
                                                origin=origin,
                                                scale=scale)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
                 else:
                     return
             elif is_dataset(s.h5py_object):
@@ -979,49 +975,32 @@ class SaxsUtily(qt.QMainWindow):
                     scale = (1., 1.)
                     xlabel = 'x [pixel]'
                     ylabel = 'y [pixel]'
-                    self.__plotWindow.setKeepDataAspectRatio(True)
-                    self.__plotWindow.addImage(s.h5py_object, replace=True,
+                    self.plotWindow.setKeepDataAspectRatio(True)
+                    self.plotWindow.addImage(s.h5py_object, replace=True,
                                                legend=legend, xlabel='x',
                                                ylabel='y',
                                                origin=origin,
                                                scale=scale)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
                 elif len(s.h5py_object.shape) == 1:
                     xlabel = 'index'
                     ylabel = s.h5py_object.name
                     if 'units' in s.h5py_object.attrs:
                         ylabel += ' [' + str(s.h5py_object.attrs['units']) + ']'
                     x = np.arange(len(s.h5py_object)) + 1
-                    self.__plotWindow.addCurve(x, s.h5py_object,
-                                               legend=legend,
-                                               replace=False,
-                                               color=colors.COLORDICT[c[i]],
-                                               xlabel=xlabel,
-                                               ylabel=ylabel,
-                                               resetzoom=True)
-                    self.__plotWindow.setGraphXLabel(xlabel)
-                    self.__plotWindow.setGraphYLabel(ylabel)
-                    self.__plotWindow.setKeepDataAspectRatio(False)
+                    self.plotWindow.addCurve(x, s.h5py_object,
+                                             legend=legend,
+                                             replace=False,
+                                             color=colors.COLORDICT[c[i]],
+                                             xlabel=xlabel,
+                                             ylabel=ylabel,
+                                             resetzoom=True)
+                    self.plotWindow.setGraphXLabel(xlabel)
+                    self.plotWindow.setGraphYLabel(ylabel)
+                    self.plotWindow.setKeepDataAspectRatio(False)
                 else:
                     return
-
-    def _zValue(self, x, y):
-        value = '-'
-        valueZ = - float('inf')
-        for image in self.__plotWindow.getAllImages():
-            data = image.getData(copy=False)
-            if image.getZValue() >= valueZ:  # This image is over the previous one
-                ox, oy = image.getOrigin()
-                sx, sy = image.getScale()
-                row, col = (y - oy) / sy, (x - ox) / sx
-                if row >= 0 and col >= 0:
-                    # Test positive before cast otherwise issue with int(-0.5) = 0
-                    row, col = int(row), int(col)
-                    if row < data.shape[0] and col < data.shape[1]:
-                        value = data[row, col]
-                        valueZ = image.getZValue()
-        return value
 
 
 class NexusFileTable(qt.QTableWidget):
@@ -1363,25 +1342,126 @@ class CodeEditor(qt.QLineEdit):
         action = self.sender()
         self.setText(action.text())
 
-class RunningTreatmentDialog(qt.QDialog):
+
+class DataView(PlotWindow):
 
     def __init__(self):
-        super(RunningTreatmentDialog, self).__init__()
-        self.setWindowTitle('SAXS treatement running')
-        self.bar = qt.QProgressBar(self)
-        self.bar.setValue(0)
-        layout = qt.QHBoxLayout()
-        layout.addWidget(qt.QLabel('Performing SAXS data treatment'))
-        layout.addWidget(self.bar)
-        layout.addStretch()
-        self.setLayout(layout)
+        super().__init__(backend=None, resetzoom=True,
+                         autoScale=True, logScale=True,
+                         grid=False, curveStyle=True, colormap=True,
+                         aspectRatio=True, yInverted=True,
+                         copy=True, save=True, print_=True,
+                         control=True, position= [('X', lambda x, y: x),
+                                                  ('Y', lambda x, y: y),
+                                                  ('Data', self._zValue)],
+                         roi=False, mask=True, fit=True)
+        # """Widget displaying information"""
+        # posInfo = [('X', lambda x, y: x),
+        #            ('Y', lambda x, y: y),
+        #            ('Data', self._zValue)]
+        # plot widget
+        """Widget displaying information"""
+        posInfo = [('X', lambda x, y: x),
+                   ('Y', lambda x, y: y),
+                   ('Data', self._zValue)]
+        self.plotWindow = PlotWindow(backend=None, resetzoom=True,
+                                     autoScale=True, logScale=True,
+                                     grid=False, curveStyle=True, colormap=True,
+                                     aspectRatio=True, yInverted=True,
+                                     copy=True, save=True, print_=True,
+                                     control=True, position=posInfo,
+                                     roi=False, mask=True, fit=True)
+        self.roiManager = RegionOfInterestManager(self)
+        self.roiManager.setColor('pink')
+        self.roiManager.sigRoiAdded.connect(self.updateAddedRegionOfInterest)
+        self.addToolBarBreak()
+        action = self.roiManager.getInteractionModeAction(RectangleROI)
+        toolbar = qt.QToolBar('')
+        toolbar.addAction(action)
+        findCenterAction = qt.QAction(self)
+        findCenterAction.setIcon(getQIcon('target.ico'))
+        findCenterAction.setToolTip('find beam on the current ROI')
+        findCenterAction.triggered.connect(self.findCenter)
+        toolbar.addAction(findCenterAction)
+        self.addToolBar(toolbar)
+        legendWidget = self.getLegendsDockWidget()
+        # self.plotWindow.setDockOptions()
+        legendWidget.setAllowedAreas(qt.Qt.TopDockWidgetArea)
+        self.profileTools = Profile.ProfileToolBar(parent=self,
+                                                   plot=self)
+        self.addToolBar(self.profileTools)
+        self.setDefaultColormap(colors.Colormap(name='jet', normalization='log',
+                                                vmin=None, vmax=None, autoscaleMode='stddev3')
+                                )
 
+    def updateAddedRegionOfInterest(self, roi):
+        """Called for each added region of interest: set the name"""
+        roisList = self.roiManager.getRois()
+        if len(roisList)>1:
+            self.roiManager.removeRoi(roisList[0])
+        roisList = self.roiManager.getRois()
+        if roi.getName() == '':
+            roi.setName('ROI %d' % len(self.roiManager.getRois()))
+        # if isinstance(roi, LineMixIn):
+        #     roi.setLineWidth(1)
+        #     roi.setLineStyle('--')
+        # if isinstance(roi, SymbolMixIn):
+        #     roi.setSymbolSize(5)
+        if isinstance(roi, RectangleROI):
+            roi.setSelectable(True)
+            roi.setEditable(True)
+
+    def _zValue(self, x, y):
+        value = '-'
+        valueZ = - float('inf')
+        for image in self.getAllImages():
+            data = image.getData(copy=False)
+            if image.getZValue() >= valueZ:  # This image is over the previous one
+                ox, oy = image.getOrigin()
+                sx, sy = image.getScale()
+                row, col = (y - oy) / sy, (x - ox) / sx
+                if row >= 0 and col >= 0:
+                    # Test positive before cast otherwise issue with int(-0.5) = 0
+                    row, col = int(row), int(col)
+                    if row < data.shape[0] and col < data.shape[1]:
+                        value = data[row, col]
+                        valueZ = image.getZValue()
+        return value
+
+    def findCenter(self):
+        roisList = self.roiManager.getRois()
+        if roisList:
+            if isinstance(roisList[0],RectangleROI):
+                point = roisList[0].getOrigin()
+                size = roisList[0].getSize()
+                for image in self.getAllImages():
+                    data = image.getData(copy=False)
+                    center = center_of_mass(data[int(point[1]):int(point[1])+int(size[1]),int(point[0]):int(point[0])+int(size[0])])
+                    roiCenter = CrossROI()
+                    absoluteCenter = [center[1]+int(point[0]), center[0]+int(point[1])]
+                    roiCenter.setPosition(absoluteCenter)
+                    label = 'beam center\n x0 : %.3f y0: %.3f' % (absoluteCenter[0], absoluteCenter[1])
+                    roiCenter.setName(label)
+                    self.roiManager.addRoi(roiCenter)
+
+            #
+            # if image.getZValue() >= valueZ:  # This image is over the previous one
+            #     ox, oy = image.getOrigin()
+            #     sx, sy = image.getScale()
+            #     row, col = (y - oy) / sy, (x - ox) / sx
+            #     if row >= 0 and col >= 0:
+            #         # Test positive before cast otherwise issue with int(-0.5) = 0
+            #         row, col = int(row), int(col)
+            #         if row < data.shape[0] and col < data.shape[1]:
+            #             value = data[row, col]
+            #             valueZ = image.getZValue()
 
 
 def main():
     # unlock hdf5 files for file access during plotting
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
     warnings.filterwarnings("ignore", category=mplDeprecation)
+    from silx.gui.plot.ImageView import ImageViewMainWindow
     app = qt.QApplication([])
     # sys.excepthook = qt.exceptionHandler
     window = SaxsUtily()
@@ -1395,20 +1475,19 @@ def main():
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
     app = qt.QApplication([])
-
-    splash_pix = qt.QPixmap('/home/achennev/python/pygdatax/src/pygdatax/resources/empty_cell.png')
-
-    splash = qt.QSplashScreen(splash_pix, qt.Qt.WindowStaysOnTopHint)
-    splash.setMask(splash_pix.mask())
-    splash.show()
-    app.processEvents()
-
-    # warnings.filterwarnings("ignore", category=mplDeprecation)
+    # splash_pix = qt.QPixmap('/home/achennev/python/pygdatax/src/pygdatax/resources/empty_cell.png')
+    #
+    # splash = qt.QSplashScreen(splash_pix, qt.Qt.WindowStaysOnTopHint)
+    # splash.setMask(splash_pix.mask())
+    # splash.show()
+    # app.processEvents()
+    #
+    warnings.filterwarnings("ignore", category=mplDeprecation)
     window = SaxsUtily()
     window.show()
     folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
     window.fileSurvey.directoryLineEdit.setText(folder)
-    splash.finish(window)
+    # splash.finish(window)
     result = app.exec_()
     app.deleteLater()
     sys.exit(result)

@@ -10,7 +10,12 @@ Depending on your OS and python distribution, you may need to install PyQt5 and 
 ```
 pip install pyqt5 Ipython
 ```
-
+## Upgrade Version
+pygdatax package is up to now often upgraded. In order to get the last version type the following command in your
+ terminal or acaconda prompt
+```
+pip install --upgrade pygdatax
+```
 ## Launch Graphical User Interface
 To launch the GUI, run in you terminal (or conda prompt):
 ````
