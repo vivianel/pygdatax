@@ -21,7 +21,7 @@ To launch the GUI, run in you terminal (or conda prompt):
 ````
 pygdatax_gui
 ````
-![alt text](pygdatax_screenshot.png)
+![alt text](pygdatax_screenshot_2.png)
 
 
 
