@@ -162,13 +162,6 @@
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
     </task>
-    <task id="LOCAL-00006" summary="- add icons modules">
-      <created>1627942928969</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1627942928969</updated>
-    </task>
     <task id="LOCAL-00007" summary="- fixed icons problems">
       <created>1627944033117</created>
       <option name="number" value="00007" />
@@ -505,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632693098932</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar">
+      <created>1632742291314</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1632742291319</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
