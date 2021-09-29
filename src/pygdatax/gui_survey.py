@@ -584,13 +584,15 @@ class EdfTreatmentWidget(qt.QWidget):
                 self.binsLineEdit.setText('900')
             if self.table.directory:
                 # TODO : Check file existance and location
-                self.table.emptyCellFile = params['ec_file']
-                self.table.darkFile = params['dark_file']
-                self.table.emptyBeamFile = params['eb_file']
-                self.table.maskFile = params['mask_file']
+                if os.path.dirname(params['ec_file']) == self.table.directory:
+                    self.table.emptyCellFile = params['ec_file']
+                if os.path.dirname(params['dark_file']) == self.table.directory:
+                    self.table.darkFile = params['dark_file']
+                if os.path.dirname(params['eb_file']) == self.table.directory:
+                    self.table.emptyBeamFile = params['eb_file']
+                if os.path.dirname(params['mask_file']) == self.table.directory:
+                    self.table.maskFile = params['mask_file']
                 self.table.refresh()
-
-
 
 
 class FileSurvey(qt.QWidget):
