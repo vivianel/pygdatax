@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,13 +161,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00012" summary="-change legend handling">
-      <created>1628061664412</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1628061664412</updated>
     </task>
     <task id="LOCAL-00013" summary="-change legend handling">
       <created>1628064391385</created>
@@ -506,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632760632177</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="- fixed config file loading">
+      <created>1632922632894</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1632922632901</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -522,7 +521,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- add icons modules" />
     <MESSAGE value="- fixed icons problems" />
     <MESSAGE value="- remove print functions" />
     <MESSAGE value="-change legend handling" />
@@ -547,7 +545,8 @@
     <MESSAGE value="-add new version number" />
     <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
     <MESSAGE value="- update screenshot" />
-    <option name="LAST_COMMIT_MESSAGE" value="- update screenshot" />
+    <MESSAGE value="- fixed config file loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed config file loading" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
