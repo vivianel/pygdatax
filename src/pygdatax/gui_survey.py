@@ -1440,12 +1440,6 @@ def main():
     sys.exit(result)
 
 
-class TreatmentProgess(qt.QThread):
-
-    def __init__(self, fileList, cmdLlist):
-        super(TreatmentProgess, self).__init__()
-
-
 
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
