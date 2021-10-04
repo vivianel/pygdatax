@@ -767,44 +767,10 @@ class SaxsUtily(qt.QMainWindow):
         self.thread.finished.connect(self.fileSurvey.nxsTab.tableWidget.on_selectionChanged)
         self.thread.start()
 
-
-        # for file in selectedFiles:
-        #     for script in cmdList:
-        #         cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
-        #         print(cmd)
-        #         eval(cmd)
-        #         # try:
-        #         #     eval(cmd)
-        #         #     print(cmd)
-        #         # except:
-        #         #     print('command'+cmd+'not performed on:' + file)
-        #     # model.insertFile(file)
-        # self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
-        # self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
-
     def run_function(self, cmdList):
         selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
         model = self.fileSurvey.nxsTab.treeWidget.treeview.findHdf5TreeModel()
         model.clear()
-        # nrow = model.rowCount()
-        # files = []
-        # for n in range(nrow):
-        #     index = model.index(n, 0, qt.QModelIndex())
-        #     node = model.nodeFromIndex(index)
-        #     filename = node.obj.filename
-        #     model.removeH5pyObject(node.obj)
-        #     node.obj.close()
-        #     for script in cmdList:
-        #
-        #         cmd = 'xeuss.' + script.replace('root', '\'' + filename + '\'')
-        #         print(cmd)
-        #         eval(cmd)
-        #         # try:
-        #         #     eval(cmd)
-        #         # except:
-        #         #     print('command'+cmd+'not performed on:' +filename)
-        #     model.insertFile(filename, row=n)
-        #     self.fileSurvey.nxsTab.treeWidget.treeview.expand(model.index(n, 0))
         for file in selectedFiles:
             for script in cmdList:
                 cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
@@ -1472,6 +1438,13 @@ def main():
     # remove ending warnings relative to QTimer
     app.deleteLater()
     sys.exit(result)
+
+
+class TreatmentProgess(qt.QThread):
+
+    def __init__(self, fileList, cmdLlist):
+        super(TreatmentProgess, self).__init__()
+
 
 
 if __name__ == "__main__":
