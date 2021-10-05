@@ -1399,7 +1399,7 @@ class DataView(PlotWindow):
     def findCenter(self):
         roisList = self.roiManager.getRois()
         if roisList:
-            if isinstance(roisList[0],RectangleROI):
+            if isinstance(roisList[0], RectangleROI):
                 point = roisList[0].getOrigin()
                 size = roisList[0].getSize()
                 for image in self.getAllImages():
