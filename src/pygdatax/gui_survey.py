@@ -20,6 +20,9 @@ from pygdatax import xeuss, nxlib
 from pathlib import Path
 import yaml
 
+from pyFAI.gui.CalibrationWindow import CalibrationWindow
+from pyFAI.gui.CalibrationContext import CalibrationContext
+
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
                    'bkg_substraction(root, bkg=0)',
@@ -711,8 +714,6 @@ class SaxsUtily(qt.QMainWindow):
         # self.treatmentDock.setAllowedAreas(qt.Qt.BottomDockWidgetArea)
         # self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
-
-
         # directory picker layout
         spliter = qt.QSplitter(qt.Qt.Horizontal)
         spliter.addWidget(self.fileSurvey)
@@ -724,6 +725,7 @@ class SaxsUtily(qt.QMainWindow):
         layout.setStretchFactor(spliter, 1)
         main_panel.setLayout(layout)
         self.setCentralWidget(main_panel)
+
 
         # connect signals
         # edf table dispplay

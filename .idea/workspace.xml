@@ -163,20 +163,6 @@
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
     </task>
-    <task id="LOCAL-00016" summary="-handle file acces compatibilty with windows">
-      <created>1628083220071</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1628083220071</updated>
-    </task>
-    <task id="LOCAL-00017" summary="-remove close button treatment dockwidget&#10;- removed double validator because uses coma separator">
-      <created>1628083972684</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1628083972684</updated>
-    </task>
     <task id="LOCAL-00018" summary="working packages">
       <created>1628084101078</created>
       <option name="number" value="00018" />
@@ -506,7 +492,21 @@
       <option name="project" value="LOCAL" />
       <updated>1633355012446</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="-  removing useless comment">
+      <created>1633434625171</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1633434625172</updated>
+    </task>
+    <task id="LOCAL-00066" summary="-  première tentative pour un gui en reflectivité">
+      <created>1633434739342</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1633434739342</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -522,7 +522,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- remove print functions" />
     <MESSAGE value="-change legend handling" />
     <MESSAGE value="-handle file acces compatibilty with windows" />
     <MESSAGE value="-remove close button treatment dockwidget&#10;- removed double validator because uses coma separator" />
@@ -547,7 +546,8 @@
     <MESSAGE value="- update screenshot" />
     <MESSAGE value="- fixed config file loading" />
     <MESSAGE value="-  removing useless comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  removing useless comment" />
+    <MESSAGE value="-  première tentative pour un gui en reflectivité" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  première tentative pour un gui en reflectivité" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
