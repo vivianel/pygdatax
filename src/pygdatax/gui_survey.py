@@ -1187,7 +1187,9 @@ class NexusTreatmentWidget(qt.QWidget):
         fileList = []
         for item in items:
             row = item.row()
-            fileList.append(os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text()))
+            # fileList.append('"'+os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text())+'"')
+            clip = '"' + Path(self.tableWidget.directory, self.tableWidget.item(row, 0).text()).__str__()+'"'
+            fileList.append(clip)
         if fileList:
             qt.QApplication.clipboard().setText(fileList[0])
 

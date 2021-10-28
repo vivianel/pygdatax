@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/rxxeuss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +35,16 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/icons.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/flib.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/xeuss.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/gui_survey.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/requirements.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/nxlib.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1wAkg2pWlvi9lVCIWzHthXtq1aT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -162,20 +174,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00018" summary="working packages">
-      <created>1628084101078</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1628084101078</updated>
-    </task>
-    <task id="LOCAL-00019" summary="use pathlib for directory">
-      <created>1628086438057</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1628086438057</updated>
     </task>
     <task id="LOCAL-00020" summary="use pathlib for directory">
       <created>1628087474985</created>
@@ -506,7 +504,21 @@
       <option name="project" value="LOCAL" />
       <updated>1633434739342</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="-  nothin soecial">
+      <created>1634639369235</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1634639369236</updated>
+    </task>
+    <task id="LOCAL-00068" summary="-  fixed bad completion for resu function">
+      <created>1635417272994</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1635417272995</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -522,8 +534,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-change legend handling" />
-    <MESSAGE value="-handle file acces compatibilty with windows" />
     <MESSAGE value="-remove close button treatment dockwidget&#10;- removed double validator because uses coma separator" />
     <MESSAGE value="working packages" />
     <MESSAGE value="use pathlib for directory" />
@@ -547,7 +557,9 @@
     <MESSAGE value="- fixed config file loading" />
     <MESSAGE value="-  removing useless comment" />
     <MESSAGE value="-  première tentative pour un gui en reflectivité" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  première tentative pour un gui en reflectivité" />
+    <MESSAGE value="-  nothin soecial" />
+    <MESSAGE value="-  fixed bad completion for resu function" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  fixed bad completion for resu function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
