@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/rxxeuss.py" afterDir="false" />
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="-  test copy path with windows path">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/rxxeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/rxxeuss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +72,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui_survey">
+  <component name="RunManager" selected="Python.xeuss">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -158,8 +159,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
+        <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.test" />
@@ -174,13 +175,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00020" summary="use pathlib for directory">
-      <created>1628087474985</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1628087474985</updated>
     </task>
     <task id="LOCAL-00021" summary="-fixed pb with edf filenames">
       <created>1628089190115</created>
@@ -518,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635417272995</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="-  test copy path with windows path">
+      <created>1635422495296</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1635422495297</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -534,7 +535,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-remove close button treatment dockwidget&#10;- removed double validator because uses coma separator" />
     <MESSAGE value="working packages" />
     <MESSAGE value="use pathlib for directory" />
     <MESSAGE value="-fixed pb with edf filenames" />
@@ -559,32 +559,7 @@
     <MESSAGE value="-  première tentative pour un gui en reflectivité" />
     <MESSAGE value="-  nothin soecial" />
     <MESSAGE value="-  fixed bad completion for resu function" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  fixed bad completion for resu function" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/pygdatax/xeuss.py</url>
-          <line>295</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/pygdatax/xeuss.py</url>
-          <line>296</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/pygdatax/xeuss.py</url>
-          <line>297</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/pygdatax/xeuss.py</url>
-          <line>298</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="-  test copy path with windows path" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  test copy path with windows path" />
   </component>
 </project>

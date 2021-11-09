@@ -1416,7 +1416,7 @@ class DataView(PlotWindow):
                     roiCenter.setName(label)
                     self.roiManager.addRoi(roiCenter)
 
-            #
+
             # if image.getZValue() >= valueZ:  # This image is over the previous one
             #     ox, oy = image.getOrigin()
             #     sx, sy = image.getScale()
