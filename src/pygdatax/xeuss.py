@@ -238,7 +238,7 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
     last_key = nxlib.get_last_entry_key(root)
     i_sample /= entry['sample/count_time']
 
-    shape = i_sample.nxdata.shape
+    shape = i_sample.data.nxdata.shape
     y, x = np.indices(shape, dtype='float')
     x0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_x.nxdata
     y0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_y.nxdata

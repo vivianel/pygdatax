@@ -174,13 +174,6 @@
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
     </task>
-    <task id="LOCAL-00022" summary="-fixed pb with edf filenames">
-      <created>1628112863431</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1628112863431</updated>
-    </task>
     <task id="LOCAL-00023" summary="- add progressbar for treatment (in progress&#10;)">
       <created>1628157223463</created>
       <option name="number" value="00023" />
@@ -517,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636457816201</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="-  2D resu function undergoing">
+      <created>1636536404395</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1636536404395</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
