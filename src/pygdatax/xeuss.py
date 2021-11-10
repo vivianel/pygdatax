@@ -205,7 +205,7 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
     q_scale(root.file_name, distance=distance, new_entry=False)
     return
 
-# TODO : handle error propagation
+
 @nxlib.treatment_function
 def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
            thickness=None, transmission=None, distance=None):

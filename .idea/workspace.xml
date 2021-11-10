@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -173,13 +172,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00023" summary="- add progressbar for treatment (in progress&#10;)">
-      <created>1628157223463</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1628157223463</updated>
     </task>
     <task id="LOCAL-00024" summary="- set refresh problem">
       <created>1628167360734</created>
@@ -517,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636536404395</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="-  fixed resolution problem during 2D reduction">
+      <created>1636536899152</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1636536899152</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -533,7 +532,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="use pathlib for directory" />
     <MESSAGE value="-fixed pb with edf filenames" />
     <MESSAGE value="- add progressbar for treatment (in progress&#10;)" />
     <MESSAGE value="- set refresh problem" />
@@ -558,6 +556,7 @@
     <MESSAGE value="-  fixed bad completion for resu function" />
     <MESSAGE value="-  test copy path with windows path" />
     <MESSAGE value="-  2D resu function undergoing" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  2D resu function undergoing" />
+    <MESSAGE value="-  fixed resolution problem during 2D reduction" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  fixed resolution problem during 2D reduction" />
   </component>
 </project>
