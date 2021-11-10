@@ -62,8 +62,13 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
     else:
         mask_data = np.zeros_like(m)
         entry.instrument.detector.pixel_mask = mask_data
+    if 'data_errors' in entry.data:
+        print('error')
+        error = entry.data.nxerrors.nxdata
+    else:
+        error = None
     del entry['data']
-    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, pixel_size, bins)
+    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, pixel_size, bins, error=error)
 
     # new_entry.data = nx.NXdata(attrs={'interpretation': 'spectrum',
     #                                   'signal': 'I', 'axes': ['Q']})
@@ -228,12 +233,13 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
         return v
 
     # normalize_by_time(root.file_name, new_entry=False)  # .file_name, new_entry=False)
-    i_sample = root[nxlib.get_last_entry_key(root)].data
+    i_sample = root['entry0'].data
+    i_sample.nxerrors = nx.NXfield(np.sqrt(np.abs(i_sample.data.nxdata)))
     last_key = nxlib.get_last_entry_key(root)
     i_sample /= entry['sample/count_time']
 
-    shape = entry.data.data.nxdata.shape
-    y, x = np.indices(shape, dtype=np.float)
+    shape = i_sample.nxdata.shape
+    y, x = np.indices(shape, dtype='float')
     x0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_x.nxdata
     y0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_y.nxdata
     y = y - y0
@@ -261,7 +267,8 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
     if dark_file is not None:
         root_dark = nxlib.loadfile(dark_file, mode='rw')
         # normalize_by_time(root_dark.file_name, new_entry=False)
-        i_dark = root_dark[nxlib.get_last_entry_key(root_dark) + '/data']
+        i_dark = root_dark['entry0/data']
+        i_dark.nxerrors = nx.NXfield(np.sqrt(np.abs(i_dark.data.nxdata)))
         last_key = nxlib.get_last_entry_key(root_dark)
         i_dark /= root_dark[last_key + '/sample/count_time']
     else:
@@ -273,7 +280,8 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
     # load emty beam
     if eb_file is not None:
         root_eb = nxlib.loadfile(eb_file, mode='rw')
-        i_eb = root_eb[nxlib.get_last_entry_key(root_eb) + '/data']
+        i_eb = root_eb['entry0/data']
+        i_eb.nxerrors = nx.NXfield(np.sqrt(np.abs(i_eb.data.nxdata)))
         last_key = nxlib.get_last_entry_key(root_eb)
         i_eb /= root_eb[last_key + '/sample/count_time'].nxdata
         fb = i_eb - i_dark
@@ -288,7 +296,8 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
     if ec_file is not None:
         root_ec = nxlib.loadfile(ec_file, mode='rw')
         # normalize_by_time(root_ec.file_name, new_entry=False)
-        i_ec = root_ec[nxlib.get_last_entry_key(root_ec) + '/data']
+        i_ec = root_ec['entry0/data']
+        i_ec.nxerrors = nx.NXfield(np.sqrt(np.abs(i_ec.data.nxdata)))
         last_key = nxlib.get_last_entry_key(root_ec)
         i_ec /= root_ec[last_key + '/sample/count_time']
         t_ec = root_ec[nxlib.get_last_entry_key(root_ec)].sample.transmission.nxdata
@@ -320,7 +329,7 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
     # data.nxaxes = fs.nxaxes
     # data.r_errors = fs.r_errors
     del entry['data']
-    entry['data'] = data
+    entry['data'] = fs
     # q_scale(root.file_name, distance=distance, new_entry=False)
     return
 
@@ -468,7 +477,6 @@ def azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,
         elif mask.endswith('.edf'):
             mask_data = fabio.open(mask).data
         entry.instrument.detector.pixel_mask_applied = True
-
     entry.instrument.detector.pixel_mask = mask_data
     del entry['data']
     r_grid, chi_grid, masked_data = flib.xy2polar(m, mask_data, x0, y0, r_bins, chi_bins)
@@ -752,15 +760,19 @@ if __name__ == '__main__':
     root2D.close()
     empty_cell_PQ = empty_cell_PQ.split('.')[0] + '.nxs'
 
-    resu2D(file1_PQ_2D, dark_file=dark_PQ, ec_file=empty_cell_PQ)
-    azimutal_integration(file1_PQ_2D, bins=900, mask=mask_PQ)
-
+    print(2)
     azimutal_integration(empty_cell_PQ, bins=900, mask=mask_PQ)
+    print(3)
     azimutal_integration(dark_PQ, bins=900, mask=mask_PQ)
+    print(4)
     azimutal_integration(file1_PQ, bins=900, mask=mask_PQ)
+    print(5)
     azimutal_integration(file2_PQ, bins=900, mask=mask_PQ)
 
     resu(file1_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=1)
+    resu2D(file1_PQ_2D, dark_file=dark_PQ, ec_file=empty_cell_PQ)
+    print(1)
+    azimutal_integration(file1_PQ_2D, bins=900, mask=mask_PQ)
     q_scale(file1_PQ_2D)
     # resu(file2_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=10)
     # # normalization_factor(file1_PQ, factor=10)
