@@ -34,7 +34,8 @@ COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins
                    'ref_substraction(root, ref_file=None, prefactor=0)',
                    'resu(root, dark_file=None, ec_file=None, eb_file=None,thickness=None, transmission=None, distance=None)',
                    'save_as_txt(root)',
-                   'set_beam_center(root,x0=None,y0=None)'
+                   'set_beam_center(root,x0=None,y0=None)',
+                   'resu2D(root, dark_file=None, ec_file=None, eb_file=None,thickness=None, transmission=None, distance=None)'
                    ]
 
 
