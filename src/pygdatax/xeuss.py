@@ -31,7 +31,7 @@ def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
 
 @nxlib.treatment_function
 def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
-                         pixel_size=None):
+                         x_pixel_size=None, y_pixel_size=None):
 
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
@@ -44,10 +44,15 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
         y0 = entry.instrument.detector.beam_center_y
     else:
         entry.instrument.detector.beam_center_y = y0
-    if pixel_size is None:
-        pixel_size = entry.instrument.detector.x_pixel_size
+    if x_pixel_size is None:
+        x_pixel_size = entry.instrument.detector.x_pixel_size
     else:
-        entry.instrument.detector.x_pixel_size = pixel_size
+        entry.instrument.detector.x_pixel_size = x_pixel_size
+
+    if y_pixel_size is None:
+        y_pixel_size = entry.instrument.detector.y_pixel_size
+    else:
+        entry.instrument.detector.y_pixel_size = y_pixel_size
 
     m = entry.data.nxsignal.nxdata
 
@@ -68,7 +73,8 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
     else:
         error = None
     del entry['data']
-    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, pixel_size, bins, error=error)
+    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, x_pixel_size, y_pixel_size,
+                                  bins, error=error)
 
     # new_entry.data = nx.NXdata(attrs={'interpretation': 'spectrum',
     #                                   'signal': 'I', 'axes': ['Q']})
