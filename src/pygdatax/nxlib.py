@@ -480,6 +480,23 @@ def loadfile(file, mode='rw'):
     root = nx.nxload(name + extension, mode=mode, recursive=False)
     return root
 
+
+def copy_entry(new_root, old_root, new_entry_key, old_entry_key):
+    old_entry = old_root[old_entry_key]
+    new_entry = old_entry.copy()
+    new_root.insert(new_entry, name=new_entry_key)
+    for key in old_entry:
+        if isinstance(old_entry[key], nx.NXdata) and 'data' in key:
+            signal = old_entry[key].nxsignal
+            signal_key = old_entry[key].signal
+            if isinstance(signal, nx.NXlink):
+                del new_root[new_entry_key+'/'+key]
+                new_root[new_entry_key + '/' + key] = nx.NXdata(nx.NXfield(old_root[signal.target].nxdata,
+                                                                           name=signal_key))
+                # new_entry[key].nxsignal = old_root[signal.target].copy()
+
+
+
 def save_as_txt(filename):
     root = nx.nxload(filename, mode='r')
     last_key = get_last_entry_key(root)
