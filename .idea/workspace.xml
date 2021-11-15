@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="-  add sans llb to the library">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -194,34 +193,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00026" summary="- fixed expand tree item">
-      <created>1628170952593</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1628170952593</updated>
-    </task>
-    <task id="LOCAL-00027" summary="- fixed expand tree item">
-      <created>1628171210541</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1628171210541</updated>
-    </task>
-    <task id="LOCAL-00028" summary="- fixed expand tree item">
-      <created>1628172274850</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1628172274850</updated>
-    </task>
-    <task id="LOCAL-00029" summary="- fixed expand tree item">
-      <created>1628172391694</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1628172391694</updated>
     </task>
     <task id="LOCAL-00030" summary="- fixed expand tree item">
       <created>1628172531432</created>
@@ -538,7 +509,35 @@
       <option name="project" value="LOCAL" />
       <updated>1636540883034</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="-  add sans llb to the library">
+      <created>1636814107328</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1636814107330</updated>
+    </task>
+    <task id="LOCAL-00076" summary="-  added error managment for regiso">
+      <created>1636966975212</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1636966975213</updated>
+    </task>
+    <task id="LOCAL-00077" summary="-  added error management in regiso">
+      <created>1636967014788</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1636967014788</updated>
+    </task>
+    <task id="LOCAL-00078" summary="-  add x and y pixel size management">
+      <created>1636967058186</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1636967058186</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -554,9 +553,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- add progressbar for treatment (in progress&#10;)" />
-    <MESSAGE value="- set refresh problem" />
-    <MESSAGE value="- fixed expand tree item" />
     <MESSAGE value="- try to use theard for treatment" />
     <MESSAGE value="- completing readme" />
     <MESSAGE value="- fixed intersnity errors problem" />
@@ -579,6 +575,9 @@
     <MESSAGE value="-  2D resu function undergoing" />
     <MESSAGE value="-  fixed resolution problem during 2D reduction" />
     <MESSAGE value="-  add sans llb to the library" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  add sans llb to the library" />
+    <MESSAGE value="-  added error managment for regiso" />
+    <MESSAGE value="-  added error management in regiso" />
+    <MESSAGE value="-  add x and y pixel size management" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  add x and y pixel size management" />
   </component>
 </project>
