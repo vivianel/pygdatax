@@ -38,10 +38,10 @@ def regisoPyFAI(data, mask, x0, y0, pixel_size, bins, distance, wavelength):
     return results.radial, results.intensity, results.sigma
 
 
-def regiso(data, mask, x0, y0, pixel_size, bins, error=None):
+def regiso(data, mask, x0, y0, x_pixel_size, y_pixel_size, bins, error=None):
     y, x = np.indices(data.shape, dtype=np.float)
-    y = y-y0
-    x = x-x0
+    y = (y-y0)*y_pixel_size
+    x = (x-x0)*x_pixel_size
     r_grid = np.ma.masked_array(data=np.sqrt(x**2+y**2), mask=mask).compressed()
     masked_data = np.ma.masked_array(data=data, mask=mask, dtype=np.float).compressed()
     if bins is None:
@@ -59,8 +59,7 @@ def regiso(data, mask, x0, y0, pixel_size, bins, error=None):
     else:
         masked_error = np.ma.masked_array(data=error, mask=mask, dtype=np.float).compressed()
         di = np.sqrt(np.bincount(indexes, weights=masked_error**2)[1:]) / counts
-    dr = np.sqrt(r_square-r_mean**2+1/12)*pixel_size  # 1/12 is the variance of one pixel
-    r_mean *= pixel_size
+    dr = np.sqrt(r_square-r_mean**2+1/12)  # 1/12 is the variance of one pixel
 
     # theta = 1/2*np.arctan(r_mean/distance)
     # q = 4*np.pi/wavelength*np.sin(theta)
