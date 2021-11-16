@@ -13,7 +13,7 @@ import numpy as np
 import time
 import flib
 import nxlib
-
+import os
 NXREAD_VERSION = '0.0'
 
 
@@ -66,7 +66,7 @@ def azimutal_integration(root, detector=0, mask_file=None, x0=None, y0=None, bin
     else:
         entry['instrument/detector'+str(detector)+'/y_pixel_size'] = y_pixel_size
 
-    m = entry['data'+str(detector)+'/data'].nxdata
+    m = entry['data'+str(detector)].nxsignal.nxdata
     mask_data = np.zeros_like(m)
 
     if mask_file is not None:
@@ -121,15 +121,17 @@ def azimutal_integration_multidetector(root, mask_file0=None, x0=None, y0=None, 
 
 @nxlib.treatment_function
 def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
-                thickness: float = None, transmission: float = None, distance: float = None) -> None:
+                thickness: float = None, transmission: float = None, distance: list = [None, None, None]) -> None:
     """
+    Subtract and normalize the sans 2D spectra according to Brûlet, A., Lairez, D., Lapp, A., & Cotton, J. P. (2007). Improvement of data treatment in small-angle neutron scattering. Journal of Applied Crystallography, 40(1), 165-177.
+    The resulting spectra is a 2D spectra
     Args:
         root:
-        sub_file:
-        norm_file:
-        thickness:
-        transmission:
-        distance:
+        sub_file: substraction package file
+        norm_file: normalization package file
+        thickness: sample thickness
+        transmission: sample transmisssion
+        distance: list of detector distances
 
     Returns:
 
@@ -163,10 +165,10 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
 
     for i in range(3):
         distance_key = 'instrument/detector' + str(i) + '/distance'
-        if distance is None:
+        if distance[i] is None:
             distance = entry[distance_key].nxdata
         else:
-            entry[distance_key].nxdata = distance
+            entry[distance_key].nxdata = distance[i]
 
         i_sample = root['entry0/data'+str(i)]
         i_sample.nxerrors = nx.NXfield(np.sqrt(np.abs(i_sample.data.nxdata)))
@@ -213,18 +215,16 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
                 time_eb = 1
 
             # centers for regroupement
-            # TODO : the value does not seemm to be stored within the new entry
             if 'beam_center_x' in sub_root['parameters/detector'+str(i)]:
                 x0 = sub_root['parameters/detector'+str(i)+'/beam_center_x'].nxdata
-                entry['instrument/detector'+str(i)+'/beam_center_x'].nxdata = x0
+                entry['instrument/detector'+str(i)+'/beam_center_x'] = x0
             else:
                 x0 = default_params['x0']
             if 'beam_center_y' in sub_root['parameters/detector'+str(i)]:
                 y0 = sub_root['parameters/detector'+str(i)+'/beam_center_y'].nxdata
-                entry['instrument/detector' + str(i) + '/beam_center_y'].nxdata = y0
+                entry['instrument/detector' + str(i) + '/beam_center_y'] = y0
             else:
                 y0 = default_params['y0']
-
         else:
             i_dark = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_dark'))
             i_dark.nxerrors = np.zeros(shape)
@@ -242,15 +242,15 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
             x0 = default_params['x0']
             y0 = default_params['y0']
 
+        x_pixel_size = entry['instrument/detector' + str(i) + '/x_pixel_size'].nxdata
+        y_pixel_size = entry['instrument/detector' + str(i) + '/y_pixel_size'].nxdata
+        solid_angle = x_pixel_size * y_pixel_size / (distance[i] ** 2)
         y, x = np.indices(shape, dtype='float')
-        y = y - y0
-        x = x - x0
+        y = (y - y0)*y_pixel_size
+        x = (x - x0)*x_pixel_size
         r = np.sqrt(x ** 2 + y ** 2)
-        theta = np.arctan(r / distance)
+        theta = np.arctan(r / distance[i])
 
-        x_pixel_size = entry['instrument/detector'+str(i)+'/x_pixel_size']
-        y_pixel_size = entry['instrument/detector'+str(i)+'/y_pixel_size']
-        solid_angle = x_pixel_size * y_pixel_size / (distance ** 2)
         if monitor_eb == 1:  # no empty beam
             fb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
             fb.nxerrors = np.zeros(shape)
@@ -273,6 +273,20 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
         fs /= tr_theta(transmission, theta) * trans_ec * trans_ec ** (1 / np.cos(theta)) * 0.1 * thickness
         fs /= solid_angle
         fs /= np.cos(theta) ** 3
+        # normalization by water
+        if norm_file:
+            if os.path.exists(norm_file):
+                norm_root = nx.nxload(norm_file, mode='r')
+                if 'water_substracted' in norm_root.keys():
+                    i_water = norm_root['water_substracted/data'+str(i)]
+                else:
+                    norm_root.close()
+                    treat_normalization_package(norm_file)
+                    norm_root = nx.nxload(norm_file, mode='r')
+                    i_water = norm_root['water_substracted/data' + str(i)]
+                fs /= i_water
+            else:
+                print('normalization file not found')
         del entry['data'+str(i)]
         entry['data'+str(i)] = fs
         # q_scale(root.file_name, distance=distance, new_entry=False)
@@ -280,142 +294,124 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
 
 
 def treat_normalization_package(norm_file):
-    pass
-    # if not os.path.exists(norm_file):
-    #     print('normalization file not found')
-    #     return
-    # entry = root[nxlib.get_last_entry_key(root)]
-    # if distance is None:
-    #     distance = entry.instrument.detector.distance.nxdata
-    # else:
-    #     entry.instrument.detector.distance.nxdata = distance
-    # if transmission is None:
-    #     transmission = entry.sample.transmission.nxdata
-    #     # if transmission == 0:
-    #     #     entry.sample.transmission = 1.0
-    # else:
-    #     entry.sample.transmission = transmission
-    # if thickness is None:
-    #     thickness = entry.sample.thickness.nxdata
-    # else:
-    #     entry.sample.thickness = thickness
-    #
-    # def delta(u, a):
-    #     if u == 1:
-    #         v = 1
-    #     else:
-    #         v = (1 - x ** a) / (-a * np.log(x))
-    #     return v
-    #
-    # def tr_theta(t, angle):
-    #     if t == 1:
-    #         t_th = 1
-    #     else:
-    #         t_th = t * (t ** (1 - 1 / np.cos(angle)) - 1) / (np.log(t) * (1 - 1 / np.cos(angle)))
-    #     return t_th
-    # root = nx.nxload(norm_file,mode='rw')
-    # i_water = root['entry0'].data
-    # i_water.nxerrors = nx.NXfield(np.sqrt(np.abs(i_water.data.nxdata)))
-    # monitor_sample = root['entry0/monitor3/integral'].nxdata
-    # time_sample = root['entry0/instrument/detector0/count_time'].nxdata
-    # shape = i_water.data.nxdata.shape
-    #
-    # # uncack the substraction package file
-    # default_params = get_default_reduction_parameters(root)
-    # if sub_file is not None:
-    #     sub_root = nx.nxload(sub_file, mode='r')
-    #     if 'dark' in sub_root:
-    #         i_dark = sub_root['dark/data0']
-    #         i_dark.nxerrors = nx.NXfield(np.sqrt(np.abs(i_dark.data.nxdata)))
-    #         # monitor_dark = sub_root['dark/monitor3/integral'].nxdata
-    #         time_dark = sub_root['dark/instrument/detector0/count_time'].nxdata
-    #     else:
-    #         i_dark = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_dark'))
-    #         i_dark.nxerrors = np.zeros(shape)
-    #         # monitor_dark = 1
-    #         time_dark = 1
-    #     if 'empty cell' in sub_root:
-    #         i_ec = sub_root['empty cell/data0']
-    #         i_ec.nxerrors = nx.NXfield(np.sqrt(np.abs(i_ec.data.nxdata)))
-    #         monitor_ec = sub_root['empty cell/monitor3/integral'].nxdata
-    #         time_ec = sub_root['empty cell/instrument/detector0/count_time'].nxdata
-    #         trans_ec = sub_root['empty cell/sample/transmission'].nxdata
-    #     else:
-    #         i_ec = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_ec'))
-    #         i_ec.nxerrors = np.zeros(shape)
-    #         monitor_ec = 1
-    #         time_ec = 1
-    #         trans_ec = 1
-    #     if 'empty beam' in sub_root:
-    #         i_eb = sub_root['empty beam/data0']
-    #         i_eb.nxerrors = nx.NXfield(np.sqrt(np.abs(i_eb.data.nxdata)))
-    #         monitor_eb = sub_root['empty beam/monitor3/integral'].nxdata
-    #         time_eb = sub_root['empty beam/instrument/detector0/count_time'].nxdata
-    #     else:
-    #         i_eb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
-    #         i_eb.nxerrors = np.zeros(shape)
-    #         monitor_eb = 1
-    #         time_eb = 1
-    #
-    #     # centers for regroupement
-    #     if 'beam_center_x' in sub_root['parameters/detector0']:
-    #         x0 = sub_root['parameters/detector0/beam_center_x']
-    #     else:
-    #         x0 = default_params['x0']
-    #     if 'beam_center_y' in sub_root['parameters/detector0']:
-    #         y0 = sub_root['parameters/detector0/beam_center_y']
-    #     else:
-    #         y0 = default_params['y0']
-    #
-    # else:
-    #     i_dark = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_dark'))
-    #     i_dark.nxerrors = np.zeros(shape)
-    #     # monitor_dark = 1
-    #     time_dark = 1
-    #     i_ec = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_ec'))
-    #     i_ec.nxerrors = np.zeros(shape)
-    #     monitor_ec = 1
-    #     time_ec = 1
-    #     trans_ec = 1
-    #     i_eb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
-    #     i_eb.nxerrors = np.zeros(shape)
-    #     monitor_eb = 1
-    #     time_eb = 1
-    #     x0 = default_params['x0']
-    #     y0 = default_params['y0']
-    #
-    # y, x = np.indices(shape, dtype='float')
-    # y = y - y0
-    # x = x - x0
-    # r = np.sqrt(x ** 2 + y ** 2)
-    # theta = np.arctan(r / distance)
-    #
-    # x_pixel_size = entry.instrument.detector.x_pixel_size
-    # y_pixel_size = entry.instrument.detector.y_pixel_size
-    # distance = entry.instrument.detector.distance
-    # solid_angle = x_pixel_size * y_pixel_size / (distance ** 2)
-    # if monitor_eb == 1:  # no empty beam
-    #     fb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
-    #     fb.nxerrors = np.zeros(shape)
-    # else:
-    #     fb = i_eb - i_dark * time_eb / time_dark
-    #     fb /= monitor_eb
-    # trans_ec = trans_ec ** 0.5
-    # if monitor_ec == 1 and time_ec == 1 and trans_ec == 1:  # no empty cell given
-    #     z_fec = nx.NXdata(nx.NXfield(np.zeros_like(i_water.nxsignal), name='z_fec'))
-    #     z_fec.nxerrors = np.zeros_like(i_water.nxsignal)
-    # else:
-    #     z_fec = (i_ec - i_dark * time_ec / time_dark) / monitor_ec - fb * np.power(trans_ec, 2 / np.cos(theta))
-    #     z_fec /= trans_ec ** (1 / np.cos(theta)) * (trans_ec + tr_theta(trans_ec, theta))
-    #
-    # # substarct the contributions
-    # fs = (i_water - i_dark * time_sample / time_dark) / monitor_sample
-    # fs -= fb * trans_ec ** (2 / np.cos(theta)) * transmission ** (1 / np.cos(theta))
-    # fs -= z_fec * tr_theta(trans_ec, theta) * ((transmission * trans_ec) ** (1 / np.cos(theta)) +
-    #                                            trans_ec * transmission)
-    # fs /= tr_theta(transmission, theta) * trans_ec * trans_ec ** (1 / np.cos(theta)) * 0.1 * thickness
-    # fs /= solid_angle
-    # fs /= np.cos(theta) ** 3
+
+    def delta(u, a):
+        if u == 1:
+            v = 1
+        else:
+            v = (1 - x ** a) / (-a * np.log(x))
+        return v
+
+    def tr_theta(t, angle):
+        if t == 1:
+            t_th = 1
+        else:
+            t_th = t * (t ** (1 - 1 / np.cos(angle)) - 1) / (np.log(t) * (1 - 1 / np.cos(angle)))
+        return t_th
+    if not os.path.exists(norm_file):
+        print('normalization file not found')
+        return
+    norm_root = nx.nxload(norm_file, mode='rw')
+    if 'water' not in norm_root.keys():
+        print('no water file in the normalisation package')
+        return
+    if 'water_substracted' not in norm_root.keys():
+        new_entry = norm_root['water'].copy()
+        norm_root['water_substracted'] = new_entry
+
+    water_entry = norm_root['water_substracted']
+    transmission = water_entry.sample.transmission.nxdata
+
+    for i in range(3):
+        distance_key = 'instrument/detector' + str(i) + '/distance'
+        distance = water_entry[distance_key].nxdata
+        i_water = water_entry['data'+str(i)]
+        i_water.nxerrors = nx.NXfield(np.sqrt(np.abs(i_water.data.nxdata)))
+        monitor_sample = water_entry['monitor3/integral'].nxdata
+        time_sample = water_entry['instrument/detector'+str(i)+'/count_time'].nxdata
+        shape = i_water.nxsignal.nxdata.shape
+
+        # uncack the substraction package file
+        if 'dark' in norm_root:
+            i_dark = norm_root['dark/data'+str(i)]
+            # i_dark.nxerrors = np.zeros(shape)
+            i_dark.nxerrors = nx.NXfield(np.sqrt(np.abs(i_dark.data.nxdata)))
+            # monitor_dark = sub_root['dark/monitor3/integral'].nxdata
+            time_dark = norm_root['dark/instrument/detector'+str(i)+'/count_time'].nxdata
+        else:
+            i_dark = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_dark'))
+            i_dark.nxerrors = np.zeros(shape)
+            # monitor_dark = 1
+            time_dark = 1
+        if 'empty cell' in norm_root:
+            i_ec = norm_root['empty cell/data'+str(i)]
+            i_ec.nxerrors = nx.NXfield(np.sqrt(np.abs(i_ec.nxsignal.nxdata)))
+            monitor_ec = norm_root['empty cell/monitor3/integral'].nxdata
+            time_ec = norm_root['empty cell/instrument/detector'+str(i)+'/count_time'].nxdata
+            trans_ec = norm_root['empty cell/sample/transmission'].nxdata
+        else:
+            i_ec = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_ec'))
+            i_ec.nxerrors = np.zeros(shape)
+            monitor_ec = 1
+            time_ec = 1
+            trans_ec = 1
+        if 'empty beam' in norm_root:
+            i_eb = norm_root['empty beam/data'+str(i)]
+            i_eb.nxerrors = nx.NXfield(np.sqrt(np.abs(i_eb.data.nxdata)))
+            monitor_eb = norm_root['empty beam/monitor3/integral'].nxdata
+            time_eb = norm_root['empty beam/instrument/detector'+str(i)+'/count_time'].nxdata
+        else:
+            i_eb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
+            i_eb.nxerrors = np.zeros(shape)
+            monitor_eb = 1
+            time_eb = 1
+
+        # centers for regroupement
+        if 'beam_center_x' in norm_root['parameters/detector'+str(i)]:
+            x0 = norm_root['parameters/detector'+str(i)+'/beam_center_x'].nxdata
+            water_entry['instrument/detector'+str(i)+'/beam_center_x'] = x0
+        else:
+            x0 = water_entry['instrument/detector'+str(i)+'/beam_center_x'].nxdata
+        if 'beam_center_y' in norm_root['parameters/detector'+str(i)]:
+            y0 = norm_root['parameters/detector'+str(i)+'/beam_center_y'].nxdata
+            water_entry['instrument/detector' + str(i) + '/beam_center_y'] = y0
+        else:
+            y0 = water_entry['instrument/detector' + str(i) + '/beam_center_y']
+        x_pixel_size = water_entry['instrument/detector' + str(i) + '/x_pixel_size'].nxdata
+        y_pixel_size = water_entry['instrument/detector' + str(i) + '/y_pixel_size'].nxdata
+        y, x = np.indices(shape, dtype='float')
+        y = (y - y0)*y_pixel_size
+        x = (x - x0)*x_pixel_size
+        r = np.sqrt(x ** 2 + y ** 2)
+        theta = np.arctan(r / distance)
+        solid_angle = x_pixel_size * y_pixel_size / (distance ** 2)
+        if monitor_eb == 1:  # no empty beam
+            fb = nx.NXdata(nx.NXfield(np.zeros(shape), name='i_eb'))
+            fb.nxerrors = np.zeros(shape)
+        else:
+            fb = i_eb - i_dark*time_eb/time_dark
+            fb /= monitor_eb
+        trans_ec = trans_ec ** 0.5
+        if monitor_ec == 1 and time_ec == 1 and trans_ec == 1:  # no empty cell given
+            z_fec = nx.NXdata(nx.NXfield(np.zeros_like(i_water.nxsignal), name='z_fec'))
+            z_fec.nxerrors = np.zeros_like(i_water.nxsignal)
+        else:
+            z_fec = (i_ec - i_dark*time_ec/time_dark) / monitor_ec - fb * np.power(trans_ec, 2 / np.cos(theta))
+            z_fec /= trans_ec ** (1 / np.cos(theta)) * (trans_ec + tr_theta(trans_ec, theta))
+
+        # substarct the contributions
+        fs = (i_water - i_dark*time_sample/time_dark) / monitor_sample
+        fs -= fb * trans_ec ** (2 / np.cos(theta)) * transmission ** (1 / np.cos(theta))
+        fs -= z_fec * tr_theta(trans_ec, theta) * ((transmission * trans_ec) ** (1 / np.cos(theta)) +
+                                                   trans_ec * transmission)
+        fs /= tr_theta(transmission, theta) * trans_ec * trans_ec ** (1 / np.cos(theta)) * 0.1
+        fs /= solid_angle
+        fs /= np.cos(theta) ** 3
+        del water_entry['data'+str(i)]
+        water_entry['data'+str(i)] = fs
+        # q_scale(root.file_name, distance=distance, new_entry=False)
+        norm_root.close()
+    return
 
 
 def get_default_reduction_parameters(root):
@@ -482,7 +478,7 @@ def make_reduction_package(output_file,
 
     if water_file is not None:
         water_root = nx.nxload(water_file, mode='r')
-        nxlib.copy_entry(root, dark_root, 'water', 'entry0')
+        nxlib.copy_entry(root, water_root, 'water', 'entry0')
         water_root.close()
         def_params = get_default_reduction_parameters(water_root)
 
@@ -556,6 +552,26 @@ def q_scale(root, distance=None, detector=0):
     return
 
 
+@nxlib.treatment_function
+def q_scale2D(root, distance=[None, None, None]):
+    entry = root[nxlib.get_last_entry_key(root)]
+    for i, d in enumerate(distance):
+        data = entry['data'+str(i)]
+        shape = data.nxsignal.nxdata.shape
+        if len(shape) == 2:
+            x_pixel_size = entry['instrument/detector' + str(i) + '/x_pixel_size'].nxdata
+            y_pixel_size = entry['instrument/detector' + str(i) + '/y_pixel_size'].nxdata
+            x0 = entry['instrument/detector' + str(i) + '/beam_center_x'].nxdata
+            y0 = entry['instrument/detector' + str(i) + '/beam_center_y'].nxdata
+            solid_angle = x_pixel_size * y_pixel_size / (d ** 2)
+            y, x = np.indices(shape, dtype='float')
+            y = (y - y0)*y_pixel_size
+            x = (x - x0)*x_pixel_size
+            r = np.sqrt(x ** 2 + y ** 2)
+            thetaf = np.arctan(x / distance)/2
+            alphaf = np.arctan(y / distance)/
+            qx = nx.NXfield(np.cos(alphaf)*np.sin(2*thetaf),name='q_x', attrs={'units'='$$'})
+
 def save_as_txt(filename):
     root = nx.nxload(filename, mode='r')
     last_key = nxlib.get_last_entry_key(root)
@@ -592,7 +608,8 @@ def divide_spectra(root, denominator_file=None):
 if __name__ == '__main__':
     import os
     folder = '/home/achennev/python/pa20_psi/rawdatafile'
-    output_file = '/home/achennev/python/pa20_psi/sub.nxs'
+    sub_file = '/home/achennev/python/pa20_psi/sub.nxs'
+    norm_file = '/home/achennev/python/pa20_psi/norm.nxs'
     dark = '/home/achennev/python/pa20_psi/b4c_gq.nxs'
     ec = '/home/achennev/python/pa20_psi/ec_gq.nxs'
     water = '/home/achennev/python/pa20_psi/h2o_gq.nxs'
@@ -606,17 +623,23 @@ if __name__ == '__main__':
     root.close()
     mask0 = '/home/achennev/python/pa20_psi/mask_gq.edf'
 
-    make_reduction_package(output_file, dark_file=dark, empty_cell_file=ec, direct_beam_file=None,
+    make_reduction_package(sub_file, dark_file=dark, empty_cell_file=ec, direct_beam_file=None,
                            mask_file0=mask0, mask_file1=None,
                            x0=64, y0=64, x1=30, y1=30, bins0=100
                            )
-    reduction2D(njc74, sub_file=output_file, norm_file=None, thickness=0.084)
-    reduction2D(water, sub_file=output_file, norm_file=None)
-    divide_spectra(njc74, denominator_file=water)
+    make_reduction_package(norm_file, dark_file=dark, empty_cell_file=ec, direct_beam_file=None, water_file=water,
+                           mask_file0=mask0, mask_file1=None,
+                           x0=64, y0=64, x1=30, y1=30, bins0=100
+                           )
+    # treat_normalization_package(norm_file)
+    reduction2D(njc74, sub_file=sub_file, norm_file=norm_file, thickness=0.084)
+    reduction2D(water, sub_file=sub_file, norm_file=None)
+    # divide_spectra(njc74, denominator_file=water)
     azimutal_integration(njc74, mask_file=mask0, detector=0, x0=64, y0=64)
-    azimutal_integration(njc74, detector=1)
-
-    q_scale(njc74)
+    azimutal_integration(njc74, detector=1, new_entry=False)
+    azimutal_integration(njc74, detector=2, new_entry=False)
+    # azimutal_integration_multidetector(njc74)
+    # q_scale(njc74)
     # file1 = '/home/achennev/python/pa20_psi/rawdatafile/test_nexus_AC_v2.nxs'
     # root = nxlib.loadfile(file1, mode='rw')
     # with root.nxfile:

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="-  add sans llb to the library">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -193,20 +194,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00030" summary="- fixed expand tree item">
-      <created>1628172531432</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1628172531432</updated>
-    </task>
-    <task id="LOCAL-00031" summary="- fixed expand tree item">
-      <created>1628172835026</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1628172835026</updated>
     </task>
     <task id="LOCAL-00032" summary="- fixed expand tree item">
       <created>1629185846834</created>
@@ -537,7 +524,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636967058186</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="-  added x y pixel size management&#10;- reduction2D function works for all detector">
+      <created>1636967133210</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1636967133210</updated>
+    </task>
+    <task id="LOCAL-00080" summary="-  add sans llb to the library">
+      <created>1636967140522</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1636967140522</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -553,7 +554,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- try to use theard for treatment" />
     <MESSAGE value="- completing readme" />
     <MESSAGE value="- fixed intersnity errors problem" />
     <MESSAGE value="- fixed intensity errors problem" />
@@ -574,10 +574,11 @@
     <MESSAGE value="-  test copy path with windows path" />
     <MESSAGE value="-  2D resu function undergoing" />
     <MESSAGE value="-  fixed resolution problem during 2D reduction" />
-    <MESSAGE value="-  add sans llb to the library" />
     <MESSAGE value="-  added error managment for regiso" />
     <MESSAGE value="-  added error management in regiso" />
     <MESSAGE value="-  add x and y pixel size management" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  add x and y pixel size management" />
+    <MESSAGE value="-  added x y pixel size management&#10;- reduction2D function works for all detector" />
+    <MESSAGE value="-  add sans llb to the library" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  add sans llb to the library" />
   </component>
 </project>

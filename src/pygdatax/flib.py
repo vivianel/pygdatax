@@ -59,15 +59,9 @@ def regiso(data, mask, x0, y0, x_pixel_size, y_pixel_size, bins, error=None):
     else:
         masked_error = np.ma.masked_array(data=error, mask=mask, dtype=np.float).compressed()
         di = np.sqrt(np.bincount(indexes, weights=masked_error**2)[1:]) / counts
+    # TODO: check error bar on r
     dr = np.sqrt(r_square-r_mean**2+1/12)  # 1/12 is the variance of one pixel
-
-    # theta = 1/2*np.arctan(r_mean/distance)
-    # q = 4*np.pi/wavelength*np.sin(theta)
-    # if correct_solid_angle:
-    #     alpha = np.arctan(r_grid / distance)
-    #     solid_angle = np.cos(alpha)
-    #     omega = np.bincount(indexes, weights=solid_angle)[1:]/counts
-    #     intensity /= omega
+    # dr = np.sqrt(r_square - r_mean ** 2 + 1 / 12)
     d = {'counts': np.bincount(indexes), 'edges': edges, 'indexes': indexes, 'r_grid': r_grid,
          'masked_data':  masked_data}
     return r_mean, intensity, di, dr
