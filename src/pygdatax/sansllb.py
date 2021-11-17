@@ -552,25 +552,25 @@ def q_scale(root, distance=None, detector=0):
     return
 
 
-@nxlib.treatment_function
-def q_scale2D(root, distance=[None, None, None]):
-    entry = root[nxlib.get_last_entry_key(root)]
-    for i, d in enumerate(distance):
-        data = entry['data'+str(i)]
-        shape = data.nxsignal.nxdata.shape
-        if len(shape) == 2:
-            x_pixel_size = entry['instrument/detector' + str(i) + '/x_pixel_size'].nxdata
-            y_pixel_size = entry['instrument/detector' + str(i) + '/y_pixel_size'].nxdata
-            x0 = entry['instrument/detector' + str(i) + '/beam_center_x'].nxdata
-            y0 = entry['instrument/detector' + str(i) + '/beam_center_y'].nxdata
-            solid_angle = x_pixel_size * y_pixel_size / (d ** 2)
-            y, x = np.indices(shape, dtype='float')
-            y = (y - y0)*y_pixel_size
-            x = (x - x0)*x_pixel_size
-            r = np.sqrt(x ** 2 + y ** 2)
-            thetaf = np.arctan(x / distance)/2
-            alphaf = np.arctan(y / distance)/
-            qx = nx.NXfield(np.cos(alphaf)*np.sin(2*thetaf),name='q_x', attrs={'units'='$$'})
+# @nxlib.treatment_function
+# def q_scale2D(root, distance=[None, None, None]):
+#     entry = root[nxlib.get_last_entry_key(root)]
+#     for i, d in enumerate(distance):
+#         data = entry['data'+str(i)]
+#         shape = data.nxsignal.nxdata.shape
+#         if len(shape) == 2:
+#             x_pixel_size = entry['instrument/detector' + str(i) + '/x_pixel_size'].nxdata
+#             y_pixel_size = entry['instrument/detector' + str(i) + '/y_pixel_size'].nxdata
+#             x0 = entry['instrument/detector' + str(i) + '/beam_center_x'].nxdata
+#             y0 = entry['instrument/detector' + str(i) + '/beam_center_y'].nxdata
+#             solid_angle = x_pixel_size * y_pixel_size / (d ** 2)
+#             y, x = np.indices(shape, dtype='float')
+#             y = (y - y0)*y_pixel_size
+#             x = (x - x0)*x_pixel_size
+#             r = np.sqrt(x ** 2 + y ** 2)
+#             thetaf = np.arctan(x / distance)/2
+#             alphaf = np.arctan(y / distance)/
+#             qx = nx.NXfield(np.cos(alphaf)*np.sin(2*thetaf),name='q_x', attrs={'units'='$$'})
 
 def save_as_txt(filename):
     root = nx.nxload(filename, mode='r')
