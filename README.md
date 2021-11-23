@@ -1,6 +1,8 @@
 # PYGDATAX
-Python graphical user interface for Data treatment on Xeuss 2.0 SAXS instrument based on silx API (http://www.silx.org/)
-
+Python libray for Small Angle Neutron (SANS) and X-ray (SAXS) data treatment and visualization.
+This package can be used for the following instruments : 
+ - Xeuss 2.0 SAXS instrument
+ - SANS_LLB instrument installed at the Paul Scherrer Institut (PSI)
 ## Installation
 To install pygdatax, run:
 ```
@@ -16,7 +18,7 @@ pygdatax package is up to now often upgraded. In order to get the last version t
 ```
 pip install --upgrade pygdatax
 ```
-## Launch Graphical User Interface
+## Launch Graphical User Interface for Xeuss data treatment and visualization
 To launch the GUI, run in you terminal (or conda prompt):
 ````
 pygdatax_gui
