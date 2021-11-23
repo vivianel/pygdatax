@@ -334,7 +334,7 @@ entry0.data2.makelink(entry0.instrument.detector2.data)
 
 # save the NXroot to the file
 try:
-    filepath = '/home/achennev/python/pygdatax/data format/test_nexus_AC_v2.nxs'
+    filepath = '/home/achennev/python/pygdatax/src/dataformat/test_nexus_AC_v2.nxs'
     root.save(filename=filepath, mode='w')
     # root.save(filename='test_nexus_AC_v2.nxs', mode='w')
     import os

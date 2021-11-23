@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data format/sansllb_nexus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data format/sansllb_nexus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,20 +192,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00035" summary="- completing readme">
-      <created>1629810571773</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1629810571773</updated>
-    </task>
-    <task id="LOCAL-00036" summary="- completing readme">
-      <created>1629812155999</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1629812155999</updated>
     </task>
     <task id="LOCAL-00037" summary="- fixed intersnity errors problem">
       <created>1629891930108</created>
@@ -539,7 +522,21 @@
       <option name="project" value="LOCAL" />
       <updated>1637662400020</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="-  added sansllb data format generator">
+      <created>1637672670449</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1637672670449</updated>
+    </task>
+    <task id="LOCAL-00085" summary="-  added sansllb data format generator">
+      <created>1637672685188</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1637672685188</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
