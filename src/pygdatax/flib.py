@@ -16,9 +16,17 @@ def find_direct_beam(m, corners=None):
 
 
 def crop_image(m, corners):
+    """
+
+    Args:
+        m: 2D array
+        corners: [x1,Y1, X2, Y2] (bottom left and top right corners)
+    Returns:
+
+    """
     i1 = int(corners[0])
-    i2 = int(corners[1])
-    j1 = int(corners[2])
+    i2 = int(corners[2])
+    j1 = int(corners[1])
     j2 = int(corners[3])
     cropM = m[j1:j2, i1:i2]
     return cropM

@@ -613,6 +613,62 @@ def compute_collimation(root):
             stateList[key.split('_')[-1]] = root['entry0/instrument/'+key].state
 
 
+# TODO : estimation of side dectectors centers using the central detector and the geometrical parameters
+# TODO : estimation of the side detectros centers using calibrant (silver behenate)
+# TODO : find beam center of central detector using direct beam
+
+@nxlib.treatment_function
+def set_transmission(root,trans_file=None, direct_beam_file=None, roi=None):
+    """
+    compute sample trasnmission and store it in the sample.transmission field. The computation is done over the roi.
+    By default this roi is 10x10 pixel centered over the center given by the scattering file in detector0 field
+    Args:
+        root: NXroot of the scattering file
+        trans_file: transmited filepath
+        direct_beam_file: direct beaml filepath
+        roi: roi extent [X1,Y1, X2,Y2] on which is computed the transmission
+
+    Returns:
+
+    """
+    entry = root[nxlib.get_last_entry_key(root)]
+    if roi is None:
+        x0 = entry['instrument/detector0/beam_center_x'].nxdata
+        y0 = entry['instrument/detector0/beam_center_y'].nxdata
+        roi = [x0-5, y0-5, x0+5, y0+5]
+
+    if trans_file is not None and direct_beam_file is not None:
+        if os.path.exists(trans_file) and os.path.exists(direct_beam_file):
+            direct_root = nx.nxload(direct_beam_file, mode='r')
+            trans_root = nx.nxload(trans_file, mode='r')
+            crop_direct = direct_root['entry0/instrument/detector0/data'].nxdata[roi[1]:roi[3], roi[0]:roi[2]]
+            crop_trans = trans_root['entry0/instrument/detector0/data'].nxdata[roi[1]:roi[3], roi[0]:roi[2]]
+            monitor_trans = trans_root['entry0/monitor3/integral'].nxdata
+            monitor_direct = direct_root['entry0/monitor3/integral'].nxdata
+            t = crop_trans/crop_direct*monitor_direct/monitor_trans
+            t = t.sum()
+            entry['sample/transmission'] = t
+        else:
+            return
+    else:
+        print('No transmission file or direct beam file povided')
+        return
+
+
+def central_center_of_mass(root, roi=None):
+    """
+    Find the center of mass of the central detector within the roi
+    Args:
+        root: NXroot
+        roi: roi extent [X1,Y1, X2,Y2] on which the calculatio is perfomed
+
+    Returns:
+
+    """
+
+
+
+
 if __name__ == '__main__':
     import os
     folder = '/home/achennev/python/pa20_psi/rawdatafile'
