@@ -1,5 +1,5 @@
 # PYGDATAX
-Python libray for Small Angle Neutron (SANS) and X-ray (SAXS) data treatment and visualization.
+Python libray for Small Angle Neutron (SANS) and X-ray (SAXS) scattering data treatment and visualization.
 This package can be used for the following instruments : 
  - Xeuss 2.0 SAXS instrument
  - SANS_LLB instrument installed at the Paul Scherrer Institut (PSI)
@@ -23,6 +23,8 @@ To launch the GUI, run in you terminal (or conda prompt):
 ````
 pygdatax_gui
 ````
+This GUI can also be used to visualize nexus files from SANS_LLB.
+
 ![alt text](pygdatax_screenshot_2.png)
 
 

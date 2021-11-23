@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +70,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sansllb">
+  <component name="RunManager" selected="Python.gui_survey">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -176,9 +178,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.xeuss" />
-        <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.gui_survey" />
       </list>
@@ -192,13 +194,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00038" summary="- fixed intersnity errors problem">
-      <created>1629892122129</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1629892122129</updated>
     </task>
     <task id="LOCAL-00039" summary="- fixed intersnity errors problem">
       <created>1629892232986</created>
@@ -536,7 +531,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637672786359</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="- changed readme">
+      <created>1637673595063</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1637673595063</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -552,7 +554,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed intensity errors problem" />
     <MESSAGE value="- fixed columns names problems on nxs tale for windows users" />
     <MESSAGE value="- add LLB logo to main window" />
     <MESSAGE value="- add right click for treatment function&#10;- add nxs table view for 2D data" />
@@ -577,6 +578,7 @@
     <MESSAGE value="-  add sans llb to the library" />
     <MESSAGE value="-  temp remove of q_scale2D" />
     <MESSAGE value="-  added sansllb data format generator" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  added sansllb data format generator" />
+    <MESSAGE value="- changed readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="- changed readme" />
   </component>
 </project>

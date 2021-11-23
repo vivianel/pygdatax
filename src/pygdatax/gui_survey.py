@@ -7,7 +7,7 @@ import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
-from silx .gui.plot.tools.roi import RegionOfInterestManager
+from silx .gui.plot.tools.roi import RegionOfInterestManager, RegionOfInterestTableWidget
 from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
 from silx.io.utils import is_group, is_dataset, is_file
@@ -1337,13 +1337,13 @@ class DataView(PlotWindow):
         posInfo = [('X', lambda x, y: x),
                    ('Y', lambda x, y: y),
                    ('Data', self._zValue)]
-        self.plotWindow = PlotWindow(backend=None, resetzoom=True,
-                                     autoScale=True, logScale=True,
-                                     grid=False, curveStyle=True, colormap=True,
-                                     aspectRatio=True, yInverted=True,
-                                     copy=True, save=True, print_=True,
-                                     control=True, position=posInfo,
-                                     roi=False, mask=True, fit=True)
+        # self.plotWindow = PlotWindow(backend=None, resetzoom=True,
+        #                              autoScale=True, logScale=True,
+        #                              grid=False, curveStyle=True, colormap=True,
+        #                              aspectRatio=True, yInverted=True,
+        #                              copy=True, save=True, print_=True,
+        #                              control=True, position=posInfo,
+        #                              roi=False, mask=True, fit=True)
         self.roiManager = RegionOfInterestManager(self)
         self.roiManager.setColor('pink')
         self.roiManager.sigRoiAdded.connect(self.updateAddedRegionOfInterest)
@@ -1366,6 +1366,18 @@ class DataView(PlotWindow):
         self.setDefaultColormap(colors.Colormap(name='jet', normalization='log',
                                                 vmin=None, vmax=None, autoscaleMode='stddev3')
                                 )
+        # roi table widget
+        # self.roiDock = qt.QDockWidget('rois', self)
+        # # self.treatmentDock.setStyleSheet("border: 5px solid black")
+        # self.roiDock.setFeatures(qt.QDockWidget.DockWidgetFloatable |
+        #                          qt.QDockWidget.DockWidgetMovable)
+        # self.roiTableWidget = RegionOfInterestTableWidget(self)
+        # self.roiTableWidget.setRegionOfInterestManager(self.roiManager)
+        # self.roiDock.setWidget(self.roiTableWidget)
+        # self.roiDock.setFloating(False)
+        # replace the addTabbedwidget metho of the plot window
+        # self._dockWidgets.append(self.roiDock)
+        # self.addDockWidget(qt.Qt.BottomDockWidgetArea, self.roiDock)
 
     def updateAddedRegionOfInterest(self, roi):
         """Called for each added region of interest: set the name"""
