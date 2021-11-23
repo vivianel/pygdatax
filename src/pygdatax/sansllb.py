@@ -605,6 +605,14 @@ def divide_spectra(root, denominator_file=None):
                     entry['data'+str(i)].nxerrors /= denom_entry['data'+str(i)].nxsignal
 
 
+def compute_collimation(root):
+    stateList = {}
+    slitList = {}
+    for key in root['entry0/instrument']:
+        if isinstance(root['entry0/instrument/'+key], nx.NXguide):
+            stateList[key.split('_')[-1]] = root['entry0/instrument/'+key].state
+
+
 if __name__ == '__main__':
     import os
     folder = '/home/achennev/python/pa20_psi/rawdatafile'

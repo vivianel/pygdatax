@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,13 +193,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00033" summary="- try to use theard for treatment">
-      <created>1629809070290</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1629809070290</updated>
     </task>
     <task id="LOCAL-00034" summary="- try to use theard for treatment">
       <created>1629809131665</created>
@@ -536,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637077186395</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="-  temp remove of q_scale2D">
+      <created>1637164958594</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1637164958595</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -552,7 +553,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- completing readme" />
     <MESSAGE value="- fixed intersnity errors problem" />
     <MESSAGE value="- fixed intensity errors problem" />
     <MESSAGE value="- fixed columns names problems on nxs tale for windows users" />
@@ -577,6 +577,7 @@
     <MESSAGE value="-  add x and y pixel size management" />
     <MESSAGE value="-  added x y pixel size management&#10;- reduction2D function works for all detector" />
     <MESSAGE value="-  add sans llb to the library" />
-    <option name="LAST_COMMIT_MESSAGE" value="-  add sans llb to the library" />
+    <MESSAGE value="-  temp remove of q_scale2D" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  temp remove of q_scale2D" />
   </component>
 </project>
