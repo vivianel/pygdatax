@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" afterDir="false" />
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- fixed import modules">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,20 +214,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00040" summary="- fixed intensity errors problem">
-      <created>1629896628059</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1629896628059</updated>
-    </task>
-    <task id="LOCAL-00041" summary="- fixed columns names problems on nxs tale for windows users">
-      <created>1630070995449</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1630070995449</updated>
     </task>
     <task id="LOCAL-00042" summary="- fixed columns names problems on nxs tale for windows users">
       <created>1630326859498</created>
@@ -560,7 +544,21 @@
       <option name="project" value="LOCAL" />
       <updated>1637676932041</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="- fixed import modules">
+      <created>1637749914088</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1637749914088</updated>
+    </task>
+    <task id="LOCAL-00090" summary="- fixed import modules">
+      <created>1637749921273</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1637749921274</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -576,7 +574,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed columns names problems on nxs tale for windows users" />
     <MESSAGE value="- add LLB logo to main window" />
     <MESSAGE value="- add right click for treatment function&#10;- add nxs table view for 2D data" />
     <MESSAGE value="- add toolips" />
@@ -601,6 +598,7 @@
     <MESSAGE value="-  temp remove of q_scale2D" />
     <MESSAGE value="-  added sansllb data format generator" />
     <MESSAGE value="- changed readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="- changed readme" />
+    <MESSAGE value="- fixed import modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed import modules" />
   </component>
 </project>

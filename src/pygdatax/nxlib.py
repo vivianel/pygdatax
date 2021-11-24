@@ -445,42 +445,51 @@ def function_performed(root, function_name):
     return performed
 
 
-@decorator.decorator
-def treatment_function(func, new_entry=False, *args, **kwargs):
-    file = args[0]
-    root = loadfile(file, mode='rw')
-    with root.nxfile:
-        # check if function is already performed
-        # if nr.function_performed(root, func.__name__):
-        #     print('function ' + func.__name__ + ' already performed.')
-        #     return
-        if new_entry:
-            last_key = create_new_entry(root)
-        else:
-            last_key = get_last_entry_key(root)
-        root.attrs['default'] = last_key
+def treatment_function(func):
+    def wrapper(*args, **kwargs):
+        file = args[0]
+        root = loadfile(file, mode='rw')
+        with root.nxfile:
+            # check if function is already performed
+            # TODO : solve problem when azimutal over the three detector
+            # if nr.function_performed(root, func.__name__):
+            #     print('function ' + func.__name__ + ' already performed.')
+            #     return
+            if 'new_entry' in kwargs:
+                if kwargs['new_entry']:
+                    last_key = create_new_entry(root)
+                else:
+                    last_key = get_last_entry_key(root)
+            else:
+                last_key = create_new_entry(root)
+            root.attrs['default'] = last_key
 
-        # entry = root[last_key]
-        result = func(root, *args, **kwargs)
-        last_key = get_last_entry_key(root)
-        entry = root[last_key]
-        if 'process' not in entry:
-            entry.process = nx.NXprocess(program=func.__name__,
-                                         arguments=str(kwargs),
-                                         date=str(datetime.datetime.today()),
-                                         version='nxread-'+NXREAD_VERSION
-                                         )
-        else:
-            del root[last_key + '/' + 'process']
-            entry.process = nx.NXprocess(program=func.__name__,
-                                         arguments=str(kwargs),
-                                         date=str(datetime.datetime.today()),
-                                         version='nxread-' + NXREAD_VERSION
-                                         )
+            # entry = root[last_key]
+            if 'new_entry' in kwargs:
+                kwargs.pop('new_entry')
+            args = list(args)
+            args.pop(0)
+            func(root, *args, **kwargs)
+            last_key = get_last_entry_key(root)
+            entry = root[last_key]
+            if 'process' not in entry:
+                entry.process = nx.NXprocess(program=func.__name__,
+                                             arguments=str(kwargs),
+                                             date=str(datetime.datetime.today()),
+                                             version='nxread-'+NXREAD_VERSION
+                                             )
+            else:
+                del root[last_key + '/' + 'process']
+                entry.process = nx.NXprocess(program=func.__name__,
+                                             arguments=str(kwargs),
+                                             date=str(datetime.datetime.today()),
+                                             version='nxread-' + NXREAD_VERSION
+                                             )
+            return
 
     # wrapper._original = func
     # wrapper.__name__ = func.__name__
-    return result
+    return wrapper
 
 
 def get_processed_entry_key(root, function):
