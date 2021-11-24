@@ -446,7 +446,6 @@ def get_default_reduction_parameters(root):
     return dic
 
 
-# TODO : remove link when saving package file
 def make_reduction_package(output_file,
                            dark_file=None, empty_cell_file=None, direct_beam_file=None,
                            water_file=None,

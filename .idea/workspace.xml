@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,10 +198,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.nxlib" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.sansllb" />
+        <item itemvalue="Python.nxlib" />
         <item itemvalue="Python.gui_survey" />
       </list>
     </recent_temporary>
@@ -213,13 +214,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00043" summary="- add LLB logo to main window">
-      <created>1630570577677</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1630570577677</updated>
     </task>
     <task id="LOCAL-00044" summary="- add LLB logo to main window">
       <created>1630570616042</created>
@@ -557,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637750257207</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="- fixed import modules">
+      <created>1637750265106</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1637750265106</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
