@@ -11,8 +11,8 @@ import fabio
 import nexusformat.nexus as nx
 import numpy as np
 import time
-import flib
-import nxlib
+from . import flib
+from . import nxlib
 import os
 NXREAD_VERSION = '0.0'
 
@@ -604,7 +604,7 @@ def divide_spectra(root, denominator_file=None):
                 if signal_key+'_errors' in entry['data'+str(i)]:
                     entry['data'+str(i)].nxerrors /= denom_entry['data'+str(i)].nxsignal
 
-
+# TODO : finish this
 def compute_collimation(root):
     stateList = {}
     slitList = {}
@@ -655,7 +655,7 @@ def set_transmission(root,trans_file=None, direct_beam_file=None, roi=None):
         return
 
 
-def central_center_of_mass(root, roi=None):
+def center_of_mass_central_detector(root, roi=None):
     """
     Find the center of mass of the central detector within the roi
     Args:
