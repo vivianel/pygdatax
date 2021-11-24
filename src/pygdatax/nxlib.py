@@ -13,6 +13,7 @@ import os
 import numpy as np
 import fabio
 from scipy.io import loadmat, matlab
+import decorator
 NXREAD_VERSION = '0.0'
 
 
@@ -206,110 +207,110 @@ def build_nexus_from_edf(filename):
 
     return root
 
-def build_rxnexus_from_edf(fileList, directbeam, outputFile):
-    fileObj = fabio.open(fileList[0])
-    header = fileObj.header
-    root = nx.NXroot()
-    root.attrs['default'] = 'entry0'
-    root.attrs['NX_class'] = b'NXroot'
-    entry = nx.NXentry()
-    entry.title = nx.NXfield(value=header['title'])
-    entry.run = nx.NXfield(value=header['run'])
-    entry.definition = nx.NXfield(definition='NXsas')
-    entry.attrs['default'] = 'data'
-    entry.attrs['version'] = '1.0'
-    entry.title = nx.NXfield(value=header['title'])
-    entry.run = nx.NXfield(value=header['run'])
-    entry.definition = nx.NXfield(definition='RX_Xeuss')
-    # building instrument
-    instrument = nx.NXinstrument(description='Xeuss')
-    y_gap = float(header['s2bot']) + float(header['s2top'])
-    x_gap = float(header['s2hr']) + float(header['s2hl'])
-    # intrument/aperture
-    aperture = nx.NXslit(x_gap=nx.NXfield(x_gap, attrs={'units': 'mm'}),
-                         y_gap=nx.NXfield(y_gap, attrs={'units': 'mm'}))
-    # TO DO : find good distance
-    collimator = nx.NXcollimator(length=nx.NXfield(1200, units='mm'),
-                                 distance=nx.NXfield(20, units='mm'),
-                                 s1bot=nx.NXfield(float(header['s1bot']), attrs={'units': 'mm'}),
-                                 s1top=nx.NXfield(float(header['s1top']), attrs={'units': 'mm'}),
-                                 s1hl=nx.NXfield(float(header['s1hl']), attrs={'units': 'mm'}),
-                                 s1hr=nx.NXfield(float(header['s1hr']), attrs={'units': 'mm'}),
-                                 s2bot=nx.NXfield(float(header['s1bot']), attrs={'units': 'mm'}),
-                                 s2top=nx.NXfield(float(header['s1top']), attrs={'units': 'mm'}),
-                                 s2hl=nx.NXfield(float(header['s2hl']), attrs={'units': 'mm'}),
-                                 s2hr=nx.NXfield(float(header['s2hr']), attrs={'units': 'mm'}))
-    # instrument/detector
-    dist = float(header['SampleDistance']) * 1000
-    detx = float(header['detx'])
-    detz = float(header['detz'])
-    pixSize1 = float(header['PSize_1']) * 1000
-    pixSize2 = float(header['PSize_2']) * 1000
-    x0 = float(header['Center_1'])
-    y0 = float(header['Center_2'])
-    detector = nx.NXdetector(data=fileObj.data,
-                             distance=nx.NXfield(dist, attrs={'units': 'mm'}),
-                             x_position=nx.NXfield(detx, attrs={'units': 'mm'}),
-                             y_position=nx.NXfield(detz, attrs={'units': 'mm'}),
-                             beam_center_x=nx.NXfield(x0, attrs={'units': 'pixel'}),
-                             beam_center_y=nx.NXfield(y0, attrs={'units': 'pixel'}),
-                             x_pixel_size=nx.NXfield(pixSize1, attrs={'units': 'mm'}),
-                             y_pixel_size=nx.NXfield(pixSize2, attrs={'units': 'mm'}),
-                             description='Pilatus 1M',
-                             pixel_mask_applied=False,
-                             pixel_mask=np.zeros_like(fileObj.data))
-    # instrument/source
-    wvl = float(header['WaveLength']) * 1e10
-    sizeX = float(header['s1hr']) + float(header['s1hl'])
-    sizeY = float(header['s1bot']) + float(header['s1top'])
-    source = nx.NXsource(description='genix3D', radiation='x-ray',
-                         incident_wavelength=nx.NXfield(wvl, attrs={'units': 'angstrom'}),
-                         incident_wavelength_spread=0,
-                         beam_size_x=nx.NXfield(sizeX, attrs={'units': 'mm'}),
-                         beam_size_y=nx.NXfield(sizeY, attrs={'units': 'mm'}),
-                         flux=nx.NXfield(float(header['pilai1']), attrs={'units': '1/s'}))
-    entry.instrument = instrument
-    entry.instrument.insert(detector)
-    entry.instrument.insert(aperture)
-    entry.instrument.insert(collimator)
-    entry.instrument.insert(source)
-
-    sample = nx.NXsample(sample_name=header['Comment'],
-                         thickness=nx.NXfield(1.0, attrs={'units': 'mm'}),
-                         transmission=float(header['pilroi1']),
-                         x_position=nx.NXfield(float(header['x']), attrs={'units': 'mm'}),
-                         y_position=nx.NXfield(float(header['z']), attrs={'units': 'mm'}),
-                         # om=nx.NXfield(float(header['om']), attrs={'units': 'deg'}),
-                         phi=nx.NXfield(float(header['phi']), attrs={'units': 'deg'}),
-                         rx=nx.NXfield(float(header['rx']), attrs={'units': 'deg'}),
-                         ry=nx.NXfield(float(header['ry']), attrs={'units': 'deg'}),
-                         temperature=nx.NXfield(float(header['Temperature']),
-                                                attrs={'units': '°C'}),
-                         count_time=nx.NXfield(float(header['count_time']),
-                                               attrs={'units': 's'}),
-                         description=header['Comment']
-                         )
-    entry.insert(sample)
-    entry.data = nx.NXdata(attrs={'interpretation': b"image",
-                                  'signal': "data"})
-    root.entry0 = entry
-    root.entry0.data.makelink(root.entry0.instrument.detector.data)
-    new_name = filename.split('.')[0]
-    new_name += '.nxs'
-    try:
-        root.save(outputFile, mode='w')
-        root.close()
-    except NeXusError:
-        print('error')
-        # if os.path.exists(new_name):
-        #     print('already here')
-        #     os.remove(new_name)
-        #     root.save(new_name, mode='w')
-        #     root.unlock()
-        # else:
-        #     print('something else')
-
-    return root
+# def build_rxnexus_from_edf(fileList, directbeam, outputFile):
+#     fileObj = fabio.open(fileList[0])
+#     header = fileObj.header
+#     root = nx.NXroot()
+#     root.attrs['default'] = 'entry0'
+#     root.attrs['NX_class'] = b'NXroot'
+#     entry = nx.NXentry()
+#     entry.title = nx.NXfield(value=header['title'])
+#     entry.run = nx.NXfield(value=header['run'])
+#     entry.definition = nx.NXfield(definition='NXsas')
+#     entry.attrs['default'] = 'data'
+#     entry.attrs['version'] = '1.0'
+#     entry.title = nx.NXfield(value=header['title'])
+#     entry.run = nx.NXfield(value=header['run'])
+#     entry.definition = nx.NXfield(definition='RX_Xeuss')
+#     # building instrument
+#     instrument = nx.NXinstrument(description='Xeuss')
+#     y_gap = float(header['s2bot']) + float(header['s2top'])
+#     x_gap = float(header['s2hr']) + float(header['s2hl'])
+#     # intrument/aperture
+#     aperture = nx.NXslit(x_gap=nx.NXfield(x_gap, attrs={'units': 'mm'}),
+#                          y_gap=nx.NXfield(y_gap, attrs={'units': 'mm'}))
+#     # TO DO : find good distance
+#     collimator = nx.NXcollimator(length=nx.NXfield(1200, units='mm'),
+#                                  distance=nx.NXfield(20, units='mm'),
+#                                  s1bot=nx.NXfield(float(header['s1bot']), attrs={'units': 'mm'}),
+#                                  s1top=nx.NXfield(float(header['s1top']), attrs={'units': 'mm'}),
+#                                  s1hl=nx.NXfield(float(header['s1hl']), attrs={'units': 'mm'}),
+#                                  s1hr=nx.NXfield(float(header['s1hr']), attrs={'units': 'mm'}),
+#                                  s2bot=nx.NXfield(float(header['s1bot']), attrs={'units': 'mm'}),
+#                                  s2top=nx.NXfield(float(header['s1top']), attrs={'units': 'mm'}),
+#                                  s2hl=nx.NXfield(float(header['s2hl']), attrs={'units': 'mm'}),
+#                                  s2hr=nx.NXfield(float(header['s2hr']), attrs={'units': 'mm'}))
+#     # instrument/detector
+#     dist = float(header['SampleDistance']) * 1000
+#     detx = float(header['detx'])
+#     detz = float(header['detz'])
+#     pixSize1 = float(header['PSize_1']) * 1000
+#     pixSize2 = float(header['PSize_2']) * 1000
+#     x0 = float(header['Center_1'])
+#     y0 = float(header['Center_2'])
+#     detector = nx.NXdetector(data=fileObj.data,
+#                              distance=nx.NXfield(dist, attrs={'units': 'mm'}),
+#                              x_position=nx.NXfield(detx, attrs={'units': 'mm'}),
+#                              y_position=nx.NXfield(detz, attrs={'units': 'mm'}),
+#                              beam_center_x=nx.NXfield(x0, attrs={'units': 'pixel'}),
+#                              beam_center_y=nx.NXfield(y0, attrs={'units': 'pixel'}),
+#                              x_pixel_size=nx.NXfield(pixSize1, attrs={'units': 'mm'}),
+#                              y_pixel_size=nx.NXfield(pixSize2, attrs={'units': 'mm'}),
+#                              description='Pilatus 1M',
+#                              pixel_mask_applied=False,
+#                              pixel_mask=np.zeros_like(fileObj.data))
+#     # instrument/source
+#     wvl = float(header['WaveLength']) * 1e10
+#     sizeX = float(header['s1hr']) + float(header['s1hl'])
+#     sizeY = float(header['s1bot']) + float(header['s1top'])
+#     source = nx.NXsource(description='genix3D', radiation='x-ray',
+#                          incident_wavelength=nx.NXfield(wvl, attrs={'units': 'angstrom'}),
+#                          incident_wavelength_spread=0,
+#                          beam_size_x=nx.NXfield(sizeX, attrs={'units': 'mm'}),
+#                          beam_size_y=nx.NXfield(sizeY, attrs={'units': 'mm'}),
+#                          flux=nx.NXfield(float(header['pilai1']), attrs={'units': '1/s'}))
+#     entry.instrument = instrument
+#     entry.instrument.insert(detector)
+#     entry.instrument.insert(aperture)
+#     entry.instrument.insert(collimator)
+#     entry.instrument.insert(source)
+#
+#     sample = nx.NXsample(sample_name=header['Comment'],
+#                          thickness=nx.NXfield(1.0, attrs={'units': 'mm'}),
+#                          transmission=float(header['pilroi1']),
+#                          x_position=nx.NXfield(float(header['x']), attrs={'units': 'mm'}),
+#                          y_position=nx.NXfield(float(header['z']), attrs={'units': 'mm'}),
+#                          # om=nx.NXfield(float(header['om']), attrs={'units': 'deg'}),
+#                          phi=nx.NXfield(float(header['phi']), attrs={'units': 'deg'}),
+#                          rx=nx.NXfield(float(header['rx']), attrs={'units': 'deg'}),
+#                          ry=nx.NXfield(float(header['ry']), attrs={'units': 'deg'}),
+#                          temperature=nx.NXfield(float(header['Temperature']),
+#                                                 attrs={'units': '°C'}),
+#                          count_time=nx.NXfield(float(header['count_time']),
+#                                                attrs={'units': 's'}),
+#                          description=header['Comment']
+#                          )
+#     entry.insert(sample)
+#     entry.data = nx.NXdata(attrs={'interpretation': b"image",
+#                                   'signal': "data"})
+#     root.entry0 = entry
+#     root.entry0.data.makelink(root.entry0.instrument.detector.data)
+#     new_name = filename.split('.')[0]
+#     new_name += '.nxs'
+#     try:
+#         root.save(outputFile, mode='w')
+#         root.close()
+#     except NeXusError:
+#         print('error')
+#         # if os.path.exists(new_name):
+#         #     print('already here')
+#         #     os.remove(new_name)
+#         #     root.save(new_name, mode='w')
+#         #     root.unlock()
+#         # else:
+#         #     print('something else')
+#
+#     return root
 
 
 def get_last_entry_key(root):
@@ -404,6 +405,25 @@ def get_last_signal_key(root):
     return key
 
 
+def get_processed_entry_key(root, treatment_function):
+    """
+    return the NXentry key corresponding to the treatment perfomed by a given function name
+    Args:
+        root:
+        treatment_function: treatmentfunction handler
+
+    Returns:
+
+    """
+    out_key = None
+    for entry_key in root:
+        for key in root[entry_key]:
+            if isinstance(root[entry_key+'/'+key], nx.NXprocess):
+                if root[entry_key+'/'+key].program == treatment_function.__name__:
+                    out_key = entry_key
+    return out_key
+
+
 def function_performed(root, function_name):
     """
     Check if a treatment function has already been performed
@@ -425,51 +445,62 @@ def function_performed(root, function_name):
     return performed
 
 
-def treatment_function(func):
-    def wrapper(*args, **kwargs):
-        file = args[0]
-        root = loadfile(file, mode='rw')
-        with root.nxfile:
-            # check if function is already performed
-            # TODO : solve problem when azimutal over the three detector
-            # if nr.function_performed(root, func.__name__):
-            #     print('function ' + func.__name__ + ' already performed.')
-            #     return
-            if 'new_entry' in kwargs:
-                if kwargs['new_entry']:
-                    last_key = create_new_entry(root)
-                else:
-                    last_key = get_last_entry_key(root)
-            else:
-                last_key = create_new_entry(root)
-            root.attrs['default'] = last_key
-
-            # entry = root[last_key]
-            if 'new_entry' in kwargs:
-                kwargs.pop('new_entry')
-            args = list(args)
-            args.pop(0)
-            func(root, *args, **kwargs)
+@decorator.decorator
+def treatment_function(func, new_entry=False, *args, **kwargs):
+    file = args[0]
+    root = loadfile(file, mode='rw')
+    with root.nxfile:
+        # check if function is already performed
+        # if nr.function_performed(root, func.__name__):
+        #     print('function ' + func.__name__ + ' already performed.')
+        #     return
+        if new_entry:
+            last_key = create_new_entry(root)
+        else:
             last_key = get_last_entry_key(root)
-            entry = root[last_key]
-            if 'process' not in entry:
-                entry.process = nx.NXprocess(program=func.__name__,
-                                             arguments=str(kwargs),
-                                             date=str(datetime.datetime.today()),
-                                             version='nxread-'+NXREAD_VERSION
-                                             )
-            else:
-                del root[last_key + '/' + 'process']
-                entry.process = nx.NXprocess(program=func.__name__,
-                                             arguments=str(kwargs),
-                                             date=str(datetime.datetime.today()),
-                                             version='nxread-' + NXREAD_VERSION
-                                             )
-            return
+        root.attrs['default'] = last_key
+
+        # entry = root[last_key]
+        result = func(root, *args, **kwargs)
+        last_key = get_last_entry_key(root)
+        entry = root[last_key]
+        if 'process' not in entry:
+            entry.process = nx.NXprocess(program=func.__name__,
+                                         arguments=str(kwargs),
+                                         date=str(datetime.datetime.today()),
+                                         version='nxread-'+NXREAD_VERSION
+                                         )
+        else:
+            del root[last_key + '/' + 'process']
+            entry.process = nx.NXprocess(program=func.__name__,
+                                         arguments=str(kwargs),
+                                         date=str(datetime.datetime.today()),
+                                         version='nxread-' + NXREAD_VERSION
+                                         )
 
     # wrapper._original = func
     # wrapper.__name__ = func.__name__
-    return wrapper
+    return result
+
+
+def get_processed_entry_key(root, function):
+    """
+    Retrun the NXentry key which has been treated with the treatment function
+    Args:
+        root: NXroot
+        function: treatment_function
+
+    Returns:
+        entry_key (str):
+
+    """
+    out_key = None
+    for entry_key in root:
+        for key in root[entry_key]:
+            if isinstance(root[entry_key+'/'+key], nx.NXprocess):
+                if root[entry_key+'/'+key].program == function.__name__:
+                    out_key = entry_key
+    return out_key
 
 
 def loadfile(file, mode='rw'):
@@ -496,7 +527,6 @@ def copy_entry(new_root, old_root, new_entry_key, old_entry_key):
                 # new_entry[key].nxsignal = old_root[signal.target].copy()
 
 
-
 def save_as_txt(filename):
     root = nx.nxload(filename, mode='r')
     last_key = get_last_entry_key(root)
@@ -515,3 +545,10 @@ def save_as_txt(filename):
 
     # if 'errors' in root[last_key+'/data']:
     #     root[last_key+'/data/errors'] /= flux
+
+
+if __name__ == '__main__':
+    import xeuss
+    file = '/home/achennev/Documents/xeuss/aniso_annie/2020-10-12-AB_0_52293.nxs'
+    root = nx.nxload(file, mode='r')
+    print(get_processed_entry_key(root,xeuss.azimutal_integration2D))
