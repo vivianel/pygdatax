@@ -451,7 +451,6 @@ def treatment_function(func):
         root = loadfile(file, mode='rw')
         with root.nxfile:
             # check if function is already performed
-            # TODO : solve problem when azimutal over the three detector
             # if nr.function_performed(root, func.__name__):
             #     print('function ' + func.__name__ + ' already performed.')
             #     return
