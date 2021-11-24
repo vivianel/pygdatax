@@ -604,7 +604,6 @@ def divide_spectra(root, denominator_file=None):
                     entry['data'+str(i)].nxerrors /= denom_entry['data'+str(i)].nxsignal
 
 # TODO : finish this
-truc
 def compute_collimation(root):
     stateList = {}
     slitList = {}
