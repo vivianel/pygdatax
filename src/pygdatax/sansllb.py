@@ -11,8 +11,8 @@ import fabio
 import nexusformat.nexus as nx
 import numpy as np
 import time
-from . import flib
-from . import nxlib
+from pygdatax import flib
+from pygdatax import nxlib
 import os
 NXREAD_VERSION = '0.0'
 
@@ -163,7 +163,7 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
     for i in range(3):
         distance_key = 'instrument/detector' + str(i) + '/distance'
         if distance[i] is None:
-            distance = entry[distance_key].nxdata
+            distance[i] = entry[distance_key].nxdata
         else:
             entry[distance_key].nxdata = distance[i]
 
@@ -614,7 +614,7 @@ def compute_collimation(root):
 # TODO : find beam center of central detector using direct beam
 
 @nxlib.treatment_function
-def set_transmission(root,trans_file=None, direct_beam_file=None, roi=4*[None]):
+def set_transmission(root,trans_file=None, direct_beam_file=None, roi=[None, None, None, None]):
     """
     compute sample trasnmission and store it in the sample.transmission field. The computation is done over the roi.
     By default this roi is 10x10 pixel centered over the center given by the scattering file in detector0 field
@@ -696,8 +696,8 @@ if __name__ == '__main__':
     reduction2D(water, sub_file=sub_file, norm_file=None)
     # divide_spectra(njc74, denominator_file=water)
     azimutal_integration(njc74, mask_file=mask0, detector=0, x0=64, y0=64)
-    azimutal_integration(njc74, detector=1, new_entry=False)
-    azimutal_integration(njc74, detector=2, new_entry=False)
+    azimutal_integration(njc74, detector=1)
+    azimutal_integration(njc74, detector=2)
     # azimutal_integration_multidetector(njc74)
     # q_scale(njc74)
     # file1 = '/home/achennev/python/pa20_psi/rawdatafile/test_nexus_AC_v2.nxs'
