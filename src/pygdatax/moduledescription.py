@@ -10,6 +10,7 @@ class FunctionDescription(object):
         self.module_name = ''
         self.function_name = ''
         self.decorator = None
+        self.docstring = ''
         if inspect.isfunction(function_handle):
             self.module_name = inspect.getmodule(function_handle)
             self.function_name = function_handle.__name__
@@ -17,6 +18,7 @@ class FunctionDescription(object):
             first_line = source.splitlines()[0]
             if '@' in first_line:
                 self.decorator = first_line
+            self.docstring = inspect.getdoc(function_handle)
             sign = inspect.signature(function_handle)
             params = sign.parameters
             for arg_name in params:
