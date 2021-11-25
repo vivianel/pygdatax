@@ -13,6 +13,7 @@ import os
 import numpy as np
 import fabio
 from scipy.io import loadmat, matlab
+import decorator
 NXREAD_VERSION = '0.0'
 
 
