@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- using decorator module for treament">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +62,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -70,8 +76,8 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.nxlib">
-    <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.inspectmodules">
+    <configuration name="inspectmodules" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -83,7 +89,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/gui_survey.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -199,11 +205,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.inspectmodules" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.nxlib" />
-        <item itemvalue="Python.gui_survey" />
       </list>
     </recent_temporary>
   </component>
@@ -215,13 +221,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00045" summary="- add right click for treatment function&#10;- add nxs table view for 2D data">
-      <created>1630682736998</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1630682736998</updated>
     </task>
     <task id="LOCAL-00046" summary="- add right click for treatment function&#10;- add nxs table view for 2D data">
       <created>1630683165642</created>
@@ -559,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637750912126</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="- using decorator module for treament">
+      <created>1637752199737</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1637752199737</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -575,7 +581,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- add LLB logo to main window" />
     <MESSAGE value="- add right click for treatment function&#10;- add nxs table view for 2D data" />
     <MESSAGE value="- add toolips" />
     <MESSAGE value="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height" />
@@ -600,6 +605,18 @@
     <MESSAGE value="-  added sansllb data format generator" />
     <MESSAGE value="- changed readme" />
     <MESSAGE value="- fixed import modules" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed import modules" />
+    <MESSAGE value="- using decorator module for treament" />
+    <option name="LAST_COMMIT_MESSAGE" value="- using decorator module for treament" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/pygdatax/inspectmodules.py</url>
+          <line>47</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
