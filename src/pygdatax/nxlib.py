@@ -13,7 +13,6 @@ import os
 import numpy as np
 import fabio
 from scipy.io import loadmat, matlab
-import decorator
 NXREAD_VERSION = '0.0'
 
 
@@ -447,6 +446,20 @@ def function_performed(root, function_name):
 
 @decorator.decorator
 def treatment_function(func, new_entry=True, *args, **kwargs):
+    """
+    decorator for nexus file treatment function. The new_entry keyword argument define if the treated data shall be
+    stored in a new NXentry (True) or not (False). If the nexus file present only one entry ('entry0'),
+    a new entry is created whatever the new_entry keyword argument value in order to not modify the raw data structure.
+    Args:
+        func (object): treament function handle
+        new_entry (bool, optionnal): create or not new entry. Default is True
+        *args: treatment fucntion arguments
+        **kwargs: treatment fucntion keyword arguments
+
+    Returns:
+        The output of the function called
+
+    """
     file = args[0]
     root = loadfile(file, mode='rw')
     with root.nxfile:
