@@ -975,6 +975,7 @@ class SaxsUtily(qt.QMainWindow):
                     return
 
 
+
 class NexusFileTable(qt.QTableWidget):
     directory = ''
     file_extension = '.nxs'

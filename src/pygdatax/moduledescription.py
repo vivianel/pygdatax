@@ -52,6 +52,17 @@ def get_commandList(module, decorator='@nxlib.treatment_function'):
             commandList.append(des.fullcommand)
     return commandList
 
+
+def get_functionList(module, decorator='@nxlib.treatment_function'):
+    functionList = []
+    members = inspect.getmembers(module)
+    for m in members:
+        des = FunctionDescription(m[1])
+        if des.fullcommand != '' and des.decorator == decorator:
+            functionList.append(des.function_name)
+    return functionList
+
+
 if __name__ =='__main__':
     from pygdatax import xeuss
     azi = FunctionDescription(xeuss.azimutal_integration)
