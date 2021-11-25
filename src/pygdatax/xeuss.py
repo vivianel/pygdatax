@@ -4,7 +4,7 @@ import numpy as np
 from pygdatax import nxlib, flib
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
     # root = loadfile(file, mode='rw')
     # with root.nxfile:
@@ -605,7 +605,7 @@ def cut(root, xmin=None, xmax=None):
         return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=True)
 def concat(root, file=None):
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
