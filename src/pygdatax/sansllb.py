@@ -42,7 +42,7 @@ def set_beam_center(root, detector=0, x0=64, y0=64):
     return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def azimutal_integration(root, detector=0, mask_file=None, x0=None, y0=None, bins=90,
                          x_pixel_size=None, y_pixel_size=None):
     last_key = nxlib.get_last_entry_key(root)
@@ -109,14 +109,11 @@ def azimutal_integration_multidetector(root, mask_file0=None, x0=None, y0=None, 
                                        x_pixel_size2=None, y_pixel_size2=None
                                        ):
     azimutal_integration(root.file_name, detector=0, mask_file=mask_file0, x0=x0, y0=y0, bins=bins0,
-                         x_pixel_size=x_pixel_size0, y_pixel_size=y_pixel_size1,
-                         new_entry=False)
+                         x_pixel_size=x_pixel_size0, y_pixel_size=y_pixel_size1)
     azimutal_integration(root.file_name, detector=1, mask_file=mask_file1, x0=x1, y0=y1, bins=bins1,
-                         x_pixel_size=x_pixel_size1, y_pixel_size=y_pixel_size1,
-                         new_entry=False)
+                         x_pixel_size=x_pixel_size1, y_pixel_size=y_pixel_size1)
     azimutal_integration(root.file_name, detector=2, mask_file=mask_file2, x0=x2, y0=y2, bins=bins2,
-                         x_pixel_size=x_pixel_size2, y_pixel_size=y_pixel_size2,
-                         new_entry=False)
+                         x_pixel_size=x_pixel_size2, y_pixel_size=y_pixel_size2)
 
 
 @nxlib.treatment_function
@@ -617,7 +614,7 @@ def compute_collimation(root):
 # TODO : find beam center of central detector using direct beam
 
 @nxlib.treatment_function
-def set_transmission(root,trans_file=None, direct_beam_file=None, roi=None):
+def set_transmission(root,trans_file=None, direct_beam_file=None, roi=4*[None]):
     """
     compute sample trasnmission and store it in the sample.transmission field. The computation is done over the roi.
     By default this roi is 10x10 pixel centered over the center given by the scattering file in detector0 field
@@ -631,7 +628,7 @@ def set_transmission(root,trans_file=None, direct_beam_file=None, roi=None):
 
     """
     entry = root[nxlib.get_last_entry_key(root)]
-    if roi is None:
+    if roi == 4*[None]:
         x0 = entry['instrument/detector0/beam_center_x'].nxdata
         y0 = entry['instrument/detector0/beam_center_y'].nxdata
         roi = [x0-5, y0-5, x0+5, y0+5]

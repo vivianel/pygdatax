@@ -68,7 +68,6 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
         mask_data = np.zeros_like(m)
         entry.instrument.detector.pixel_mask = mask_data
     if 'data_errors' in entry.data:
-        print('error')
         error = entry.data.nxerrors.nxdata
     else:
         error = None
@@ -208,7 +207,7 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
     data.r_errors = fs.r_errors
     del entry['data']
     entry['data'] = data
-    q_scale(root.file_name, distance=distance, new_entry=False)
+    q_scale(root.file_name, distance=distance)#, new_entry=False)
     return
 
 
@@ -417,7 +416,7 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
 #     return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def q_scale(root, distance=None):
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
