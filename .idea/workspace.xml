@@ -7,7 +7,6 @@
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- using decorator module for treament">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
@@ -76,7 +75,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.inspectmodules">
+  <component name="RunManager" selected="Python.sansllb">
     <configuration name="inspectmodules" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -205,10 +204,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.inspectmodules" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.nxlib" />
       </list>
     </recent_temporary>
