@@ -458,6 +458,9 @@ def treatment_function(func, new_entry=True, *args, **kwargs):
             last_key = create_new_entry(root)
         else:
             last_key = get_last_entry_key(root)
+            # if their is only the rawdata entry we add a new one
+            if last_key == 'entry0':
+                last_key = create_new_entry(root)
         root.attrs['default'] = last_key
         args = list(args)
         args.pop(0)
