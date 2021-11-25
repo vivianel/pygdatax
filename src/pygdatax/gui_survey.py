@@ -19,7 +19,7 @@ from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
 import yaml
-
+from pygdatax import moduledescription
 from pyFAI.gui.CalibrationWindow import CalibrationWindow
 from pyFAI.gui.CalibrationContext import CalibrationContext
 
@@ -1299,7 +1299,8 @@ class CodeEditor(qt.QLineEdit):
         # self.setTabStopDistance(
             # qt.QFontMetricsF(self.font()).horizontalAdvance(' ') * 4)
         # self.highlighter = PythonHighlighter(self.document())
-        completer = qt.QCompleter(COMPLETER_NAMES)
+
+        completer = qt.QCompleter(moduledescription.get_commandList(xeuss))
         self.setCompleter(completer)
         # self.setFixedHeight(30)
         self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
@@ -1307,7 +1308,7 @@ class CodeEditor(qt.QLineEdit):
 
     def generateMenu(self, event):
         menu = qt.QMenu()
-        for fun in COMPLETER_NAMES:
+        for fun in moduledescription.get_commandList(xeuss):
             menu.addAction(fun, self.actionClicked)
         menu.exec_(self.mapToGlobal(event))
 
