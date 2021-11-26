@@ -6,14 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/flib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/nxlib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +77,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui_survey">
+  <component name="RunManager" selected="Python.sansllb">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -212,10 +206,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.inspectmodules" />
       </list>
     </recent_temporary>
@@ -228,13 +222,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00048" summary="- add right click for treatment function&#10;- add nxs table view for 2D data">
-      <created>1630683325034</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1630683325034</updated>
     </task>
     <task id="LOCAL-00049" summary="- add toolips">
       <created>1631106012108</created>
@@ -572,7 +559,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637918321164</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="- first try 3 detector data view">
+      <created>1637932021910</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1637932021910</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -588,7 +582,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height" />
     <MESSAGE value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
     <MESSAGE value="-add new version number" />
     <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
@@ -613,7 +606,8 @@
     <MESSAGE value="- using decorator module for treament" />
     <MESSAGE value="- merge change decroator branch" />
     <MESSAGE value="- fixed minimum size multiline editor" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed minimum size multiline editor" />
+    <MESSAGE value="- first try 3 detector data view" />
+    <option name="LAST_COMMIT_MESSAGE" value="- first try 3 detector data view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

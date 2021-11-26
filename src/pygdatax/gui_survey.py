@@ -1548,7 +1548,7 @@ class DataView3Dectectors(PlotWindow):
         self.left_detector.setMaximumWidth(200)
         self.bot_detector = PlotWidget(parent=self)
         self.bot_detector.setMaximumHeight(200)
-        layout.addWidget(self.left_detector, 0, 0, 2,1)
+        layout.addWidget(self.left_detector, 0, 0, 2, 1)
         layout.addWidget(self.bot_detector, 1, 1)
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 0)

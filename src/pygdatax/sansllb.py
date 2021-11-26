@@ -670,34 +670,38 @@ if __name__ == '__main__':
     folder = '/home/achennev/python/pa20_psi/rawdatafile'
     sub_file = '/home/achennev/python/pa20_psi/sub.nxs'
     norm_file = '/home/achennev/python/pa20_psi/norm.nxs'
-    dark = '/home/achennev/python/pa20_psi/b4c_gq.nxs'
-    ec = '/home/achennev/python/pa20_psi/ec_gq.nxs'
-    water = '/home/achennev/python/pa20_psi/h2o_gq.nxs'
-    direct_beam = '/home/achennev/python/pa20_psi/direct_beam_gq.nxs'
-    njc74 = '/home/achennev/python/pa20_psi/njc64_73p2_gq.nxs'
-    root = nx.nxload(njc74, mode='rw')
-    nxlib.delete_all_entry(root)
-    root.close()
-    root = nx.nxload(water, mode='rw')
-    nxlib.delete_all_entry(root)
-    root.close()
+    samples = {
+        'dark': '/home/achennev/python/pa20_psi/b4c_gq.nxs',
+        'ec': '/home/achennev/python/pa20_psi/ec_gq.nxs',
+        'ec_tr': '/home/achennev/python/pa20_psi/ec_tr_gq.nxs',
+        'water': '/home/achennev/python/pa20_psi/h2o_gq.nxs',
+        'water_tr': '/home/achennev/python/pa20_psi/h2o_tr_gq.nxs',
+        'direct_beam': '/home/achennev/python/pa20_psi/direct_beam_tr_gq.nxs',
+        'njc74': '/home/achennev/python/pa20_psi/njc64_73p2_gq.nxs',
+        'njc74_tr': '/home/achennev/python/pa20_psi/njc64_73p2_tr_gq.nxs'
+    }
     mask0 = '/home/achennev/python/pa20_psi/mask_gq.edf'
 
-    make_reduction_package(sub_file, dark_file=dark, empty_cell_file=ec, direct_beam_file=None,
+    for key in samples:
+        root = nx.nxload(samples[key], mode='rw')
+        nxlib.delete_all_entry(root)
+        root.close()
+s
+    make_reduction_package(sub_file, dark_file=samples['dark'], empty_cell_file=samples['ec'], direct_beam_file=None,
                            mask_file0=mask0, mask_file1=None,
                            x0=64, y0=64, x1=30, y1=30, bins0=100
                            )
-    make_reduction_package(norm_file, dark_file=dark, empty_cell_file=ec, direct_beam_file=None, water_file=water,
+    make_reduction_package(norm_file, dark_file=samples['dark'], empty_cell_file=samples['ec'], direct_beam_file=None, water_file=samples['water'],
                            mask_file0=mask0, mask_file1=None,
                            x0=64, y0=64, x1=30, y1=30, bins0=100
                            )
     # treat_normalization_package(norm_file)
-    reduction2D(njc74, sub_file=sub_file, norm_file=norm_file, thickness=0.084)
-    reduction2D(water, sub_file=sub_file, norm_file=None)
+    reduction2D(samples['njc74'], sub_file=sub_file, norm_file=norm_file, thickness=0.084)
+    reduction2D(samples['water'], sub_file=sub_file, norm_file=None)
     # divide_spectra(njc74, denominator_file=water)
-    azimutal_integration(njc74, mask_file=mask0, detector=0, x0=64, y0=64)
-    azimutal_integration(njc74, detector=1)
-    azimutal_integration(njc74, detector=2)
+    azimutal_integration(samples['njc74'], mask_file=mask0, detector=0, x0=64, y0=64)
+    azimutal_integration(samples['njc74'], detector=1)
+    azimutal_integration(samples['njc74'], detector=2)
     # azimutal_integration_multidetector(njc74)
     # q_scale(njc74)
     # file1 = '/home/achennev/python/pa20_psi/rawdatafile/test_nexus_AC_v2.nxs'
