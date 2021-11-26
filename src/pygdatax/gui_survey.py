@@ -1348,6 +1348,7 @@ class MultiLineCodeEditor(qt.QPlainTextEdit):
         self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.generateMenu)
         self.completerList = completerList
+        self.setMinimumHeight(25)
 
     def insertCompletion(self, completion):
         tc = self.textCursor()
