@@ -7,7 +7,7 @@ import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
-from silx .gui.plot.tools.roi import RegionOfInterestManager
+from silx .gui.plot.tools.roi import RegionOfInterestManager, RegionOfInterestTableWidget
 from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
 from silx.io.utils import is_group, is_dataset, is_file
@@ -19,6 +19,9 @@ from pygdatax.icons import getQIcon
 from pygdatax import xeuss, nxlib
 from pathlib import Path
 import yaml
+from pygdatax import moduledescription
+from pyFAI.gui.CalibrationWindow import CalibrationWindow
+from pyFAI.gui.CalibrationContext import CalibrationContext
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
@@ -29,9 +32,10 @@ COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins
                    'polar_cut(root, q=None, pixel_width=1)',
                    'q_scale(root, distance=None)',
                    'ref_substraction(root, ref_file=None, prefactor=0)',
-                   'resu(root, dark_file=None, ec_file=None, thickness=None)',
+                   'resu(root, dark_file=None, ec_file=None, eb_file=None,thickness=None, transmission=None, distance=None)',
                    'save_as_txt(root)',
-                   'set_beam_center(root,x0=None,y0=None)'
+                   'set_beam_center(root,x0=None,y0=None)',
+                   'resu2D(root, dark_file=None, ec_file=None, eb_file=None,thickness=None, transmission=None, distance=None)'
                    ]
 
 
@@ -492,21 +496,21 @@ class EdfTreatmentWidget(qt.QWidget):
         if dark_file is not None:
             nxlib.build_nexus_from_edf(dark_file)
             dark_file = dark_file.split('.')[0] + '.nxs'
-            xeuss.set_beam_center(dark_file, x0=x0, y0=y0, new_entry=False)
+            xeuss.set_beam_center(dark_file, x0=x0, y0=y0)
             xeuss.azimutal_integration(dark_file, bins=nbins, mask=mask_file)
         # empty cell
         ec_file = self.table.emptyCellFile
         if ec_file is not None:
             nxlib.build_nexus_from_edf(ec_file)
             ec_file = ec_file.split('.')[0] + '.nxs'
-            xeuss.set_beam_center(ec_file, x0=x0, y0=y0, new_entry=False)
+            xeuss.set_beam_center(ec_file, x0=x0, y0=y0)
             xeuss.azimutal_integration(ec_file, bins=nbins, mask=mask_file)
         # empty beam
         eb_file = self.table.emptyBeamFile
         if eb_file is not None:
             nxlib.build_nexus_from_edf(eb_file)
             eb_file = eb_file.split('.')[0] + '.nxs'
-            xeuss.set_beam_center(eb_file, x0=x0, y0=y0, new_entry=False)
+            xeuss.set_beam_center(eb_file, x0=x0, y0=y0)
             xeuss.azimutal_integration(eb_file, bins=nbins, mask=mask_file)
 
         sampleList, thicknessList = self.table.get_sample_files()
@@ -515,7 +519,7 @@ class EdfTreatmentWidget(qt.QWidget):
             try:
                 nxlib.build_nexus_from_edf(sample)
                 file = sample.split('.')[0]+'.nxs'
-                xeuss.set_beam_center(file, x0=x0, y0=y0, new_entry=False)  # direct_beam_file=directbeam, new_entry=False)
+                xeuss.set_beam_center(file, x0=x0, y0=y0)  # direct_beam_file=directbeam, new_entry=False)
                 xeuss.azimutal_integration(file, bins=nbins, mask=mask_file)
                 xeuss.resu(file, dark_file=dark_file, ec_file=ec_file, eb_file=eb_file,
                            distance=distance, thickness=thickness)
@@ -583,13 +587,15 @@ class EdfTreatmentWidget(qt.QWidget):
             else:
                 self.binsLineEdit.setText('900')
             if self.table.directory:
-                self.table.emptyCellFile = params['ec_file']
-                self.table.darkFile = params['dark_file']
-                self.table.emptyBeamFile = params['eb_file']
-                self.table.maskFile = params['mask_file']
+                if os.path.dirname(params['ec_file']) == self.table.directory:
+                    self.table.emptyCellFile = params['ec_file']
+                if os.path.dirname(params['dark_file']) == self.table.directory:
+                    self.table.darkFile = params['dark_file']
+                if os.path.dirname(params['eb_file']) == self.table.directory:
+                    self.table.emptyBeamFile = params['eb_file']
+                if os.path.dirname(params['mask_file']) == self.table.directory:
+                    self.table.maskFile = params['mask_file']
                 self.table.refresh()
-
-
 
 
 class FileSurvey(qt.QWidget):
@@ -700,7 +706,7 @@ class SaxsUtily(qt.QMainWindow):
         # self.treatmentDock.setStyleSheet("border: 5px solid black")
         self.treatmentDock.setFeatures(qt.QDockWidget.DockWidgetFloatable |
                                        qt.QDockWidget.DockWidgetMovable)
-        self.editor = CommandTreatmentWidget(self)
+        self.editor = CommandTreatmentWidget(self, module=xeuss)
         self.treatmentDock.setWidget(self.editor)
         self.treatmentDock.setFloating(False)
         # replace the addTabbedwidget metho of the plot window
@@ -709,8 +715,6 @@ class SaxsUtily(qt.QMainWindow):
         # self.treatmentDock.setAllowedAreas(qt.Qt.BottomDockWidgetArea)
         # self.addDockWidget(qt.Qt.RightDockWidgetArea, self.treatmentDock)
         self.treatmentDock.show()
-
-
         # directory picker layout
         spliter = qt.QSplitter(qt.Qt.Horizontal)
         spliter.addWidget(self.fileSurvey)
@@ -722,6 +726,7 @@ class SaxsUtily(qt.QMainWindow):
         layout.setStretchFactor(spliter, 1)
         main_panel.setLayout(layout)
         self.setCentralWidget(main_panel)
+
 
         # connect signals
         # edf table dispplay
@@ -765,52 +770,19 @@ class SaxsUtily(qt.QMainWindow):
         self.thread.finished.connect(self.fileSurvey.nxsTab.tableWidget.on_selectionChanged)
         self.thread.start()
 
-
-        # for file in selectedFiles:
-        #     for script in cmdList:
-        #         cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
-        #         print(cmd)
-        #         eval(cmd)
-        #         # try:
-        #         #     eval(cmd)
-        #         #     print(cmd)
-        #         # except:
-        #         #     print('command'+cmd+'not performed on:' + file)
-        #     # model.insertFile(file)
-        # self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
-        # self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
-
     def run_function(self, cmdList):
         selectedFiles = self.fileSurvey.nxsTab.tableWidget.get_selectedFiles()
         model = self.fileSurvey.nxsTab.treeWidget.treeview.findHdf5TreeModel()
         model.clear()
-        # nrow = model.rowCount()
-        # files = []
-        # for n in range(nrow):
-        #     index = model.index(n, 0, qt.QModelIndex())
-        #     node = model.nodeFromIndex(index)
-        #     filename = node.obj.filename
-        #     model.removeH5pyObject(node.obj)
-        #     node.obj.close()
-        #     for script in cmdList:
-        #
-        #         cmd = 'xeuss.' + script.replace('root', '\'' + filename + '\'')
-        #         print(cmd)
-        #         eval(cmd)
-        #         # try:
-        #         #     eval(cmd)
-        #         # except:
-        #         #     print('command'+cmd+'not performed on:' +filename)
-        #     model.insertFile(filename, row=n)
-        #     self.fileSurvey.nxsTab.treeWidget.treeview.expand(model.index(n, 0))
         for file in selectedFiles:
             for script in cmdList:
-                cmd = 'xeuss.' + script.replace('root', '\'' + file.replace('\\', '/') + '\'')
-                try:
-                    eval(cmd)
-                    print(cmd)
-                except:
-                    print('command'+cmd+'not performed on:' + file)
+                for line in script.splitlines():
+                    cmd = 'xeuss.' + line.replace('root', '\'' + file.replace('\\', '/') + '\'')
+                    try:
+                        eval(cmd)
+                        # print(cmd)
+                    except:
+                        print('command : '+cmd+'not performed on:' + file)
             # model.insertFile(file)
         self.fileSurvey.nxsTab.treeWidget.operationPerformed.emit()
         self.fileSurvey.nxsTab.tableWidget.on_selectionChanged()
@@ -1001,6 +973,7 @@ class SaxsUtily(qt.QMainWindow):
                     self.plotWindow.setKeepDataAspectRatio(False)
                 else:
                     return
+
 
 
 class NexusFileTable(qt.QTableWidget):
@@ -1217,7 +1190,9 @@ class NexusTreatmentWidget(qt.QWidget):
         fileList = []
         for item in items:
             row = item.row()
-            fileList.append(os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text()))
+            # fileList.append('"'+os.path.join(self.tableWidget.directory, self.tableWidget.item(row, 0).text())+'"')
+            clip = '"' + Path(self.tableWidget.directory, self.tableWidget.item(row, 0).text()).__str__()+'"'
+            fileList.append(clip)
         if fileList:
             qt.QApplication.clipboard().setText(fileList[0])
 
@@ -1233,7 +1208,7 @@ class NexusTreatmentWidget(qt.QWidget):
         if len(fileList) > 1:
             firstFile = fileList.pop(0)
             for file in fileList:
-                xeuss.concat(firstFile, file=file, new_entry=True)
+                xeuss.concat(firstFile, file=file)
         treemodel.insertFile(firstFile)
         for file in fileList:
             treemodel.insertFile(file)
@@ -1256,7 +1231,7 @@ class NexusTreatmentWidget(qt.QWidget):
 class CommandTreatmentWidget(qt.QWidget):
     runClicked = qt.pyqtSignal(list)
 
-    def __init__(self, parent):
+    def __init__(self, parent, module=None):
         super(CommandTreatmentWidget, self).__init__()
         self.run_btn = qt.QPushButton('run')
         self.runAll_btn = qt.QPushButton('run all')
@@ -1268,9 +1243,13 @@ class CommandTreatmentWidget(qt.QWidget):
         self.add_btn.clicked.connect(self.addTab)
         self.tabWidget.setCornerWidget(self.add_btn, corner=qt.Qt.TopLeftCorner)
         self.tabWidget.setTabsClosable(True)
-        self.tabWidget.setMaximumHeight(60)
+        self.tabWidget.setMaximumHeight(500)
         self.tabWidget.tabCloseRequested.connect(self.closeTabs)
-        self.tabWidget.addTab(CodeEditor(self), 'cmd1')
+        if module is not None:
+            self.commandList = moduledescription.get_commandList(module)
+        else:
+            self.commandList = []
+        self.tabWidget.addTab(MultiLineCodeEditor(parent=self, completerList=self.commandList), 'cmd1')
         hlayout = qt.QHBoxLayout()
         layout = qt.QVBoxLayout(self)
         hlayout.addWidget(self.run_btn)
@@ -1295,12 +1274,12 @@ class CommandTreatmentWidget(qt.QWidget):
         # layout.addWidget(CodeEditor(self))
         # layout.addStretch()
         # widget.setLayout(layout)
-        self.tabWidget.addTab(CodeEditor(self), 'cmd'+str(count+1))
+        self.tabWidget.addTab(MultiLineCodeEditor(parent=self, completerList=self.commandList), 'cmd'+str(count+1))
         # self.tabWidget.addTab(widget, 'cmd'+str(count+1))
 
     def run(self):
         widget = self.tabWidget.currentWidget()
-        text = widget.text()
+        text = widget.toPlainText()
         self.runClicked.emit([text])
 
     def runAll(self):
@@ -1308,7 +1287,7 @@ class CommandTreatmentWidget(qt.QWidget):
         l = []
         for i in range(count):
             widget = self.tabWidget.widget(i)
-            l.append(widget.text())
+            l.append(widget.toPlainText())
         self.runClicked.emit(l)
 
     def on_comboBox(self, text):
@@ -1316,31 +1295,114 @@ class CommandTreatmentWidget(qt.QWidget):
         widget.setText(text)
 
 
-
 class CodeEditor(qt.QLineEdit):
     """
     QLineEdit widget with treatment function autocompletion
     """
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, completerList=[]):
         super().__init__()
         # self.setTabStopDistance(
             # qt.QFontMetricsF(self.font()).horizontalAdvance(' ') * 4)
         # self.highlighter = PythonHighlighter(self.document())
-        completer = qt.QCompleter(COMPLETER_NAMES)
+
+        completer = qt.QCompleter(completerList)
         self.setCompleter(completer)
         # self.setFixedHeight(30)
         self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.generateMenu)
+        self.completerList = completerList
 
     def generateMenu(self, event):
         menu = qt.QMenu()
-        for fun in COMPLETER_NAMES:
+        for fun in moduledescription.get_commandList(xeuss):
             menu.addAction(fun, self.actionClicked)
         menu.exec_(self.mapToGlobal(event))
 
     def actionClicked(self):
         action = self.sender()
+        completer = self.completer()
+        # print(self.completer.model())
         self.setText(action.text())
+
+
+class MyCompleter(qt.QCompleter):
+    insertText = qt.pyqtSignal(str)
+    def __init__(self, parent=None, completerList=[]):
+        super(MyCompleter, self).__init__(completerList, parent)
+        self.setCompletionMode(qt.QCompleter.PopupCompletion)
+        self.highlighted.connect(self.setHighlighted)
+
+    def setHighlighted(self, text):
+        self.lastSelected = text
+
+    def getSelected(self):
+        return self.lastSelected
+
+
+class MultiLineCodeEditor(qt.QPlainTextEdit):
+    def __init__(self, parent=None, completerList=[]):
+        super(MultiLineCodeEditor, self).__init__(parent)
+        self.completer = MyCompleter(completerList=completerList)
+        self.completer.setWidget(self)
+        self.completer.insertText.connect(self.insertCompletion)
+        self.setContextMenuPolicy(qt.Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.generateMenu)
+        self.completerList = completerList
+        self.setMinimumHeight(25)
+
+    def insertCompletion(self, completion):
+        tc = self.textCursor()
+        extra = (len(completion) - len(self.completer.completionPrefix()))
+        tc.movePosition(qt.QTextCursor.Left)
+        tc.movePosition(qt.QTextCursor.EndOfWord)
+        tc.insertText(completion[-extra:])
+        self.setTextCursor(tc)
+        self.completer.popup().hide()
+
+    def focusInEvent(self, event):
+        if self.completer:
+            self.completer.setWidget(self)
+        qt.QPlainTextEdit.focusInEvent(self, event)
+
+    def keyPressEvent(self, event):
+        tc = self.textCursor()
+        if event.key() == qt.Qt.Key_Tab and self.completer.popup().isVisible():
+            self.completer.insertText.emit(self.completer.getSelected())
+            self.completer.setCompletionMode(qt.QCompleter.PopupCompletion)
+            return
+
+        qt.QPlainTextEdit.keyPressEvent(self, event)
+        tc.select(qt.QTextCursor.WordUnderCursor)
+        cr = self.cursorRect()
+
+        if len(tc.selectedText()) > 0:
+            self.completer.setCompletionPrefix(tc.selectedText())
+            popup = self.completer.popup()
+            popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
+
+            cr.setWidth(self.completer.popup().sizeHintForColumn(0)
+                        + self.completer.popup().verticalScrollBar().sizeHint().width())
+            self.completer.complete(cr)
+        else:
+            self.completer.popup().hide()
+
+    def generateMenu(self, event):
+        menu = qt.QMenu()
+        for fun in self.completerList:
+            menu.addAction(fun, self.actionClicked)
+        menu.exec_(self.mapToGlobal(event))
+
+    def actionClicked(self):
+        action = self.sender()
+        text = action.text()
+        tc = self.textCursor()
+        # extra = len(text)
+        # tc.movePosition(qt.QTextCursor.Left)
+        # tc.movePosition(qt.QTextCursor.EndOfWord)
+        # tc.insertText(completion[-extra:])
+        tc.insertText(text)
+        tc.movePosition(qt.QTextCursor.EndOfWord)
+        self.setTextCursor(tc)
 
 
 class DataView(PlotWindow):
@@ -1364,13 +1426,13 @@ class DataView(PlotWindow):
         posInfo = [('X', lambda x, y: x),
                    ('Y', lambda x, y: y),
                    ('Data', self._zValue)]
-        self.plotWindow = PlotWindow(backend=None, resetzoom=True,
-                                     autoScale=True, logScale=True,
-                                     grid=False, curveStyle=True, colormap=True,
-                                     aspectRatio=True, yInverted=True,
-                                     copy=True, save=True, print_=True,
-                                     control=True, position=posInfo,
-                                     roi=False, mask=True, fit=True)
+        # self.plotWindow = PlotWindow(backend=None, resetzoom=True,
+        #                              autoScale=True, logScale=True,
+        #                              grid=False, curveStyle=True, colormap=True,
+        #                              aspectRatio=True, yInverted=True,
+        #                              copy=True, save=True, print_=True,
+        #                              control=True, position=posInfo,
+        #                              roi=False, mask=True, fit=True)
         self.roiManager = RegionOfInterestManager(self)
         self.roiManager.setColor('pink')
         self.roiManager.sigRoiAdded.connect(self.updateAddedRegionOfInterest)
@@ -1393,6 +1455,18 @@ class DataView(PlotWindow):
         self.setDefaultColormap(colors.Colormap(name='jet', normalization='log',
                                                 vmin=None, vmax=None, autoscaleMode='stddev3')
                                 )
+        # roi table widget
+        # self.roiDock = qt.QDockWidget('rois', self)
+        # # self.treatmentDock.setStyleSheet("border: 5px solid black")
+        # self.roiDock.setFeatures(qt.QDockWidget.DockWidgetFloatable |
+        #                          qt.QDockWidget.DockWidgetMovable)
+        # self.roiTableWidget = RegionOfInterestTableWidget(self)
+        # self.roiTableWidget.setRegionOfInterestManager(self.roiManager)
+        # self.roiDock.setWidget(self.roiTableWidget)
+        # self.roiDock.setFloating(False)
+        # replace the addTabbedwidget metho of the plot window
+        # self._dockWidgets.append(self.roiDock)
+        # self.addDockWidget(qt.Qt.BottomDockWidgetArea, self.roiDock)
 
     def updateAddedRegionOfInterest(self, roi):
         """Called for each added region of interest: set the name"""
@@ -1431,7 +1505,7 @@ class DataView(PlotWindow):
     def findCenter(self):
         roisList = self.roiManager.getRois()
         if roisList:
-            if isinstance(roisList[0],RectangleROI):
+            if isinstance(roisList[0], RectangleROI):
                 point = roisList[0].getOrigin()
                 size = roisList[0].getSize()
                 for image in self.getAllImages():
@@ -1444,7 +1518,7 @@ class DataView(PlotWindow):
                     roiCenter.setName(label)
                     self.roiManager.addRoi(roiCenter)
 
-            #
+
             # if image.getZValue() >= valueZ:  # This image is over the previous one
             #     ox, oy = image.getOrigin()
             #     sx, sy = image.getScale()
@@ -1470,6 +1544,7 @@ def main():
     # remove ending warnings relative to QTimer
     app.deleteLater()
     sys.exit(result)
+
 
 
 if __name__ == "__main__":

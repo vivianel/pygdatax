@@ -3,9 +3,13 @@ README.md
 setup.py
 src/pygdatax/__init__.py
 src/pygdatax/flib.py
+src/pygdatax/gui_reflectivity.py
 src/pygdatax/gui_survey.py
 src/pygdatax/icons.py
+src/pygdatax/moduledescription.py
 src/pygdatax/nxlib.py
+src/pygdatax/rxxeuss.py
+src/pygdatax/sansllb.py
 src/pygdatax/xeuss.py
 src/pygdatax/xeussredauto.py
 src/pygdatax.egg-info/PKG-INFO

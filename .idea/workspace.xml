@@ -6,8 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/flib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/nxlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/xeuss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax.egg-info/SOURCES.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +49,7 @@
     <setting file="file://$PROJECT_DIR$/src/pygdatax/rxxeuss.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/icons.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/flib.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/moduledescription.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/xeuss.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/gui_survey.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/requirements.txt" root0="FORCE_HIGHLIGHTING" />
@@ -221,13 +228,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00047" summary="- add right click for treatment function&#10;- add nxs table view for 2D data">
-      <created>1630683258394</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1630683258394</updated>
     </task>
     <task id="LOCAL-00048" summary="- add right click for treatment function&#10;- add nxs table view for 2D data">
       <created>1630683325034</created>
@@ -565,7 +565,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637853569098</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="- fixed minimum size multiline editor">
+      <created>1637918321163</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1637918321164</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -581,7 +588,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- add toolips" />
     <MESSAGE value="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height" />
     <MESSAGE value="- save and load treatmet parameters&#10;- copy nxs file path to clip board" />
     <MESSAGE value="-add new version number" />
@@ -606,7 +612,8 @@
     <MESSAGE value="- fixed import modules" />
     <MESSAGE value="- using decorator module for treament" />
     <MESSAGE value="- merge change decroator branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="- merge change decroator branch" />
+    <MESSAGE value="- fixed minimum size multiline editor" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed minimum size multiline editor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

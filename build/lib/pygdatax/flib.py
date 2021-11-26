@@ -16,9 +16,17 @@ def find_direct_beam(m, corners=None):
 
 
 def crop_image(m, corners):
+    """
+
+    Args:
+        m: 2D array
+        corners: [x1,Y1, X2, Y2] (bottom left and top right corners)
+    Returns:
+
+    """
     i1 = int(corners[0])
-    i2 = int(corners[1])
-    j1 = int(corners[2])
+    i2 = int(corners[2])
+    j1 = int(corners[1])
     j2 = int(corners[3])
     cropM = m[j1:j2, i1:i2]
     return cropM
@@ -38,10 +46,10 @@ def regisoPyFAI(data, mask, x0, y0, pixel_size, bins, distance, wavelength):
     return results.radial, results.intensity, results.sigma
 
 
-def regiso(data, mask, x0, y0, pixel_size, bins):
+def regiso(data, mask, x0, y0, x_pixel_size, y_pixel_size, bins, error=None):
     y, x = np.indices(data.shape, dtype=np.float)
-    y = y-y0
-    x = x-x0
+    y = (y-y0)*y_pixel_size
+    x = (x-x0)*x_pixel_size
     r_grid = np.ma.masked_array(data=np.sqrt(x**2+y**2), mask=mask).compressed()
     masked_data = np.ma.masked_array(data=data, mask=mask, dtype=np.float).compressed()
     if bins is None:
@@ -54,17 +62,14 @@ def regiso(data, mask, x0, y0, pixel_size, bins):
     r_mean = np.bincount(indexes, weights=r_grid)[1:]/counts
     r_square = np.bincount(indexes, weights=r_grid**2)[1:]/counts
     intensity = np.bincount(indexes, weights=masked_data)[1:]/counts
-    di = np.sqrt(intensity*counts)/counts
-    dr = np.sqrt(r_square-r_mean**2+1/12)*pixel_size  # 1/12 is the variance of one pixel
-    r_mean *= pixel_size
-
-    # theta = 1/2*np.arctan(r_mean/distance)
-    # q = 4*np.pi/wavelength*np.sin(theta)
-    # if correct_solid_angle:
-    #     alpha = np.arctan(r_grid / distance)
-    #     solid_angle = np.cos(alpha)
-    #     omega = np.bincount(indexes, weights=solid_angle)[1:]/counts
-    #     intensity /= omega
+    if error is None:
+        di = np.sqrt(intensity*counts)/counts
+    else:
+        masked_error = np.ma.masked_array(data=error, mask=mask, dtype=np.float).compressed()
+        di = np.sqrt(np.bincount(indexes, weights=masked_error**2)[1:]) / counts
+    # TODO: check error bar on r
+    dr = np.sqrt(r_square-r_mean**2+1/12)  # 1/12 is the variance of one pixel
+    # dr = np.sqrt(r_square - r_mean ** 2 + 1 / 12)
     d = {'counts': np.bincount(indexes), 'edges': edges, 'indexes': indexes, 'r_grid': r_grid,
          'masked_data':  masked_data}
     return r_mean, intensity, di, dr

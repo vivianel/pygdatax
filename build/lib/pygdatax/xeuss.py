@@ -4,7 +4,7 @@ import numpy as np
 from pygdatax import nxlib, flib
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
     # root = loadfile(file, mode='rw')
     # with root.nxfile:
@@ -31,7 +31,7 @@ def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
 
 @nxlib.treatment_function
 def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
-                         pixel_size=None):
+                         x_pixel_size=None, y_pixel_size=None):
 
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
@@ -44,12 +44,17 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
         y0 = entry.instrument.detector.beam_center_y
     else:
         entry.instrument.detector.beam_center_y = y0
-    if pixel_size is None:
-        pixel_size = entry.instrument.detector.x_pixel_size
+    if x_pixel_size is None:
+        x_pixel_size = entry.instrument.detector.x_pixel_size
     else:
-        entry.instrument.detector.x_pixel_size = pixel_size
+        entry.instrument.detector.x_pixel_size = x_pixel_size
 
-    m = entry.data.data.nxdata
+    if y_pixel_size is None:
+        y_pixel_size = entry.instrument.detector.y_pixel_size
+    else:
+        entry.instrument.detector.y_pixel_size = y_pixel_size
+
+    m = entry.data.nxsignal.nxdata
 
     if mask is not None:
         if mask.endswith('.nxs'):
@@ -62,8 +67,13 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
     else:
         mask_data = np.zeros_like(m)
         entry.instrument.detector.pixel_mask = mask_data
+    if 'data_errors' in entry.data:
+        error = entry.data.nxerrors.nxdata
+    else:
+        error = None
     del entry['data']
-    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, pixel_size, bins)
+    r, i, sigma, dr = flib.regiso(m, mask_data, x0, y0, x_pixel_size, y_pixel_size,
+                                  bins, error=error)
 
     # new_entry.data = nx.NXdata(attrs={'interpretation': 'spectrum',
     #                                   'signal': 'I', 'axes': ['Q']})
@@ -168,6 +178,8 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
         t_ec = root_ec[nxlib.get_last_entry_key(root_ec)].sample.transmission.nxdata
         t_ec = t_ec ** 0.5
         flux_ec = root_ec[last_key + '/instrument/source/flux'].nxdata
+        truc = i_ec - i_dark
+
         z_fec = (i_ec - i_dark) / flux_ec - fb * np.power(t_ec, 2 / np.cos(theta))
         z_fec /= t_ec ** (1 / np.cos(theta)) * (t_ec + tr_theta(t_ec, theta))
     else:
@@ -195,9 +207,136 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
     data.r_errors = fs.r_errors
     del entry['data']
     entry['data'] = data
-    q_scale(root.file_name, distance=distance, new_entry=False)
+    q_scale(root.file_name, distance=distance)#, new_entry=False)
     return
 
+
+@nxlib.treatment_function
+def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
+           thickness=None, transmission=None, distance=None):
+    entry = root[nxlib.get_last_entry_key(root)]
+    if distance is None:
+        distance = entry.instrument.detector.distance.nxdata
+    else:
+        entry.instrument.detector.distance.nxdata = distance
+    if transmission is None:
+        transmission = entry.sample.transmission.nxdata
+        # if transmission == 0:
+        #     entry.sample.transmission = 1.0
+    else:
+        entry.sample.transmission = transmission
+    if thickness is None:
+        thickness = entry.sample.thickness.nxdata
+    else:
+        entry.sample.thickness = thickness
+
+    def delta(u, a):
+        if u == 1:
+            v = 1
+        else:
+            v = (1 - x ** a) / (-a * np.log(x))
+        return v
+
+    # normalize_by_time(root.file_name, new_entry=False)  # .file_name, new_entry=False)
+    i_sample = root['entry0'].data
+    i_sample.nxerrors = nx.NXfield(np.sqrt(np.abs(i_sample.data.nxdata)))
+    last_key = nxlib.get_last_entry_key(root)
+    i_sample /= entry['sample/count_time']
+
+    shape = i_sample.data.nxdata.shape
+    y, x = np.indices(shape, dtype='float')
+    x0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_x.nxdata
+    y0 = root[nxlib.get_last_entry_key(root)].instrument.detector.beam_center_y.nxdata
+    y = y - y0
+    x = x - x0
+    r = np.sqrt(x**2 + y**2)
+    theta = np.arctan(r / distance)
+
+    # aT = 1 / np.cos(theta) - 1
+    # aT = 1-1/np.cos(theta)
+
+    def tr_theta(t, angle):
+        if t == 1:
+            t_th = 1
+        else:
+            t_th = t * (t ** (1 - 1 / np.cos(angle)) - 1) / (np.log(t) * (1 - 1 / np.cos(angle)))
+        return t_th
+
+    x_pixel_size = entry.instrument.detector.x_pixel_size
+    y_pixel_size = entry.instrument.detector.y_pixel_size
+    distance = entry.instrument.detector.distance
+    solid_angle = x_pixel_size * y_pixel_size / (distance ** 2)
+    flux_sample = entry.instrument.source.flux.nxdata
+
+    # load dark file
+    if dark_file is not None:
+        root_dark = nxlib.loadfile(dark_file, mode='rw')
+        # normalize_by_time(root_dark.file_name, new_entry=False)
+        i_dark = root_dark['entry0/data']
+        i_dark.nxerrors = nx.NXfield(np.sqrt(np.abs(i_dark.data.nxdata)))
+        last_key = nxlib.get_last_entry_key(root_dark)
+        i_dark /= root_dark[last_key + '/sample/count_time']
+    else:
+        root_dark = None
+        # i_dark = np.zeros_like(i_sample.signal)
+        i_dark = nx.NXdata(nx.NXfield(np.zeros_like(i_sample.nxsignal), name='i_dark'))
+        i_dark.nxerrors = np.zeros_like(i_sample.nxsignal)
+
+    # load emty beam
+    if eb_file is not None:
+        root_eb = nxlib.loadfile(eb_file, mode='rw')
+        i_eb = root_eb['entry0/data']
+        i_eb.nxerrors = nx.NXfield(np.sqrt(np.abs(i_eb.data.nxdata)))
+        last_key = nxlib.get_last_entry_key(root_eb)
+        i_eb /= root_eb[last_key + '/sample/count_time'].nxdata
+        fb = i_eb - i_dark
+        flux_eb = root_eb[last_key + '/instrument/source/flux'].nxdata
+        fb /= flux_eb
+    else:
+        root_eb = None
+        fb = nx.NXdata(nx.NXfield(np.zeros_like(i_sample.nxsignal), name='fb'))
+        fb.nxerrors = np.zeros_like(i_sample.nxsignal)
+
+    # load emty cell file
+    if ec_file is not None:
+        root_ec = nxlib.loadfile(ec_file, mode='rw')
+        # normalize_by_time(root_ec.file_name, new_entry=False)
+        i_ec = root_ec['entry0/data']
+        i_ec.nxerrors = nx.NXfield(np.sqrt(np.abs(i_ec.data.nxdata)))
+        last_key = nxlib.get_last_entry_key(root_ec)
+        i_ec /= root_ec[last_key + '/sample/count_time']
+        t_ec = root_ec[nxlib.get_last_entry_key(root_ec)].sample.transmission.nxdata
+        t_ec = t_ec ** 0.5
+        flux_ec = root_ec[last_key + '/instrument/source/flux'].nxdata
+        z_fec = (i_ec - i_dark) / flux_ec - fb * np.power(t_ec, 2 / np.cos(theta))
+        z_fec /= t_ec ** (1 / np.cos(theta)) * (t_ec + tr_theta(t_ec, theta))
+    else:
+        root_ec = None
+        t_ec = 1
+        z_fec = nx.NXdata(nx.NXfield(np.zeros_like(i_sample.nxsignal), name='z_fec'))
+        z_fec.nxerrors = np.zeros_like(i_sample.nxsignal)
+        # z_fec = nx.NXfield(np.zeros_like(i_sample.signal), name='z_fec')
+
+    # substarct the contributions
+    fs = (i_sample - i_dark) / flux_sample
+    fs -= fb*t_ec ** (2 / np.cos(theta)) * transmission ** (1 / np.cos(theta))
+    fs -= z_fec * tr_theta(t_ec, theta) * ((transmission * t_ec) ** (1 / np.cos(theta)) + t_ec * transmission)
+    fs /= tr_theta(transmission, theta) * t_ec * t_ec ** (1 / np.cos(theta)) * 0.1 * thickness
+    # fs = (i_sample - i_dark) / flux_sample - transmission ** (1 / np.cos(theta)) * fb*
+    # fs -= transmission * delta(t_ec, aT / 2) * (1 + (transmission / t_ec ** 0.5) ** aT) * z_fec
+    # fs /= 0.1 * thickness * transmission * t_ec ** (aT / 2) * delta(transmission / t_ec, aT)
+    fs /= solid_angle
+    fs /= np.cos(theta) ** 3
+
+    data = nx.NXdata()
+    data.nxsignal = nx.NXfield(fs.nxsignal.nxdata, name='i', attrs={'units': r'cm$^{-1}$}'})
+    # data.nxerrors = fs[fs.nxsignal.attrs['uncertainties']]
+    # data.nxaxes = fs.nxaxes
+    # data.r_errors = fs.r_errors
+    del entry['data']
+    entry['data'] = fs
+    # q_scale(root.file_name, distance=distance, new_entry=False)
+    return
 
 # @treatment_function
 # def divide_by_flux(root, flux=None):
@@ -277,7 +416,7 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
 #     return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def q_scale(root, distance=None):
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
@@ -343,7 +482,6 @@ def azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,
         elif mask.endswith('.edf'):
             mask_data = fabio.open(mask).data
         entry.instrument.detector.pixel_mask_applied = True
-
     entry.instrument.detector.pixel_mask = mask_data
     del entry['data']
     r_grid, chi_grid, masked_data = flib.xy2polar(m, mask_data, x0, y0, r_bins, chi_bins)
@@ -467,7 +605,7 @@ def cut(root, xmin=None, xmax=None):
         return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=True)
 def concat(root, file=None):
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
@@ -580,30 +718,30 @@ if __name__ == '__main__':
     # build_nexus_from_edf('AgBe.edf')
     # set_beam_center('AgBe.nxs', x0=200, y0=300, new_entry=False)
     # file = 'AgBe.edf'
-    empty_cell_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/kapton_gq.edf'
-    dark_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/dark_GQ.edf'
-    file1_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/147_1.edf'
-    file2_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/147_2.edf'
-    mask = '/home/achennev/Documents/xeuss/fc aout 2020/mask_silx_GQ.nxs'
-    nxlib.build_nexus_from_txt('/home/achennev/Documents/xeuss/fc aout 2020/147_1_pasi.txt')
-    nxlib.build_nexus_from_txt('/home/achennev/Documents/xeuss/fc aout 2020/147_2_pasi.txt')
-    nxlib.build_nexus_from_edf(file1_GQ)
-    nxlib.build_nexus_from_edf(file2_GQ)
+    # empty_cell_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/kapton_gq.edf'
+    # dark_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/dark_GQ.edf'
+    # file1_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/147_1.edf'
+    # file2_GQ = '/home/achennev/Documents/xeuss/fc aout 2020/147_2.edf'
+    # mask = '/home/achennev/Documents/xeuss/fc aout 2020/mask_silx_GQ.nxs'
+    # nxlib.build_nexus_from_txt('/home/achennev/Documents/xeuss/fc aout 2020/147_1_pasi.txt')
+    # nxlib.build_nexus_from_txt('/home/achennev/Documents/xeuss/fc aout 2020/147_2_pasi.txt')
+    # nxlib.build_nexus_from_edf(file1_GQ)
+    # nxlib.build_nexus_from_edf(file2_GQ)
+    #
+    # file1_GQ = file1_GQ.split('.')[0] + '.nxs'
+    # file2_GQ = file2_GQ.split('.')[0] + '.nxs'
+    # # set_beam_center(empty_cell, x0=x0, y0=y0, new_entry=False)# direct_beam_file=directbeam, new_entry=False)
+    # azimutal_integration(empty_cell_GQ, bins=900, mask=mask)
+    # # # set_beam_center(dark, x0=x0, y0=y0, new_entry=False)#direct_beam_file=directbeam, new_entry=False)
+    # azimutal_integration(dark_GQ, bins=900, mask=mask)
+    # dark_GQ = dark_GQ.split('.')[0] + '.nxs'
+    # empty_cell_GQ = empty_cell_GQ.split('.')[0] + '.nxs'
 
-    file1_GQ = file1_GQ.split('.')[0] + '.nxs'
-    file2_GQ = file2_GQ.split('.')[0] + '.nxs'
-    # set_beam_center(empty_cell, x0=x0, y0=y0, new_entry=False)# direct_beam_file=directbeam, new_entry=False)
-    azimutal_integration(empty_cell_GQ, bins=900, mask=mask)
-    # # set_beam_center(dark, x0=x0, y0=y0, new_entry=False)#direct_beam_file=directbeam, new_entry=False)
-    azimutal_integration(dark_GQ, bins=900, mask=mask)
-    dark_GQ = dark_GQ.split('.')[0] + '.nxs'
-    empty_cell_GQ = empty_cell_GQ.split('.')[0] + '.nxs'
-
-    azimutal_integration(file1_GQ, bins=900, mask=mask)
-    azimutal_integration(file2_GQ, bins=900, mask=mask)
-
-    resu(file1_GQ, dark_file=dark_GQ, ec_file=empty_cell_GQ, thickness=10)
-    resu(file2_GQ, dark_file=dark_GQ, ec_file=empty_cell_GQ, thickness=10)
+    # azimutal_integration(file1_GQ, bins=900, mask=mask)
+    # azimutal_integration(file2_GQ, bins=900, mask=mask)
+    #
+    # resu(file1_GQ, dark_file=dark_GQ, ec_file=empty_cell_GQ, thickness=10)
+    # resu(file2_GQ, dark_file=dark_GQ, ec_file=empty_cell_GQ, thickness=10)
 
     # long distance
     empty_cell_PQ = '/home/achennev/Documents/xeuss/fc aout 2020/kapton_PQ.edf'
@@ -615,20 +753,37 @@ if __name__ == '__main__':
     nxlib.build_nexus_from_txt('/home/achennev/Documents/xeuss/fc aout 2020/147_2_PQ_pasi.txt')
     nxlib.build_nexus_from_edf(file1_PQ)
     nxlib.build_nexus_from_edf(file2_PQ)
+    nxlib.build_nexus_from_edf(dark_PQ)
+    nxlib.build_nexus_from_edf(empty_cell_PQ)
 
     file1_PQ = file1_PQ.split('.')[0] + '.nxs'
     file2_PQ = file2_PQ.split('.')[0] + '.nxs'
-    azimutal_integration(empty_cell_PQ, bins=900, mask=mask_PQ)
-    azimutal_integration(dark_PQ, bins=900, mask=mask_PQ)
     dark_PQ = dark_PQ.split('.')[0] + '.nxs'
+    file1_PQ_2D = '/home/achennev/Documents/xeuss/fc aout 2020/147_1_PQ _2D.nxs'
+    root2D = nxlib.loadfile(file1_PQ_2D)
+    nxlib.delete_all_entry(root2D)
+    root2D.close()
     empty_cell_PQ = empty_cell_PQ.split('.')[0] + '.nxs'
 
+    print(2)
+    azimutal_integration(empty_cell_PQ, bins=900, mask=mask_PQ)
+    print(3)
+    azimutal_integration(dark_PQ, bins=900, mask=mask_PQ)
+    print(4)
     azimutal_integration(file1_PQ, bins=900, mask=mask_PQ)
+    print(5)
     azimutal_integration(file2_PQ, bins=900, mask=mask_PQ)
 
-    resu(file1_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=10)
-    resu(file2_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=10)
-    # normalization_factor(file1_PQ, factor=10)
-    cut(file1_PQ, xmin=None, xmax=0.1)
-    concat(file1_PQ, file=file1_GQ)
-    # # build_nexus_from_txt('/home/achennev/Documents/xeuss/2018-10-25-TP_SAXS/ludox1.txt')
+    resu(file1_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=1)
+    resu2D(file1_PQ_2D, dark_file=dark_PQ, ec_file=empty_cell_PQ)
+    print(1)
+    azimutal_integration(file1_PQ_2D, bins=900, mask=mask_PQ)
+    q_scale(file1_PQ_2D)
+    # resu(file2_PQ, dark_file=dark_PQ, ec_file=empty_cell_PQ, thickness=10)
+    # # normalization_factor(file1_PQ, factor=10)
+    # # cut(file1_PQ, xmin=None, xmax=0.1)
+    # # concat(file1_PQ, file=file1_GQ)
+    # # # build_nexus_from_txt('/home/achennev/Documents/xeuss/2018-10-25-TP_SAXS/ludox1.txt')
+    #
+    # # test 2D resu
+

@@ -6,7 +6,7 @@ import numpy as np
 import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
-from silx.gui.plot import PlotWindow, Profile
+from silx.gui.plot import PlotWindow, Profile, PlotWidget
 from silx .gui.plot.tools.roi import RegionOfInterestManager, RegionOfInterestTableWidget
 from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
@@ -1529,6 +1529,52 @@ class DataView(PlotWindow):
             #         if row < data.shape[0] and col < data.shape[1]:
             #             value = data[row, col]
             #             valueZ = image.getZValue()
+# TODO : finish it
+class DataView3Dectectors(PlotWindow):
+
+    def __init__(self):
+        super().__init__(backend=None, resetzoom=True,
+                         autoScale=True, logScale=True,
+                         grid=False, curveStyle=True, colormap=True,
+                         aspectRatio=True, yInverted=True,
+                         copy=True, save=True, print_=True,
+                         control=True, position=[('X', lambda x, y: x),
+                                                 ('Y', lambda x, y: y),
+                                                 ('Data', self._zValue)],
+                         roi=False, mask=True, fit=True)
+        layout = qt.QGridLayout()
+        layout.addWidget(self.getWidgetHandle(), 0, 1)
+        self.left_detector = PlotWidget(parent=self)
+        self.left_detector.setMaximumWidth(200)
+        self.bot_detector = PlotWidget(parent=self)
+        self.bot_detector.setMaximumHeight(200)
+        layout.addWidget(self.left_detector, 0, 0, 2,1)
+        layout.addWidget(self.bot_detector, 1, 1)
+        layout.setColumnStretch(0, 1)
+        layout.setColumnStretch(1, 0)
+        layout.setRowStretch(0, 1)
+        layout.setRowStretch(1, 0)
+        centralWidget = qt.QWidget(self)
+        centralWidget.setLayout(layout)
+        self.setCentralWidget(centralWidget)
+
+    def _zValue(self, x, y):
+        value = '-'
+        valueZ = - float('inf')
+        for image in self.getAllImages():
+            data = image.getData(copy=False)
+            if image.getZValue() >= valueZ:  # This image is over the previous one
+                ox, oy = image.getOrigin()
+                sx, sy = image.getScale()
+                row, col = (y - oy) / sy, (x - ox) / sx
+                if row >= 0 and col >= 0:
+                    # Test positive before cast otherwise issue with int(-0.5) = 0
+                    row, col = int(row), int(col)
+                    if row < data.shape[0] and col < data.shape[1]:
+                        value = data[row, col]
+                        valueZ = image.getZValue()
+        return value
+
 
 
 def main():
@@ -1558,10 +1604,14 @@ if __name__ == "__main__":
     # app.processEvents()
     #
     warnings.filterwarnings("ignore", category=mplDeprecation)
-    window = SaxsUtily()
-    window.show()
-    folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
-    window.fileSurvey.directoryLineEdit.setText(folder)
+    ##################################################################
+    # window = SaxsUtily()
+    # window.show()
+    # folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
+    # window.fileSurvey.directoryLineEdit.setText(folder)
+    ####################################################################
+    w = DataView3Dectectors()
+    w.show()
     # splash.finish(window)
     result = app.exec_()
     app.deleteLater()
