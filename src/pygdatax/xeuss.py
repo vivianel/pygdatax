@@ -532,7 +532,7 @@ def polar_cut(root: nx.NXroot, q: float = None, pixel_width: int = 1) -> None:
 
 
 @nxlib.treatment_function
-def normalization_factor(root, factor=None):
+def normalization_factor(root: nx.NXroot, factor: float = None) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     entry.data.nxsignal *= factor
@@ -541,7 +541,7 @@ def normalization_factor(root, factor=None):
 
 
 @nxlib.treatment_function
-def bkg_substraction(root, bkg=0):
+def bkg_substraction(root: nx.NXroot, bkg: float = 0):
     """
     Substract conctant the the nxsignal
     Args:
@@ -559,7 +559,7 @@ def bkg_substraction(root, bkg=0):
 
 
 @nxlib.treatment_function
-def ref_substraction(root, ref_file=None, prefactor=1):
+def ref_substraction(root: nx.NXroot, ref_file: str = None, prefactor: float = 1) -> None:
     """
     Substract reference file (i.e. solvant) from the data wiegthd by a prefector
     I = I_sample - I_ref * prefactor
@@ -582,7 +582,7 @@ def ref_substraction(root, ref_file=None, prefactor=1):
 
 
 @nxlib.treatment_function
-def cut(root, xmin=None, xmax=None):
+def cut(root: nx.NXroot, xmin: float = None, xmax: float = None) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     if np.ndim(entry.data.nxsignal.nxdata) == 1:
@@ -609,7 +609,7 @@ def cut(root, xmin=None, xmax=None):
 
 
 @nxlib.treatment_function(new_entry=True)
-def concat(root, file=None):
+def concat(root: nx.NXroot, file: str = None) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     new_root = nxlib.loadfile(file, mode='r')
