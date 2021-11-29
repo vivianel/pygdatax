@@ -24,7 +24,7 @@ class FunctionDescription(object):
             for arg_name in params:
                 if params[arg_name].default is inspect._empty:
                     self.args_name.append(arg_name)
-                else: # this is a keword argument thougz
+                else:  # this is a keword argument thougz
                     default_value = params[arg_name].default
                     if default_value is None:
                         self.kwargs[arg_name] = 'None'

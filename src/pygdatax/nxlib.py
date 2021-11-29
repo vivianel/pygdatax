@@ -401,7 +401,7 @@ def get_last_signal_key(root):
     """
     key = get_last_entry_key(root)
     key += '/' + root[key].default
-    key += '/' + root[key].signal
+    key += '/' + root[key].signals
     return key
 
 

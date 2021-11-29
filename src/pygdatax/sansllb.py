@@ -17,7 +17,7 @@ import os
 NXREAD_VERSION = '0.0'
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def set_beam_center(root, detector=0, x0=64, y0=64):
     # root = loadfile(file, mode='rw')
     # with root.nxfile:
@@ -42,7 +42,8 @@ def set_beam_center(root, detector=0, x0=64, y0=64):
     return
 
 
-@nxlib.treatment_function(new_entry=False)
+# @nxlib.treatment_function(new_entry=False)
+# TODO: handle inf and nan pixels
 def azimutal_integration(root, detector=0, mask_file=None, x0=None, y0=None, bins=90,
                          x_pixel_size=None, y_pixel_size=None):
     last_key = nxlib.get_last_entry_key(root)
@@ -108,11 +109,11 @@ def azimutal_integration_multidetector(root, mask_file0=None, x0=None, y0=None, 
                                        mask_file2=None, x2=None, y2=None, bins2=90,
                                        x_pixel_size2=None, y_pixel_size2=None
                                        ):
-    azimutal_integration(root.file_name, detector=0, mask_file=mask_file0, x0=x0, y0=y0, bins=bins0,
+    azimutal_integration(root, detector=0, mask_file=mask_file0, x0=x0, y0=y0, bins=bins0,
                          x_pixel_size=x_pixel_size0, y_pixel_size=y_pixel_size1)
-    azimutal_integration(root.file_name, detector=1, mask_file=mask_file1, x0=x1, y0=y1, bins=bins1,
+    azimutal_integration(root, detector=1, mask_file=mask_file1, x0=x1, y0=y1, bins=bins1,
                          x_pixel_size=x_pixel_size1, y_pixel_size=y_pixel_size1)
-    azimutal_integration(root.file_name, detector=2, mask_file=mask_file2, x0=x2, y0=y2, bins=bins2,
+    azimutal_integration(root, detector=2, mask_file=mask_file2, x0=x2, y0=y2, bins=bins2,
                          x_pixel_size=x_pixel_size2, y_pixel_size=y_pixel_size2)
 
 
@@ -124,11 +125,11 @@ def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
     The resulting spectra is a 2D spectra
     Args:
         root:
-        sub_file: substraction package file
-        norm_file: normalization package file
-        thickness: sample thickness
-        transmission: sample transmisssion
-        distance: list of detector distances
+        sub_file (str): substraction package file
+        norm_file (str): normalization package file
+        thickness (float): sample thickness
+        transmission (float): sample transmisssion
+        distance (list): list of detector distances
 
     Returns:
 
@@ -611,18 +612,17 @@ def compute_collimation(root):
 
 # TODO : estimation of side dectectors centers using the central detector and the geometrical parameters
 # TODO : estimation of the side detectros centers using calibrant (silver behenate)
-# TODO : find beam center of central detector using direct beam
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def set_transmission(root,trans_file=None, direct_beam_file=None, roi=[None, None, None, None]):
     """
     compute sample trasnmission and store it in the sample.transmission field. The computation is done over the roi.
     By default this roi is 10x10 pixel centered over the center given by the scattering file in detector0 field
     Args:
         root: NXroot of the scattering file
-        trans_file: transmited filepath
-        direct_beam_file: direct beaml filepath
-        roi: roi extent [X1,Y1, X2,Y2] on which is computed the transmission
+        trans_file (str): transmited filepath
+        direct_beam_file (str): direct beaml filepath
+        roi (list): roi extent [X1,Y1, X2,Y2] on which is computed the transmission
 
     Returns:
 
@@ -631,19 +631,22 @@ def set_transmission(root,trans_file=None, direct_beam_file=None, roi=[None, Non
     if roi == 4*[None]:
         x0 = entry['instrument/detector0/beam_center_x'].nxdata
         y0 = entry['instrument/detector0/beam_center_y'].nxdata
-        roi = [x0-5, y0-5, x0+5, y0+5]
+        roi = [int(x0-5), int(y0-5), int(x0+5), int(y0+5)]
 
     if trans_file is not None and direct_beam_file is not None:
         if os.path.exists(trans_file) and os.path.exists(direct_beam_file):
             direct_root = nx.nxload(direct_beam_file, mode='r')
             trans_root = nx.nxload(trans_file, mode='r')
             crop_direct = direct_root['entry0/instrument/detector0/data'].nxdata[roi[1]:roi[3], roi[0]:roi[2]]
+            crop_direct = crop_direct.sum()
             crop_trans = trans_root['entry0/instrument/detector0/data'].nxdata[roi[1]:roi[3], roi[0]:roi[2]]
+            crop_trans = crop_trans.sum()
             monitor_trans = trans_root['entry0/monitor3/integral'].nxdata
             monitor_direct = direct_root['entry0/monitor3/integral'].nxdata
             t = crop_trans/crop_direct*monitor_direct/monitor_trans
-            t = t.sum()
+
             entry['sample/transmission'] = t
+            print(t)
         else:
             return
     else:
@@ -655,8 +658,8 @@ def center_of_mass_central_detector(root, roi=None):
     """
     Find the center of mass of the central detector within the roi
     Args:
-        root: NXroot
-        roi: roi extent [X1,Y1, X2,Y2] on which the calculatio is perfomed
+        root (NXroot): NXroot
+        roi (list): roi extent [X1,Y1, X2,Y2] on which the calculatio is perfomed
 
     Returns:
 
@@ -686,24 +689,31 @@ if __name__ == '__main__':
         root = nx.nxload(samples[key], mode='rw')
         nxlib.delete_all_entry(root)
         root.close()
-s
+
+    set_transmission(samples['water'], direct_beam_file=samples['direct_beam'], trans_file=samples['water_tr'],roi=[57, 57, 74, 74])
+    set_transmission(samples['ec'], direct_beam_file=samples['direct_beam'], trans_file=samples['ec_tr'],roi=[57, 57, 74, 74])
+    set_transmission(samples['njc74'], direct_beam_file=samples['direct_beam'], trans_file=samples['njc74_tr'],
+                     roi=[57, 57, 74, 74])
+
+    # reduction package
     make_reduction_package(sub_file, dark_file=samples['dark'], empty_cell_file=samples['ec'], direct_beam_file=None,
                            mask_file0=mask0, mask_file1=None,
-                           x0=64, y0=64, x1=30, y1=30, bins0=100
+                           x0=62.542, y0=62.824, x1=30, y1=30, bins0=100
                            )
-    make_reduction_package(norm_file, dark_file=samples['dark'], empty_cell_file=samples['ec'], direct_beam_file=None, water_file=samples['water'],
+    make_reduction_package(norm_file, dark_file=samples['dark'], empty_cell_file=samples['ec'], direct_beam_file=None,
+                           water_file=samples['water'],
                            mask_file0=mask0, mask_file1=None,
-                           x0=64, y0=64, x1=30, y1=30, bins0=100
+                           x0=62.542, y0=62.542, x1=30, y1=30, bins0=100
                            )
     # treat_normalization_package(norm_file)
     reduction2D(samples['njc74'], sub_file=sub_file, norm_file=norm_file, thickness=0.084)
-    reduction2D(samples['water'], sub_file=sub_file, norm_file=None)
-    # divide_spectra(njc74, denominator_file=water)
-    azimutal_integration(samples['njc74'], mask_file=mask0, detector=0, x0=64, y0=64)
-    azimutal_integration(samples['njc74'], detector=1)
-    azimutal_integration(samples['njc74'], detector=2)
+    # reduction2D(samples['water'], sub_file=sub_file, norm_file=None)
+    azimutal_integration_multidetector(samples['njc74'], mask_file0=mask0)
+    # azimutal_integration(samples['njc74'], mask_file=mask0, detector=0, x0=64, y0=64)
+    # azimutal_integration(samples['njc74'], detector=1)
+    # azimutal_integration(samples['njc74'], detector=2)
     # azimutal_integration_multidetector(njc74)
-    # q_scale(njc74)
+    q_scale(samples['njc74'])
     # file1 = '/home/achennev/python/pa20_psi/rawdatafile/test_nexus_AC_v2.nxs'
     # root = nxlib.loadfile(file1, mode='rw')
     # with root.nxfile:

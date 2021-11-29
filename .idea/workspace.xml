@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dataformat/test_nexus_AC_v2.nxs" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataformat/test_nexus_AC_v2.nxs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -222,13 +224,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00049" summary="- add toolips">
-      <created>1631106012108</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1631106012108</updated>
     </task>
     <task id="LOCAL-00050" summary="- treat only the selected edf&#10;- show files in directory browsers&#10;- fixed code editor height">
       <created>1632487854638</created>
@@ -566,7 +561,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637932021910</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="- first try 3 detector data view">
+      <created>1637934228533</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1637934228533</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
