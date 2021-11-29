@@ -102,15 +102,15 @@ def azimutal_integration(root, detector=0, mask_file=None, x0=None, y0=None, bin
 
 
 @nxlib.treatment_function
-def azimutal_integration_multidetector(root, mask_file0=None, x0=None, y0=None, bins0=90,
-                                       x_pixel_size0=None,y_pixel_size0=None,
-                                       mask_file1=None, x1=None, y1=None, bins1=90,
-                                       x_pixel_size1=None, y_pixel_size1=None,
-                                       mask_file2=None, x2=None, y2=None, bins2=90,
-                                       x_pixel_size2=None, y_pixel_size2=None
-                                       ):
+def azimutal_integration_multidetector(root: nx.NXroot, mask_file0: str = None, x0: float = None, y0: float = None, bins0: int = 90,
+                                       x_pixel_size0: float = None, y_pixel_size0: float = None,
+                                       mask_file1: str = None, x1: float = None, y1: float = None, bins1: int = 90,
+                                       x_pixel_size1: float = None, y_pixel_size1: float = None,
+                                       mask_file2: str = None, x2: float = None, y2: float = None, bins2: int = 90,
+                                       x_pixel_size2: float = None, y_pixel_size2: float = None
+                                       ) -> None:
     azimutal_integration(root, detector=0, mask_file=mask_file0, x0=x0, y0=y0, bins=bins0,
-                         x_pixel_size=x_pixel_size0, y_pixel_size=y_pixel_size1)
+                         x_pixel_size=x_pixel_size0, y_pixel_size=y_pixel_size0)
     azimutal_integration(root, detector=1, mask_file=mask_file1, x0=x1, y0=y1, bins=bins1,
                          x_pixel_size=x_pixel_size1, y_pixel_size=y_pixel_size1)
     azimutal_integration(root, detector=2, mask_file=mask_file2, x0=x2, y0=y2, bins=bins2,
@@ -118,7 +118,7 @@ def azimutal_integration_multidetector(root, mask_file0=None, x0=None, y0=None, 
 
 
 @nxlib.treatment_function
-def reduction2D(root: nx.NXroot, sub_file=None, norm_file=None,
+def reduction2D(root: nx.NXroot, sub_file: str = None, norm_file: str = None,
                 thickness: float = None, transmission: float = None, distance: list = [None, None, None]) -> None:
     """
     Subtract and normalize the sans 2D spectra according to Brûlet, A., Lairez, D., Lapp, A., & Cotton, J. P. (2007). Improvement of data treatment in small-angle neutron scattering. Journal of Applied Crystallography, 40(1), 165-177.
@@ -509,7 +509,7 @@ def make_reduction_package(output_file,
 
 
 @nxlib.treatment_function
-def q_scale(root, distance=None, detector=0):
+def q_scale(root: nx.NXroot, distance: float = None, detector: int = 0) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     if 'r' not in root[last_key + '/data'+str(detector)]:

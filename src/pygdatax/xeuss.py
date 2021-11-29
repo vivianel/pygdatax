@@ -2,10 +2,13 @@ import fabio
 import nexusformat.nexus as nx
 import numpy as np
 from pygdatax import nxlib, flib
+import typing
+import os
+
 
 
 @nxlib.treatment_function(new_entry=False)
-def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
+def set_beam_center(root: nx.NXroot, x0: float = None, y0: float = None, direct_beam_file: str = None) -> None:
     # root = loadfile(file, mode='rw')
     # with root.nxfile:
     entry = root[nxlib.get_last_entry_key(root)]
@@ -30,8 +33,8 @@ def set_beam_center(root, x0=None, y0=None, direct_beam_file=None):
 
 
 @nxlib.treatment_function
-def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
-                         x_pixel_size=None, y_pixel_size=None):
+def azimutal_integration(root: nx.NXroot, mask: str = None, x0: float = None, y0: float = None, bins: int = 900,
+                         x_pixel_size: float = None, y_pixel_size: float = None) -> None:
 
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
@@ -92,8 +95,8 @@ def azimutal_integration(root, mask=None, x0=None, y0=None, bins=900,
 
 
 @nxlib.treatment_function
-def resu(root, dark_file=None, ec_file=None, eb_file=None,
-         thickness=None, transmission=None, distance=None):
+def resu(root: nx.NXroot, dark_file: str = None, ec_file: str = None, eb_file: str = None,
+         thickness: float = None, transmission: float = None, distance: float = None) -> None:
     entry = root[nxlib.get_last_entry_key(root)]
     if distance is None:
         distance = entry.instrument.detector.distance.nxdata
@@ -212,8 +215,8 @@ def resu(root, dark_file=None, ec_file=None, eb_file=None,
 
 
 @nxlib.treatment_function
-def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
-           thickness=None, transmission=None, distance=None):
+def resu2D(root: nx.NXroot, dark_file: str = None, ec_file: str = None, eb_file: str = None,
+           thickness: float = None, transmission: float = None, distance: float = None) -> None:
     entry = root[nxlib.get_last_entry_key(root)]
     if distance is None:
         distance = entry.instrument.detector.distance.nxdata
@@ -417,7 +420,7 @@ def resu2D(root, dark_file=None, ec_file=None, eb_file=None,
 
 
 @nxlib.treatment_function(new_entry=False)
-def q_scale(root, distance=None):
+def q_scale(root: nx.NXroot, distance: float = None) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     if 'r' not in root[last_key + '/data']:
