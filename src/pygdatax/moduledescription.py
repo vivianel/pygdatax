@@ -6,6 +6,7 @@ class FunctionDescription(object):
     def __init__(self, function_handle):
         self.args_name = []
         self.kwargs = {}
+        self.kwargs_type = {}
         self.fullcommand = ''
         self.module_name = ''
         self.function_name = ''
@@ -26,6 +27,11 @@ class FunctionDescription(object):
                     self.args_name.append(arg_name)
                 else:  # this is a keword argument thougz
                     default_value = params[arg_name].default
+                    param_type = params[arg_name].annotation
+                    if param_type is inspect._empty:
+                        self.kwargs_type[arg_name] = None
+                    else:
+                        self.kwargs_type[arg_name] = param_type
                     if default_value is None:
                         self.kwargs[arg_name] = 'None'
                     else:

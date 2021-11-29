@@ -456,8 +456,8 @@ def q_scale(root: nx.NXroot, distance: float = None) -> None:
 
 
 @nxlib.treatment_function
-def azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,
-                           r_bins=900, chi_bins=360, pixel_size=None):
+def azimutal_integration2D(root: nx.NXroot, mask: str = None, x0: float = None, y0: float = None, distance: float = None,
+                           r_bins: int = 900, chi_bins: int = 360, pixel_size: float = None) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     if x0 is None:
@@ -501,7 +501,7 @@ def azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,
 
 
 @nxlib.treatment_function
-def polar_cut(root, q=None, pixel_width=1):
+def polar_cut(root: nx.NXroot, q: float = None, pixel_width: int = 1) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]
     x = entry.data.Q.nxdata

@@ -9,8 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/sansllb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +80,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sansllb">
+  <component name="RunManager" selected="Python.moduledescription">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,7 +102,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="inspectmodules" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="moduledescription" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -115,7 +114,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/inspectmodules.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/moduledescription.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -210,11 +209,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.moduledescription" />
         <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.inspectmodules" />
       </list>
     </recent_temporary>
   </component>
@@ -226,13 +225,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00051" summary="- save and load treatmet parameters&#10;- copy nxs file path to clip board">
-      <created>1632493333556</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1632493333556</updated>
     </task>
     <task id="LOCAL-00052" summary="-add new version number">
       <created>1632565319757</created>
@@ -570,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638176333662</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="- adding type hint">
+      <created>1638180308166</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1638180308166</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -586,7 +585,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-add new version number" />
     <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
     <MESSAGE value="- update screenshot" />
     <MESSAGE value="- fixed config file loading" />
@@ -611,7 +609,8 @@
     <MESSAGE value="- fixed minimum size multiline editor" />
     <MESSAGE value="- first try 3 detector data view" />
     <MESSAGE value="- added some comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added some comment" />
+    <MESSAGE value="- adding type hint" />
+    <option name="LAST_COMMIT_MESSAGE" value="- adding type hint" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -620,6 +619,11 @@
           <url>file://$PROJECT_DIR$/src/pygdatax/inspectmodules.py</url>
           <line>47</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/pygdatax/moduledescription.py</url>
+          <line>75</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
