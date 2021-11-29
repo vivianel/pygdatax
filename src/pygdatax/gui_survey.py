@@ -1577,6 +1577,15 @@ class DataView3Dectectors(PlotWindow):
         return value
 
 
+class TreatmentWidget(qt.QWidget):
+    stackCommandClicked = qt.pyqtSignal(str)
+    runClicked = qt.pyqtSignal(str)
+
+    def __init__(self, parent=None):
+        super(TreatmentWidget, self).__init__(parent=parent)
+        self.comboBox = qt.QComboBox(self)
+
+
 
 def main():
     # unlock hdf5 files for file access during plotting

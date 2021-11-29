@@ -52,6 +52,7 @@ def regiso(data, mask, x0, y0, x_pixel_size, y_pixel_size, bins, error=None):
     x = (x-x0)*x_pixel_size
     r_grid = np.ma.masked_array(data=np.sqrt(x**2+y**2), mask=mask).compressed()
     masked_data = np.ma.masked_array(data=data, mask=mask, dtype=np.float).compressed()
+    # masked_data = np.ma.masked_invalid(masked_data)
     if bins is None:
         maxd = np.max(r_grid)
         bins = len(np.arange(0, maxd))

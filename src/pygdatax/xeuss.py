@@ -587,7 +587,6 @@ def cut(root: nx.NXroot, xmin: float = None, xmax: float = None) -> None:
     entry = root[last_key]
     if np.ndim(entry.data.nxsignal.nxdata) == 1:
         x = entry.data.nxaxes[0].nxdata
-        y = entry.data
         if xmin is None:
             xmin = np.min(x)
         if xmax is None:

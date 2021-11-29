@@ -9,6 +9,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeuss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +81,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.moduledescription">
+  <component name="RunManager" selected="Python.xeuss">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -208,10 +210,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.moduledescription" />
         <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.gui_survey" />
-        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
@@ -224,13 +226,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00053" summary="-add new version number">
-      <created>1632684410535</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1632684410536</updated>
     </task>
     <task id="LOCAL-00054" summary="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar">
       <created>1632693098932</created>
@@ -568,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638181511726</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="- finished type hint for xeuss library">
+      <created>1638182127764</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1638182127765</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -584,7 +586,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-add new class dataview&#10;- delete _zvale method in SaxsUtility class&#10;- add roi button to toolbar" />
     <MESSAGE value="- update screenshot" />
     <MESSAGE value="- fixed config file loading" />
     <MESSAGE value="-  removing useless comment" />
@@ -609,7 +610,8 @@
     <MESSAGE value="- first try 3 detector data view" />
     <MESSAGE value="- added some comment" />
     <MESSAGE value="- adding type hint" />
-    <option name="LAST_COMMIT_MESSAGE" value="- adding type hint" />
+    <MESSAGE value="- finished type hint for xeuss library" />
+    <option name="LAST_COMMIT_MESSAGE" value="- finished type hint for xeuss library" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
