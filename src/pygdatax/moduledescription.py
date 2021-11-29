@@ -70,7 +70,8 @@ def get_functionList(module, decorator='@nxlib.treatment_function'):
 
 
 if __name__ =='__main__':
-    from pygdatax import xeuss
+    from pygdatax.instruments import xeuss
+
     azi = FunctionDescription(xeuss.azimutal_integration)
     l = get_commandList(xeuss)
     print(l)

@@ -32,7 +32,7 @@ def set_beam_center(root: nx.NXroot, x0: float = None, y0: float = None, direct_
     return
 
 
-@nxlib.treatment_function
+@nxlib.treatment_functionpu
 def azimutal_integration(root: nx.NXroot, mask: str = None, x0: float = None, y0: float = None, bins: int = 900,
                          x_pixel_size: float = None, y_pixel_size: float = None) -> None:
 

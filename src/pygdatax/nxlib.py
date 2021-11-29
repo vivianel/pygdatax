@@ -562,7 +562,8 @@ def save_as_txt(filename):
 
 
 if __name__ == '__main__':
-    import xeuss
+    from pygdatax.instruments import xeuss
+
     file = '/home/achennev/Documents/xeuss/aniso_annie/2020-10-12-AB_0_52293.nxs'
     root = nx.nxload(file, mode='r')
-    print(get_processed_entry_key(root,xeuss.azimutal_integration2D))
+    print(get_processed_entry_key(root, xeuss.azimutal_integration2D))

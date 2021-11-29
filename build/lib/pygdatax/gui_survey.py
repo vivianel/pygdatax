@@ -7,7 +7,7 @@ import fabio
 import silx.gui.hdf5
 from silx.gui import qt, colors
 from silx.gui.plot import PlotWindow, Profile
-from silx .gui.plot.tools.roi import RegionOfInterestManager, RegionOfInterestTableWidget
+from silx .gui.plot.tools.roi import RegionOfInterestManager
 from silx.gui.plot.items.roi import RectangleROI, CrossROI
 import silx.io as sio
 from silx.io.utils import is_group, is_dataset, is_file
@@ -16,12 +16,11 @@ import nexusformat.nexus as nx
 from numpy.random import randint
 from scipy.ndimage.measurements import center_of_mass
 from pygdatax.icons import getQIcon
-from pygdatax import xeuss, nxlib
+from pygdatax import nxlib
+from pygdatax.instruments import xeuss
 from pathlib import Path
 import yaml
 from pygdatax import moduledescription
-from pyFAI.gui.CalibrationWindow import CalibrationWindow
-from pyFAI.gui.CalibrationContext import CalibrationContext
 
 COMPLETER_NAMES = ['azimutal_integration(root, x0=None, y0=None, mask=None, bins=900)',
                    'azimutal_integration2D(root, mask=None, x0=None, y0=None, distance=None,r_bins=900, chi_bins=360)',
@@ -1535,7 +1534,6 @@ def main():
     # unlock hdf5 files for file access during plotting
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
     warnings.filterwarnings("ignore", category=mplDeprecation)
-    from silx.gui.plot.ImageView import ImageViewMainWindow
     app = qt.QApplication([])
     # sys.excepthook = qt.exceptionHandler
     window = SaxsUtily()
