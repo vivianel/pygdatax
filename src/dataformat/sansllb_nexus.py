@@ -201,7 +201,7 @@ instrument.detector0 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units':
 # raw data 256x16 pixels
 # tube size : 12.7mm
 # raw_pixel size = 2.5 x 12.7 mm
-# targeted filtered pixel size = 10 x 1.27 mm
+# targeted filtered pixel size = 10 x 12.7 mm
 # filtered data shape = 64x16 pixels
 instrument.detector1 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units': 's'}),
                                      detector_vessel_pressure=nx.NXfield(0.001, attrs={'units': 'mbar'}),
@@ -209,7 +209,7 @@ instrument.detector1 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units':
                                      data=nx.NXfield(100*np.random.rand(64, 16)),
                                      distance=nx.NXfield(2554, attrs={'units': 'mm'}),
                                      x_pixel_size=nx.NXfield(12.7, attrs={'units': 'mm'}),
-                                     y_pixel_size=nx.NXfield(5.0, attrs={'units': 'mm'}),
+                                     y_pixel_size=nx.NXfield(10.0, attrs={'units': 'mm'}),
                                      type=nx.NXfield('monoblock'),
                                      deadtime=nx.NXfield(3.5e-6, attrs={'units': 's'}),
                                      z_position=nx.NXfield(2000.0, attrs={'units': 'mm'}),
@@ -220,7 +220,7 @@ instrument.detector1 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units':
                                      x_position_offset=nx.NXfield(10.0, attrs={'units': 'mm'}),
                                      beam_center_x=nx.NXfield(64.2, attrs={'units': 'pixels'}),
                                      beam_center_y=nx.NXfield(64.2, attrs={'units': 'pixels'}),
-                                     pixel_mask=nx.NXfield(np.zeros((128, 32))),
+                                     pixel_mask=nx.NXfield(np.zeros((64, 16))),
                                      pixel_mask_applied=False,
                                      )
 # detector 2 (bottom)
@@ -229,8 +229,8 @@ instrument.detector2 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units':
                                      raw_data=nx.NXfield(100*np.random.rand(16, 256)),
                                      data=nx.NXfield(100*np.random.rand(16, 64)),
                                      distance=nx.NXfield(2554, attrs={'units': 'mm'}),
-                                     x_pixel_size=nx.NXfield(5.0, attrs={'units': 'mm'}),
-                                     y_pixel_size=nx.NXfield(5.0, attrs={'units': 'mm'}),
+                                     x_pixel_size=nx.NXfield(10, attrs={'units': 'mm'}),
+                                     y_pixel_size=nx.NXfield(12.7, attrs={'units': 'mm'}),
                                      type=nx.NXfield('monoblock'),
                                      deadtime=nx.NXfield(3.5e-6, attrs={'units': 's'}),
                                      z_position=nx.NXfield(2000.0, attrs={'units': 'mm'}),
@@ -241,7 +241,7 @@ instrument.detector2 = nx.NXdetector(count_time=nx.NXfield(2500, attrs={'units':
                                      x_position_offset=nx.NXfield(10.0, attrs={'units': 'mm'}),
                                      beam_center_x=nx.NXfield(64.2, attrs={'units': 'pixels'}),
                                      beam_center_y=nx.NXfield(64.2, attrs={'units': 'pixels'}),
-                                     pixel_mask=nx.NXfield(np.zeros((32, 128))),
+                                     pixel_mask=nx.NXfield(np.zeros((16, 64))),
                                      pixel_mask_applied=False,
                                      )
 
