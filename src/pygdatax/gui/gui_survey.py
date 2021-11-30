@@ -15,12 +15,11 @@ from silx.io.nxdata import is_NXroot_with_default_NXdata, get_default
 import nexusformat.nexus as nx
 from numpy.random import randint
 from scipy.ndimage.measurements import center_of_mass
-from pygdatax.icons import getQIcon
-from pygdatax import nxlib
-from pygdatax.instruments import xeuss
 from pathlib import Path
 import yaml
-from pygdatax import moduledescription
+from pygdatax.icons import getQIcon
+from pygdatax import nxlib, moduledescription
+from pygdatax.instruments import xeuss
 
 
 def get_edf_description(edf_filepath):
@@ -1567,7 +1566,27 @@ class TreatmentWidget(qt.QWidget):
 
     def __init__(self, parent=None):
         super(TreatmentWidget, self).__init__(parent=parent)
-        self.comboBox = qt.QComboBox(self)
+        self.functionComboBox = qt.QComboBox(self)
+        self.descriptionDict = {}
+        self.functionComboBox.currentIndexChanged.connect(self.on_function_selected)
+
+    def setModule(self, module):
+        self.descriptionDict = moduledescription.get_descriptionDict(module, decorator='@nxlib.treatment_function')
+        self.functionComboBox.clear()
+        self.functionComboBox.addItems(self.descriptionDict.keys())
+
+    def on_function_selected(self,i):
+        self.findChildren()
+
+
+class ParametersWidget(qt.QWidget):
+
+    def __init__(self, function_description, parent=None):
+        super(ParametersWidget, self).__init__(parent=parent)
+        self.function_description = function_description
+        qt.QFormLayout(self)
+        fo
+
 
 
 

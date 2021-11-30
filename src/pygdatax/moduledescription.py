@@ -36,9 +36,9 @@ class FunctionDescription(object):
                         self.kwargs[arg_name] = 'None'
                     else:
                         self.kwargs[arg_name] = str(default_value)
-            self._makeCommandline()
+            self._makeDefaultCommandline()
 
-    def _makeCommandline(self):
+    def _makeDefaultCommandline(self):
         self.fullcommand = self.function_name+'('
         for arg in self.args_name:
             self.fullcommand += arg+', '
@@ -47,6 +47,21 @@ class FunctionDescription(object):
         # remove last comma
         self.fullcommand = self.fullcommand[:-2]
         self.fullcommand += ')'
+
+    def makeCommandLine(self, **kwargs):
+        commandLine = self.function_name+'('
+        for arg in self.args_name:
+            commandLine += arg+', '
+        for key in kwargs:
+            if key in self.kwargs:
+                if self.kwargs_type[key] is str:
+                    commandLine += key + '=' + '"' + kwargs[key] + '"' + ', '
+                else:
+                    commandLine += key + '=' + str(kwargs[key]) + ', '
+        commandLine = commandLine[:-2]
+        commandLine += ')'
+        return commandLine
+
 
 
 def get_commandList(module, decorator='@nxlib.treatment_function'):
@@ -69,9 +84,20 @@ def get_functionList(module, decorator='@nxlib.treatment_function'):
     return functionList
 
 
-if __name__ =='__main__':
+def get_descriptionDict(module, decorator='@nxlib.treatment_function'):
+    descriptionDict = {}
+    members = inspect.getmembers(module)
+    for m in members:
+        des = FunctionDescription(m[1])
+        if des.fullcommand != '' and des.decorator == decorator:
+            descriptionDict[des.function_name] = des
+    return descriptionDict
+
+
+if __name__ == '__main__':
     from pygdatax.instruments import xeuss
 
     azi = FunctionDescription(xeuss.azimutal_integration)
+    print(azi.makeCommandLine(w='2'))
     l = get_commandList(xeuss)
     print(l)

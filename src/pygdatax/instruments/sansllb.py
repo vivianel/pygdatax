@@ -117,7 +117,7 @@ def azimutal_integration_multidetector(root: nx.NXroot, mask_file0: str = None, 
                          x_pixel_size=x_pixel_size2, y_pixel_size=y_pixel_size2)
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=True)
 def reduction2D(root: nx.NXroot, sub_file: str = None, norm_file: str = None,
                 thickness: float = None, transmission: float = None, distance: list = [None, None, None]) -> None:
     """
@@ -508,7 +508,7 @@ def make_reduction_package(output_file,
     root.close()
 
 
-@nxlib.treatment_function
+@nxlib.treatment_function(new_entry=False)
 def q_scale(root: nx.NXroot, distance: float = None, detector: int = 0) -> None:
     last_key = nxlib.get_last_entry_key(root)
     entry = root[last_key]

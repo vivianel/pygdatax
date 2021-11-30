@@ -7,20 +7,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/instruments/__init__.py" afterDir="false" />
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- finished type hint for xeuss library">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/pygdatax/xeussredauto.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/pygdatax/xeussredauto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/rxxeuss.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/xeussredauto.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/xeussredauto.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +67,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../wxPython/visuPAXY" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
   </component>
@@ -91,7 +84,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.xeuss">
+  <component name="RunManager" selected="Python.moduledescription">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -220,8 +213,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.moduledescription" />
+        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.sansllb" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.test" />
@@ -236,13 +229,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00056" summary="- update screenshot">
-      <created>1632744396941</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1632744396941</updated>
     </task>
     <task id="LOCAL-00057" summary="- update screenshot">
       <created>1632744835091</created>
@@ -580,7 +566,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638186118880</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="- finished type hint for xeuss library">
+      <created>1638196906898</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1638196906899</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
