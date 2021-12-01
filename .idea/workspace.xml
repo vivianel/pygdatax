@@ -8,9 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_sans_llb.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/xeuss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +81,7 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui_survey">
+  <component name="RunManager" selected="Python.xeuss (1)">
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,27 +95,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="moduledescription" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pygdatax" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/pygdatax" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/moduledescription.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -188,6 +166,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="xeuss (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pygdatax" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/pygdatax/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/gui/xeuss.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="xeuss" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -211,11 +210,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.xeuss (1)" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.sansllb" />
-        <item itemvalue="Python.moduledescription" />
       </list>
     </recent_temporary>
   </component>
@@ -227,13 +226,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00062" summary="- fixed config file loading">
-      <created>1632922640073</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1632922640073</updated>
     </task>
     <task id="LOCAL-00063" summary="-  removing useless comment">
       <created>1633354123042</created>
@@ -571,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638377636856</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="- modifying projet structure for futur gui">
+      <created>1638378309765</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1638378309765</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -586,7 +585,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-  removing useless comment" />
     <MESSAGE value="-  première tentative pour un gui en reflectivité" />
     <MESSAGE value="-  nothin soecial" />
     <MESSAGE value="-  fixed bad completion for resu function" />
@@ -611,7 +609,8 @@
     <MESSAGE value="- fixed decorator problem" />
     <MESSAGE value="- finished type hint for xeuss library" />
     <MESSAGE value="- new widget for function selection" />
-    <option name="LAST_COMMIT_MESSAGE" value="- new widget for function selection" />
+    <MESSAGE value="- modifying projet structure for futur gui" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modifying projet structure for futur gui" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
