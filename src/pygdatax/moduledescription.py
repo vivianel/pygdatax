@@ -10,7 +10,7 @@ class FunctionDescription(object):
         self.fullcommand = ''
         self.module_name = ''
         self.function_name = ''
-        self.decorator = None
+        self.decorator = ''
         self.docstring = ''
         if inspect.isfunction(function_handle):
             self.module_name = inspect.getmodule(function_handle)
@@ -69,7 +69,7 @@ def get_commandList(module, decorator='@nxlib.treatment_function'):
     members = inspect.getmembers(module)
     for m in members:
         des = FunctionDescription(m[1])
-        if des.fullcommand != '' and des.decorator == decorator:
+        if des.fullcommand != '' and decorator in des.decorator:
             commandList.append(des.fullcommand)
     return commandList
 
@@ -79,7 +79,7 @@ def get_functionList(module, decorator='@nxlib.treatment_function'):
     members = inspect.getmembers(module)
     for m in members:
         des = FunctionDescription(m[1])
-        if des.fullcommand != '' and des.decorator == decorator:
+        if des.fullcommand != '' and  decorator in des.decorator:
             functionList.append(des.function_name)
     return functionList
 
@@ -89,15 +89,15 @@ def get_descriptionDict(module, decorator='@nxlib.treatment_function'):
     members = inspect.getmembers(module)
     for m in members:
         des = FunctionDescription(m[1])
-        if des.fullcommand != '' and des.decorator == decorator:
+        if des.fullcommand != '' and decorator in des.decorator:
             descriptionDict[des.function_name] = des
     return descriptionDict
 
 
 if __name__ == '__main__':
-    from pygdatax.instruments import xeuss
+    from pygdatax.instruments import sansllb
 
-    azi = FunctionDescription(xeuss.azimutal_integration)
+    azi = FunctionDescription(sansllb.azimutal_integration)
     print(azi.makeCommandLine(w='2'))
-    l = get_commandList(xeuss)
+    l = get_commandList(sansllb)
     print(l)
