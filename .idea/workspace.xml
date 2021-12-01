@@ -8,10 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_sans_llb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,13 +227,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00061" summary="- fixed config file loading">
-      <created>1632922632894</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1632922632901</updated>
     </task>
     <task id="LOCAL-00062" summary="- fixed config file loading">
       <created>1632922640073</created>
@@ -572,7 +564,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638365447880</updated>
     </task>
-    <option name="localTasksCounter" value="110" />
+    <task id="LOCAL-00110" summary="- new widget for function selection">
+      <created>1638377636856</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1638377636856</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -587,7 +586,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed config file loading" />
     <MESSAGE value="-  removing useless comment" />
     <MESSAGE value="-  première tentative pour un gui en reflectivité" />
     <MESSAGE value="-  nothin soecial" />
@@ -612,7 +610,8 @@
     <MESSAGE value="- adding type hint" />
     <MESSAGE value="- fixed decorator problem" />
     <MESSAGE value="- finished type hint for xeuss library" />
-    <option name="LAST_COMMIT_MESSAGE" value="- finished type hint for xeuss library" />
+    <MESSAGE value="- new widget for function selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="- new widget for function selection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
