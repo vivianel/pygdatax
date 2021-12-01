@@ -444,13 +444,13 @@ def get_default_reduction_parameters(root):
 
 
 @nxlib.treatment_function(output_file=True)
-def make_reduction_package(output_file,
-                           dark_file=None, empty_cell_file=None, direct_beam_file=None,
-                           water_file=None,
-                           mask_file0=None, x0=None, y0=None, bins0=90,
-                           mask_file1=None, x1=None, y1=None, bins1=16,
-                           mask_file2=None, x2=None, y2=None, bins2=16,
-                           ):
+def make_reduction_package(output_file: str,
+                           dark_file: str = None, empty_cell_file: str = None, direct_beam_file: str = None,
+                           water_file: str = None,
+                           mask_file0: str = None, x0: float = None, y0: float = None, bins0: int = 90,
+                           mask_file1: str = None, x1: float = None, y1: float = None, bins1: int = 16,
+                           mask_file2: str = None, x2: float = None, y2: float = None, bins2: int = 16,
+                           ) -> None:
     root = nx.NXroot()
     root.save(output_file, mode='w')
     # nxfile = nx.NXFile(output_file, 'w')

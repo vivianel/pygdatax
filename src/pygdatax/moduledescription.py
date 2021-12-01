@@ -32,10 +32,11 @@ class FunctionDescription(object):
                         self.kwargs_type[arg_name] = None
                     else:
                         self.kwargs_type[arg_name] = param_type
-                    if default_value is None:
-                        self.kwargs[arg_name] = 'None'
-                    else:
-                        self.kwargs[arg_name] = str(default_value)
+                    # if default_value is None:
+                    #     self.kwargs[arg_name] = 'None'
+                    # else:
+                    #     self.kwargs[arg_name] = str(default_value)
+                    self.kwargs[arg_name] = default_value
             self._makeDefaultCommandline()
 
     def _makeDefaultCommandline(self):
@@ -43,15 +44,37 @@ class FunctionDescription(object):
         for arg in self.args_name:
             self.fullcommand += arg+', '
         for key in self.kwargs:
-            self.fullcommand += key+'='+self.kwargs[key]+', '
+            default_value = self.kwargs[key]
+            if default_value is None:
+                self.fullcommand += key + '=' + 'None' + ', '
+            else:
+                self.fullcommand += key+'='+str(self.kwargs[key])+', '
         # remove last comma
         self.fullcommand = self.fullcommand[:-2]
         self.fullcommand += ')'
 
-    def makeCommandLine(self, **kwargs):
+    def makeCommandLine(self, *args, **kwargs):
         commandLine = self.function_name+'('
-        for arg in self.args_name:
-            commandLine += arg+', '
+        #popup postional argument from kwargs
+        args_in_kwargs = []
+        for key in kwargs:
+            if key in self.args_name:
+                arg_value = kwargs[key]
+                args_in_kwargs.append(key)
+                # add quotes if it is a string
+                if type(arg_value) is str:
+                    commandLine += '"' + arg_value + '"' + ', '
+                else:
+                    commandLine += str(arg_value) + ', '
+        # if this the positionnal arguments is not a nx.NXroot
+        if len(args) > 0:
+            for arg in args:
+                commandLine += arg + ', '
+        else:
+            for arg_name in self.args_name:
+                if arg_name not in args_in_kwargs:
+                    commandLine += arg_name + ', '
+
         for key in kwargs:
             if key in self.kwargs:
                 if self.kwargs_type[key] is str:
@@ -97,7 +120,7 @@ def get_descriptionDict(module, decorator='@nxlib.treatment_function'):
 if __name__ == '__main__':
     from pygdatax.instruments import sansllb
 
-    azi = FunctionDescription(sansllb.azimutal_integration)
+    azi = FunctionDescription(sansllb.make_reduction_package)
     print(azi.makeCommandLine(w='2'))
     l = get_commandList(sansllb)
     print(l)

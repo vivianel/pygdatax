@@ -1,6 +1,7 @@
 import sys
 import os
 import warnings
+
 from matplotlib import mplDeprecation
 import numpy as np
 import fabio
@@ -1584,14 +1585,76 @@ class TreatmentWorksheetWidget(qt.QWidget):
 #
 #     def on_function_selected(self,i):
 #         self.findChildren()
-#
-#
-# class ParametersWidget(qt.QWidget):
-#
-#     def __init__(self, function_description, parent=None):
-#         super(ParametersWidget, self).__init__(parent=parent)
-#         self.function_description = function_description
-#         qt.QFormLayout(self)
+
+class FunctionListWidget(qt.QWidget):
+    runFunction = qt.pyqtSignal(str)
+
+    def __init__(self, parent=None, module=None):
+        super(FunctionListWidget, self).__init__(parent=parent)
+        self.runButton = qt.QPushButton('run', parent=self)
+        self.comboBox = qt.QComboBox(self)
+        if module is not None:
+            self.module = module
+            self.comboBox.addItems(moduledescription.get_functionList(module))
+        self.function_description = None
+        self.formLayout = qt.QFormLayout()
+        # layout
+        vlayout = qt.QVBoxLayout()
+        vlayout.addWidget(self.runButton)
+        vlayout.addWidget(self.comboBox)
+        vlayout.addLayout(self.formLayout)
+        self.setLayout(vlayout)
+        # connect signals
+        self.comboBox.currentIndexChanged.connect(self.currentFunctionChanged)
+        self.runButton.clicked.connect(self.get_commandLine)
+
+    def get_commandLine(self):
+        nRow = self.formLayout.rowCount()
+        kwarg = {}
+        for i in range(nRow):
+            widget = self.formLayout.itemAt(i, qt.QFormLayout.FieldRole).widget()
+            label = self.formLayout.itemAt(i, qt.QFormLayout.LabelRole).widget()
+            value = widget.text()
+            if value != '':
+                kwarg[label.text()] = value
+        command = self.function_description.makeCommandLine(**kwarg)
+        self.runFunction.emit(command)
+        print(command)
+
+    def currentFunctionChanged(self, index):
+        function_name = self.comboBox.itemText(index)
+        self.function_description = moduledescription.FunctionDescription(self.module.__dict__[function_name])
+        nRow = self.formLayout.rowCount()
+        while nRow > 0:
+            widget = self.formLayout.itemAt(0, qt.QFormLayout.FieldRole).widget()
+            self.formLayout.removeRow(widget)
+            self.formLayout.count()
+            nRow = self.formLayout.rowCount()
+
+        for arg in self.function_description.args_name:
+            if arg != 'root':
+                self.formLayout.addRow(arg, qt.QLineEdit(self))
+        for key in self.function_description.kwargs:
+            default_value = self.function_description.kwargs[key]
+            if default_value is not None:
+                self.formLayout.addRow(key, qt.QLineEdit(str(default_value), parent=self))
+            else:
+                self.formLayout.addRow(key, qt.QLineEdit(self))
+
+
+
+
+    #
+    #         self.args_name = []
+    #         self.kwargs = {}
+    #         self.kwargs_type = {}
+    #         self.fullcommand = ''
+    #         self.module_name = ''
+    #         self.function_name = ''
+    #         self.decorator = ''
+    #         self.docstring = ''
+
+
 
 
 
@@ -1611,9 +1674,9 @@ def main():
     sys.exit(result)
 
 
-
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
+    from pygdatax.instruments import sansllb
     app = qt.QApplication([])
     # splash_pix = qt.QPixmap('/home/achennev/python/pygdatax/src/pygdatax/resources/empty_cell.png')
     #
@@ -1629,8 +1692,15 @@ if __name__ == "__main__":
     # folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
     # window.fileSurvey.directoryLineEdit.setText(folder)
     ####################################################################
+    # test 3 detector view
+    #####################################################################
     w = DataView3Dectectors()
+    ############################################################################
+    w = FunctionListWidget(module=sansllb)
+    # w.set_function_decription(moduledescription.FunctionDescription(sansllb.make_reduction_package))
     w.show()
+    # w.get_commandLine()
+
     # splash.finish(window)
     result = app.exec_()
     app.deleteLater()
