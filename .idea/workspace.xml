@@ -8,6 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -222,13 +225,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00060" summary="- update screenshot">
-      <created>1632760632177</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1632760632177</updated>
     </task>
     <task id="LOCAL-00061" summary="- fixed config file loading">
       <created>1632922632894</created>
@@ -566,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638365364566</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="- finished type hint for xeuss library">
+      <created>1638365447880</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1638365447880</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

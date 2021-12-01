@@ -45,7 +45,7 @@ def regisoPyFAI(data, mask, x0, y0, pixel_size, bins, distance, wavelength):
                              mask=mask, unit='r_mm')
     return results.radial, results.intensity, results.sigma
 
-
+# TODO: handle inf and nan pixels
 def regiso(data, mask, x0, y0, x_pixel_size, y_pixel_size, bins, error=None):
     y, x = np.indices(data.shape, dtype=np.float)
     y = (y-y0)*y_pixel_size
@@ -118,6 +118,7 @@ def regisoPasi(data, mask, x0, y0, pixel_size):
     rc = rc*pixel_size
     drc = (1/(2*3**0.5)+drc)*pixel_size
     return rc, sc, dsc, drc
+
 
 def xy2polar(data, mask, x0, y0,npt_r, npt_chi):
     """

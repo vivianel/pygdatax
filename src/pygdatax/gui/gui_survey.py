@@ -1559,7 +1559,7 @@ class DataView3Dectectors(PlotWindow):
                         valueZ = image.getZValue()
         return value
 
-
+# TODO: finish it
 class TreatmentWorksheetWidget(qt.QWidget):
 
     def __init__(self, parent=None):

@@ -43,7 +43,6 @@ def set_beam_center(root, detector=0, x0=64, y0=64):
 
 
 # @nxlib.treatment_function(new_entry=False)
-# TODO: handle inf and nan pixels
 def azimutal_integration(root, detector=0, mask_file=None, x0=None, y0=None, bins=90,
                          x_pixel_size=None, y_pixel_size=None):
     last_key = nxlib.get_last_entry_key(root)
