@@ -615,7 +615,7 @@ def compute_collimation(root):
 # TODO : estimation of the side detectros centers using calibrant (silver behenate)
 
 @nxlib.treatment_function(new_entry=False)
-def set_transmission(root,trans_file=None, direct_beam_file=None, roi=[None, None, None, None]):
+def set_transmission(root, trans_file=None, direct_beam_file=None, roi=[None, None, None, None]):
     """
     compute sample trasnmission and store it in the sample.transmission field. The computation is done over the roi.
     By default this roi is 10x10 pixel centered over the center given by the scattering file in detector0 field
