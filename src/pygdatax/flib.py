@@ -119,7 +119,6 @@ def regisoPasi(data, mask, x0, y0, pixel_size):
     drc = (1/(2*3**0.5)+drc)*pixel_size
     return rc, sc, dsc, drc
 
-
 def xy2polar(data, mask, x0, y0,npt_r, npt_chi):
     """
     truc de descri

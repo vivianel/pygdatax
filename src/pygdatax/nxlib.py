@@ -446,7 +446,7 @@ def function_performed(root, function_name):
 
 
 @decorator.decorator
-def treatment_function(func, new_entry=True, *args, **kwargs):
+def treatment_function(func, new_entry=True, output_file=False, *args, **kwargs):
     """
     decorator for nexus file treatment function. The new_entry keyword argument define if the treated data shall be
     stored in a new NXentry (True) or not (False). If the nexus file present only one entry ('entry0'),
@@ -454,46 +454,50 @@ def treatment_function(func, new_entry=True, *args, **kwargs):
     Args:
         func (object): treament function handle
         new_entry (bool, optionnal): create or not new entry. Default is True
-        *args: treatment fucntion arguments
+        output_file (bool): creat a new file, the function does not modify
+        *args: treatment function arguments
         **kwargs: treatment fucntion keyword arguments
 
     Returns:
         The output of the function called
 
     """
-    file = args[0]
-    root = loadfile(file, mode='rw')
-    with root.nxfile:
-        # check if function is already performed
-        # if nr.function_performed(root, func.__name__):
-        #     print('function ' + func.__name__ + ' already performed.')
-        #     return
-        if new_entry:
-            last_key = create_new_entry(root)
-        else:
-            last_key = get_last_entry_key(root)
-            # if their is only the rawdata entry we add a new one
-            if last_key == 'entry0':
+    if output_file:
+        result = func(*args, **kwargs)
+    else:
+        file = args[0]
+        root = loadfile(file, mode='rw')
+        with root.nxfile:
+            # check if function is already performed
+            # if nr.function_performed(root, func.__name__):
+            #     print('function ' + func.__name__ + ' already performed.')
+            #     return
+            if new_entry:
                 last_key = create_new_entry(root)
-        root.attrs['default'] = last_key
-        args = list(args)
-        args.pop(0)
-        result = func(root, *args, **kwargs)
-        last_key = get_last_entry_key(root)
-        entry = root[last_key]
-        if 'process' not in entry:
-            entry.process = nx.NXprocess(program=func.__name__,
-                                         arguments=str(kwargs),
-                                         date=str(datetime.datetime.today()),
-                                         version='nxread-'+NXREAD_VERSION
-                                         )
-        else:
-            del root[last_key + '/' + 'process']
-            entry.process = nx.NXprocess(program=func.__name__,
-                                         arguments=str(kwargs),
-                                         date=str(datetime.datetime.today()),
-                                         version='nxread-' + NXREAD_VERSION
-                                         )
+            else:
+                last_key = get_last_entry_key(root)
+                # if their is only the rawdata entry we add a new one
+                if last_key == 'entry0':
+                    last_key = create_new_entry(root)
+            root.attrs['default'] = last_key
+            args = list(args)
+            args.pop(0)
+            result = func(root, *args, **kwargs)
+            last_key = get_last_entry_key(root)
+            entry = root[last_key]
+            if 'process' not in entry:
+                entry.process = nx.NXprocess(program=func.__name__,
+                                             arguments=str(kwargs),
+                                             date=str(datetime.datetime.today()),
+                                             version='nxread-'+NXREAD_VERSION
+                                             )
+            else:
+                del root[last_key + '/' + 'process']
+                entry.process = nx.NXprocess(program=func.__name__,
+                                             arguments=str(kwargs),
+                                             date=str(datetime.datetime.today()),
+                                             version='nxread-' + NXREAD_VERSION
+                                             )
     return result
 
 

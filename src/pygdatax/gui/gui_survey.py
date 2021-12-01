@@ -1560,32 +1560,39 @@ class DataView3Dectectors(PlotWindow):
         return value
 
 
-class TreatmentWidget(qt.QWidget):
-    stackCommandClicked = qt.pyqtSignal(str)
-    runClicked = qt.pyqtSignal(str)
+class TreatmentWorksheetWidget(qt.QWidget):
 
     def __init__(self, parent=None):
-        super(TreatmentWidget, self).__init__(parent=parent)
-        self.functionComboBox = qt.QComboBox(self)
-        self.descriptionDict = {}
-        self.functionComboBox.currentIndexChanged.connect(self.on_function_selected)
-
-    def setModule(self, module):
-        self.descriptionDict = moduledescription.get_descriptionDict(module, decorator='@nxlib.treatment_function')
-        self.functionComboBox.clear()
-        self.functionComboBox.addItems(self.descriptionDict.keys())
-
-    def on_function_selected(self,i):
-        self.findChildren()
+        super(TreatmentWorksheetWidget, self).__init__(parent=parent)
 
 
-class ParametersWidget(qt.QWidget):
 
-    def __init__(self, function_description, parent=None):
-        super(ParametersWidget, self).__init__(parent=parent)
-        self.function_description = function_description
-        qt.QFormLayout(self)
-        fo
+# class TreatmentWidget(qt.QWidget):
+#     stackCommandClicked = qt.pyqtSignal(str)
+#     runClicked = qt.pyqtSignal(str)
+#
+#     def __init__(self, parent=None):
+#         super(TreatmentWidget, self).__init__(parent=parent)
+#         self.functionComboBox = qt.QComboBox(self)
+#         self.descriptionDict = {}
+#         self.functionComboBox.currentIndexChanged.connect(self.on_function_selected)
+#
+#     def setModule(self, module):
+#         self.descriptionDict = moduledescription.get_descriptionDict(module, decorator='@nxlib.treatment_function')
+#         self.functionComboBox.clear()
+#         self.functionComboBox.addItems(self.descriptionDict.keys())
+#
+#     def on_function_selected(self,i):
+#         self.findChildren()
+#
+#
+# class ParametersWidget(qt.QWidget):
+#
+#     def __init__(self, function_description, parent=None):
+#         super(ParametersWidget, self).__init__(parent=parent)
+#         self.function_description = function_description
+#         qt.QFormLayout(self)
+
 
 
 

@@ -9,11 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- finished type hint for xeuss library">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/flib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/flib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/moduledescription.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/nxlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/nxlib.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,16 +44,14 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/icons.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/requirements.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pygdatax/gui_reflectivity.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/flib.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/moduledescription.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/pygdatax/instruments/xeuss.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/requirements.txt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/pygdatax/nxlib.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1wAkg2pWlvi9lVCIWzHthXtq1aT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -214,10 +211,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.moduledescription" />
-        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.sansllb" />
-        <item itemvalue="Python.gui_survey" />
+        <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.gui_survey" />
       </list>
     </recent_temporary>
   </component>
@@ -229,13 +226,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00057" summary="- update screenshot">
-      <created>1632744835091</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1632744835091</updated>
     </task>
     <task id="LOCAL-00058" summary="- update screenshot">
       <created>1632744842870</created>
@@ -573,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638196906899</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="- fixed decorator problem">
+      <created>1638365301386</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1638365301386</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -589,7 +586,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- update screenshot" />
     <MESSAGE value="- fixed config file loading" />
     <MESSAGE value="-  removing useless comment" />
     <MESSAGE value="-  première tentative pour un gui en reflectivité" />
@@ -614,7 +610,8 @@
     <MESSAGE value="- added some comment" />
     <MESSAGE value="- adding type hint" />
     <MESSAGE value="- finished type hint for xeuss library" />
-    <option name="LAST_COMMIT_MESSAGE" value="- finished type hint for xeuss library" />
+    <MESSAGE value="- fixed decorator problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed decorator problem" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
