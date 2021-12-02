@@ -305,13 +305,15 @@ sample_environment.table = nx.NXcollection(z=nx.NXfield(35.3, attrs={'units': 'm
                                            rotation=nx.NXfield(0.0, attrs={'units': 'deg'}),
                                            goniometer=nx.NXfield(1.0, attrs={'units': 'deg'})
                                            )
-# here we define sub environement entries taht will be store in the NXenvironement field according to the presnce or the abscence of the sample environnement
-
+#TODO : Add the other sample environement field using addition NXcollection field within the NXenvironement entry
+# This is a an example on how you can do it
+# sample changer
 # sample.sample_changer = nx.NXcollection(x_position=nx.NXfield(1.0, attrs={'units': 'mm'}),
 #                                         y_position=nx.NXfield(1.0, attrs={'units': 'mm'}),
 #                                         temperature=nx.NXfield(1.0, attrs={'units': '°C'}),
 #                                         temperature_set=nx.NXfield(1.0, attrs={'units': '°C'})
 #                                         )
+# magnet
 # sample.magnet = nx.NXcollection(type='cryomagnet',
 #                                 current=nx.NXfield(2.5, attrs={'units': 'A'}),
 #                                 current_set=nx.NXfield(2.5, attrs={'units': 'A'}),
