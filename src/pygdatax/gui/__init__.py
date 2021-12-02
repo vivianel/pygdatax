@@ -1198,7 +1198,7 @@ class DataView(PlotWindow):
                     center = center_of_mass(data[int(point[1]):int(point[1])+int(size[1]),int(point[0]):int(point[0])+int(size[0])])
                     roiCenter = CrossROI()
                     absoluteCenter = [center[1]+int(point[0]), center[0]+int(point[1])]
-                    roiCenter.setPosition(absoluteCenter)
+                    roiCenter.setPosition(np.array(absoluteCenter))
                     label = 'beam center\n x0 : %.3f y0: %.3f' % (absoluteCenter[0], absoluteCenter[1])
                     roiCenter.setName(label)
                     self.roiManager.addRoi(roiCenter)
@@ -1293,10 +1293,21 @@ class FunctionListWidget(qt.QWidget):
         super(FunctionListWidget, self).__init__(parent=parent)
         self.runButton = qt.QPushButton('run', parent=self)
         self.comboBox = qt.QComboBox(self)
+        # TODO : add help function tab
+        # self.helpPlainText = qt.QPlainTextEdit(self)
+
         if module is not None:
             self.module = module
             self.comboBox.addItems(moduledescription.get_functionList(module))
         self.function_description = None
+        # self.tabWidget = qt.QTabWidget()
+        # scrollArea1 = qt.QScrollArea(self)
+        # self.argumentWidget = qt.QWidget()
+        # self.argumentWidget.setLayout(qt.QFor)
+        # self.tabWidget.addTab(self.edfTab, 'arguments')
+        # self.tabWidget.addTab(self.nxsTab, 'help')
+
+
         self.formLayout = qt.QFormLayout()
         # layout
         vlayout = qt.QVBoxLayout()
@@ -1341,9 +1352,6 @@ class FunctionListWidget(qt.QWidget):
             else:
                 self.formLayout.addRow(key, qt.QLineEdit(self))
 
-
-
-
     #
     #         self.args_name = []
     #         self.kwargs = {}
@@ -1352,9 +1360,7 @@ class FunctionListWidget(qt.QWidget):
     #         self.module_name = ''
     #         self.function_name = ''
     #         self.decorator = ''
-    #         self.docstring = ''
-
-
+    #         self.docstring = '
 
 if __name__ == "__main__":
     os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'

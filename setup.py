@@ -27,7 +27,7 @@ required_packages = [
 
 setup(
     name='pygdatax',
-    version='0.1.2',
+    version='0.1.3',
     url='',
     license='',
     author='achennev',
@@ -38,7 +38,8 @@ setup(
     python_requires='>=3.6',
     install_requires=required_packages,
     include_package_data=True,
-    entry_points={'console_scripts': ['pygdatax_gui=pygdatax.gui.gui_survey:main']}
+    entry_points={'console_scripts': ['pygdatax xeuss=pygdatax.gui.gui_xeuss:main',
+                                      'pygdatax sansllb=pygdatax.gui.gui_sansllb:main']}
 )
 # packages=[find_packages(where="src"])
 # package_dir = {"": "src"},

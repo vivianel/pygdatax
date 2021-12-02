@@ -78,7 +78,7 @@ class FileSurvey(qt.QWidget):
             # self.nxsTab.setDirectory(fname)
 
 
-class SaxsUtily(qt.QMainWindow):
+class XeussMainWindow(qt.QMainWindow):
     """
     This window show an example of use of a Hdf5TreeView.
 
@@ -384,7 +384,7 @@ def main():
     warnings.filterwarnings("ignore", category=mplDeprecation)
     app = qt.QApplication([])
     # sys.excepthook = qt.exceptionHandler
-    window = SaxsUtily()
+    window = XeussMainWindow()
     window.show()
     result = app.exec_()
     # remove ending warnings relative to QTimer
@@ -405,7 +405,7 @@ if __name__ == "__main__":
     #
     warnings.filterwarnings("ignore", category=mplDeprecation)
     ##################################################################
-    window = SaxsUtily()
+    window = XeussMainWindow()
     window.show()
     folder = '/home/achennev/Bureau/PIL pour tiago/PIL NP/2021-07-21_TOC'
     window.fileSurvey.directoryLineEdit.setText(folder)

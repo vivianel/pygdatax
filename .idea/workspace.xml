@@ -7,9 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/xeuss.py" afterDir="false" />
+    <list default="true" id="f4d8440a-d400-49c4-bce1-2a332ca28809" name="Changes" comment="- functionnal GUI">
+      <change afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_xeuss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataformat/sansllb_nexus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/gui_sans_llb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pygdatax/gui/gui_sans_llb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pygdatax/gui/xeuss.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +86,28 @@
       <recent name="$PROJECT_DIR$/src/pygdatax" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.xeuss (1)">
+  <component name="RunManager" selected="Python.gui_sans_llb">
+    <configuration name="gui_sans_llb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pygdatax" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/pygdatax/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/gui/gui_sans_llb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="gui_survey" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pygdatax" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -95,27 +121,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/gui/gui_survey.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="sansllb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pygdatax" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/pygdatax" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pygdatax/instruments/sansllb.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -210,11 +215,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gui_sans_llb" />
         <item itemvalue="Python.xeuss (1)" />
         <item itemvalue="Python.gui_survey" />
         <item itemvalue="Python.xeuss" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.sansllb" />
       </list>
     </recent_temporary>
   </component>
@@ -226,13 +231,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627908894319</updated>
-    </task>
-    <task id="LOCAL-00063" summary="-  removing useless comment">
-      <created>1633354123042</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1633354123042</updated>
     </task>
     <task id="LOCAL-00064" summary="-  removing useless comment">
       <created>1633355012446</created>
@@ -570,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638378309765</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="- modifying projet structure for futur gui">
+      <created>1638379076624</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1638379076624</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
